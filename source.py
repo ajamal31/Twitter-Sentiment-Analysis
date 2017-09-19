@@ -1,6 +1,7 @@
 # Contains the source code
 
 from TwitterAPI import TwitterAPI
+import json
 
 # Required keys to access the API
 consumer_key = 'w645Oz4LizFb9bd1UzbAbdzVq'
@@ -17,8 +18,8 @@ def stream(hashtags):
     # Loops used for continous stream
     while True:
         # Request the live tweets
-        r = api.request('statuses/filter', {'track': hashtags})  
+        r = api.request('statuses/filter', {'track': hashtags})
+        
         for item in r.get_iterator():
             if 'text' in item:
-                print item['text']
-            
+                print 'Tweet: ' + item['text']
