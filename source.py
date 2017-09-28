@@ -2,6 +2,7 @@
 
 from TwitterAPI import TwitterAPI
 import json
+import sentimentTest
 
 # Required keys to access the API
 consumer_key = 'w645Oz4LizFb9bd1UzbAbdzVq'
@@ -19,7 +20,9 @@ def stream(hashtags):
     while True:
         # Request the live tweets
         r = api.request('statuses/filter', {'track': hashtags})
-        
+    
         for item in r.get_iterator():
             if 'text' in item:
-                print 'Tweet: ' + item['text']
+                print item['text'].encode('utf-8')
+                #print 'Sentiment: ' + sentimentTest.sentiment(item['text'])
+                #print '---------------------'
