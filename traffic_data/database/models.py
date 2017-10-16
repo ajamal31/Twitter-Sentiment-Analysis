@@ -36,7 +36,7 @@ class User(models.Model):
             total_fav=total_fav,
             total_following=total_following,
             creation_date=creation_date,
-            upload_date=datetime.now(tz=False),
+            upload_date=datetime.now(),
             total_tweets=total_tweets
         )
         user.save()
@@ -119,3 +119,5 @@ def store(hashtags):
             # print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
+hashtags = ['yegtraffic', 'ABRoads']
+store(hashtags)
