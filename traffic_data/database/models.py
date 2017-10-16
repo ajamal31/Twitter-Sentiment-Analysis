@@ -5,6 +5,7 @@ from datetime import datetime
 from TwitterSearch import *
 import json
 
+# testing something
 # Required keys to access the API
 key = 'w645Oz4LizFb9bd1UzbAbdzVq'
 secret = '9UfawqpsphzYHyjKi6S1j06AyLagDn4EvaXZiVFVeU99KtiG7u'
@@ -53,6 +54,7 @@ class Tweet(models.Model):
     rt_count = models.IntegerField(null=True, default=None)
     tid_parent = models.IntegerField(null=True, default=None)
     lang = models.CharField(null=True, default=None, max_length=10)
+
     # user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
@@ -119,5 +121,7 @@ def store(hashtags):
             # print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
+
+
 hashtags = ['yegtraffic', 'ABRoads']
 store(hashtags)
