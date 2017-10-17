@@ -26,7 +26,7 @@ class User(models.Model):
     total_tweets = models.IntegerField(null=True, default=None)
 
     def __str__(self):  # __unicode__ on Python 2
-        return self.user_name
+        return self.creation_date
 
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
@@ -36,7 +36,7 @@ class User(models.Model):
             total_followers=total_followers,
             total_fav=total_fav,
             total_following=total_following,
-            creation_date=creation_date,
+            creation_date=format_datetime(creation_date),
             upload_date=datetime.now(),
             total_tweets=total_tweets
         )
@@ -58,7 +58,7 @@ class Tweet(models.Model):
     # user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
 
     def __str__(self):
-        return self.tweet_id
+        return self.tweet_body
 
     # Insert the data in the Tweet table
     @classmethod
@@ -68,7 +68,7 @@ class Tweet(models.Model):
             tweet_id=tweet_id,
             tweet_body=tweet_body,
             tweet_url=tweet_url,
-            creation_data=creation_data,
+            creation_data=format_datetime(creation_data),
             rep_count=rep_count,
             fav_count=fav_count,
             rt_count=rt_count,
@@ -109,6 +109,8 @@ def store(hashtags):
                 tweet['user']['created_at'],
                 tweet['user']['statuses_count']
             )
+            print 'datetime', format_datetime(tweet['user']['created_at'])
+            # print 'created_at', tweet['user']['created_at']
             # Tweet.insert_tweet(
             #     tweet['id'],
             #     tweet['text'],
@@ -121,6 +123,42 @@ def store(hashtags):
             # print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
+
+
+def format_datetime(datetime):
+    datetime_split = datetime.split(" ")
+    datetime_format = datetime_split[5] + '-' + convert_month(datetime_split[1]) + '-' + datetime_split[2] + ' ' + \
+                      datetime_split[3]
+    return datetime_format
+
+
+def convert_month(month):
+    if month == 'Jan':
+        return '01'
+    elif month == 'Feb':
+        return '02'
+    elif month == 'Mar':
+        return '03'
+    elif month == 'Apr':
+        return '04'
+    elif month == 'May':
+        return '05'
+    elif month == 'Jun':
+        return '06'
+    elif month == 'Jul':
+        return '07'
+    elif month == 'Aug':
+        return '08'
+    elif month == 'Sep':
+        return '09'
+    elif month == 'Oct':
+        return '10'
+    elif month == 'Nov':
+        return '11'
+    elif month == 'Dec':
+        return '12'
+    else:
+        return 'NOTHING MATCHED to the month!'
 
 
 hashtags = ['yegtraffic', 'ABRoads']
