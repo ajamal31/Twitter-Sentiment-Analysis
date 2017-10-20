@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.utils import timezone
 from datetime import datetime
 from TwitterSearch import *
 import json
@@ -26,7 +27,7 @@ class User(models.Model):
     total_tweets = models.IntegerField(null=True, default=None)
 
     def __str__(self):  # __unicode__ on Python 2
-        return self.creation_date
+        return self.upload_date
 
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
@@ -37,7 +38,7 @@ class User(models.Model):
             total_fav=total_fav,
             total_following=total_following,
             creation_date=format_datetime(creation_date),
-            upload_date=datetime.now(),
+            upload_date=timezone.now(),
             total_tweets=total_tweets
         )
         user.save()
@@ -48,7 +49,7 @@ class Tweet(models.Model):
     tweet_body = models.TextField(null=True, default=None)
     tweet_url = models.TextField(null=True, default=None)
     creation_date = models.DateTimeField(null=True, default=None)
-    upload_date = models.DateTimeField(null=True, default=datetime.now)
+    upload_date = models.DateTimeField(null=True, default=None)
     rep_count = models.IntegerField(null=True, default=None)
     fav_count = models.IntegerField(null=True, default=None)
     rt_count = models.IntegerField(null=True, default=None)
@@ -69,6 +70,7 @@ class Tweet(models.Model):
             tweet_body=tweet_body,
             tweet_url=tweet_url,
             creation_data=format_datetime(creation_data),
+            upload_date=timezone.now(),
             rep_count=rep_count,
             fav_count=fav_count,
             rt_count=rt_count,
@@ -109,7 +111,6 @@ def store(hashtags):
                 tweet['user']['created_at'],
                 tweet['user']['statuses_count']
             )
-            print 'datetime', format_datetime(tweet['user']['created_at'])
             # print 'created_at', tweet['user']['created_at']
             # Tweet.insert_tweet(
             #     tweet['id'],
@@ -121,6 +122,7 @@ def store(hashtags):
             # if count >= 10:
             #     break
             # print count
+            break
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
@@ -128,7 +130,7 @@ def store(hashtags):
 def format_datetime(datetime):
     datetime_split = datetime.split(" ")
     datetime_format = datetime_split[5] + '-' + convert_month(datetime_split[1]) + '-' + datetime_split[2] + ' ' + \
-                      datetime_split[3]
+                      datetime_split[3] + datetime_split[4]
     return datetime_format
 
 
