@@ -17,7 +17,7 @@ token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 # Create your models here.
 
 class User(models.Model):
-    user_id = models.BigIntegerField(primary_key=True)
+    id = models.BigIntegerField(primary_key=True, default=0)
     user_name = models.TextField(null=True, default=None)
     total_followers = models.IntegerField(null=True, default=None)
     total_fav = models.IntegerField(null=True, default=None)
@@ -32,7 +32,7 @@ class User(models.Model):
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
         user = User(
-            user_id=user_id,
+            id=user_id,
             user_name=user_name,
             total_followers=total_followers,
             total_fav=total_fav,
@@ -45,7 +45,7 @@ class User(models.Model):
 
 
 class Tweet(models.Model):
-    tweet_id = models.IntegerField(primary_key=True)
+    tweet_id = models.BigIntegerField(primary_key=True, default=0)
     tweet_body = models.TextField(null=True, default=None)
     tweet_url = models.TextField(null=True, default=None)
     creation_date = models.DateTimeField(null=True, default=None)
@@ -56,20 +56,20 @@ class Tweet(models.Model):
     tid_parent = models.IntegerField(null=True, default=None)
     lang = models.CharField(null=True, default=None, max_length=10)
 
-    # user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=None)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
         return self.tweet_body
 
     # Insert the data in the Tweet table
     @classmethod
-    def insert_tweet(cls, tweet_id, tweet_body, tweet_url, creation_data, rep_count, fav_count, rt_count,
+    def insert_tweet(cls, tweet_id, tweet_body, tweet_url, creation_date, rep_count, fav_count, rt_count,
                      tid_parent, lang, user_id):
         tweet = Tweet(
             tweet_id=tweet_id,
             tweet_body=tweet_body,
             tweet_url=tweet_url,
-            creation_data=format_datetime(creation_data),
+            creation_date=format_datetime(creation_date),
             upload_date=timezone.now(),
             rep_count=rep_count,
             fav_count=fav_count,
@@ -85,7 +85,7 @@ class Hashtag(models.Model):
     class Meta:
         unique_together = (('tweet_id', 'hashtag'),)
 
-    tweet_id = models.IntegerField(editable=False, default=None, null=True)
+    tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
     hashtag = models.CharField(default=None, max_length=255)
 
 
@@ -100,7 +100,7 @@ def store(hashtags):
             access_token=token_key,
             access_token_secret=token_secret
         )
-        count = 0
+
         for tweet in ts.search_tweets_iterable(tso):
             User.insert_user(
                 tweet['user']['id'],
@@ -111,18 +111,19 @@ def store(hashtags):
                 tweet['user']['created_at'],
                 tweet['user']['statuses_count']
             )
-            # print 'created_at', tweet['user']['created_at']
-            # Tweet.insert_tweet(
-            #     tweet['id'],
-            #     tweet['text'],
-            # )
-            # print('%s tweeted: %s' % (tweet['user']['name'], tweet['created_at']))
-            # print json.dumps(tweet, sort_keys=True, indent=3, separators=(',', ': '))
-            count += 1
-            # if count >= 10:
-            #     break
-            # print count
-            break
+
+            Tweet.insert_tweet(
+                tweet['id'],
+                tweet['text'],
+                tweet['entities']['urls'],
+                tweet['created_at'],
+                0,  # tweet['reply_count'], there's no field 'reply_count' in the json but there is one on the document
+                tweet['favorite_count'],
+                tweet['retweet_count'],
+                tweet['in_reply_to_status_id'],
+                tweet['lang'],
+                tweet['user']['id']
+            )
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
