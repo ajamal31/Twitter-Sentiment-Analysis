@@ -27,7 +27,7 @@ class User(models.Model):
     total_tweets = models.IntegerField(null=True, default=None)
 
     def __str__(self):  # __unicode__ on Python 2
-        return self.upload_date
+        return str(self.id)
 
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
@@ -46,38 +46,26 @@ class User(models.Model):
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, default=0)
-    tweet_body = models.TextField(null=True, default=None)
+    tweet_body = models.CharField(null=True, default=None, max_length=140)
     tweet_url = models.TextField(null=True, default=None)
     creation_date = models.DateTimeField(null=True, default=None)
     upload_date = models.DateTimeField(null=True, default=None)
     rep_count = models.IntegerField(null=True, default=None)
     fav_count = models.IntegerField(null=True, default=None)
     rt_count = models.IntegerField(null=True, default=None)
-    tid_parent = models.IntegerField(null=True, default=None)
+    tid_parent = models.BigIntegerField(null=True, default=None)
     lang = models.CharField(null=True, default=None, max_length=10)
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
-        return self.tweet_body
+        return str(self.tweet_id)
 
     # Insert the data in the Tweet table
     @classmethod
-    def insert_tweet(cls, tweet_id, tweet_body, tweet_url, creation_date, rep_count, fav_count, rt_count,
-                     tid_parent, lang, user_id):
-        tweet = Tweet(
-            tweet_id=tweet_id,
-            tweet_body=tweet_body,
-            tweet_url=tweet_url,
-            creation_date=format_datetime(creation_date),
-            upload_date=timezone.now(),
-            rep_count=rep_count,
-            fav_count=fav_count,
-            rt_count=rt_count,
-            tid_parent=tid_parent,
-            lang=lang,
-            # user_id=user_id
-        )
+    def insert_tweet(cls, tweet_id, tweet_body):
+        tweet = Tweet(tweet_id=tweet_id, tweet_body=tweet_body, upload_date=timezone.now())
+
         tweet.save()
 
 
@@ -100,6 +88,7 @@ def store(hashtags):
             access_token=token_key,
             access_token_secret=token_secret
         )
+        count = 0
 
         for tweet in ts.search_tweets_iterable(tso):
             User.insert_user(
@@ -112,18 +101,9 @@ def store(hashtags):
                 tweet['user']['statuses_count']
             )
 
-            Tweet.insert_tweet(
-                tweet['id'],
-                tweet['text'],
-                tweet['entities']['urls'],
-                tweet['created_at'],
-                0,  # tweet['reply_count'], there's no field 'reply_count' in the json but there is one on the document
-                tweet['favorite_count'],
-                tweet['retweet_count'],
-                tweet['in_reply_to_status_id'],
-                tweet['lang'],
-                tweet['user']['id']
-            )
+            Tweet.insert_tweet(tweet['id'], tweet['text'])
+            count += 1
+        print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
@@ -164,5 +144,28 @@ def convert_month(month):
         return 'NOTHING MATCHED to the month!'
 
 
-hashtags = ['yegtraffic', 'ABRoads']
+def print_user(tweet):
+    print ('id:', tweet['user']['id'], 'screen name:', tweet['user']['screen_name'], 'followers_count:',
+           tweet['user']['followers_count'], 'favourites_count:', tweet['user']['favourites_count'], 'friends_count:',
+           tweet['user']['friends_count'], 'created_at:', tweet['user']['created_at'], 'statuses_count:',
+           tweet['user']['statuses_count'])
+    print ''
+
+
+# def print_tweet(tweet):
+# print json.dumps(tweet, sort_keys=True, indent=3, separators=(',', ': '))
+# print('tweet id:', tweet)
+#     tweet['entities']['urls'],
+#     tweet['created_at'],
+#     0,  # tweet['reply_count'], there's no field 'reply_count' in the json but there is one on the document
+#     tweet['favorite_count'],
+#     tweet['retweet_count'],
+#     tweet['in_reply_to_status_id'],
+#     tweet['lang'],
+#     tweet['user']['id']
+
+
+hashtags = ['yegtraffic']
+print "Getting data and storing it..."
 store(hashtags)
+print("Data stored")
