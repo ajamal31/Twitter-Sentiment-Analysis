@@ -15,7 +15,7 @@ token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 # Create your models here.
 
 class User(models.Model):
-    id = models.BigIntegerField(primary_key=True, default=0)
+    user_id = models.BigIntegerField(primary_key=True, default=0)
     user_name = models.TextField(null=True, default=None)
     total_followers = models.IntegerField(null=True, default=None)
     total_fav = models.IntegerField(null=True, default=None)
@@ -30,7 +30,7 @@ class User(models.Model):
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
         user = User(
-            id=user_id,
+            user_id=user_id,
             user_name=user_name,
             total_followers=total_followers,
             total_fav=total_fav,
