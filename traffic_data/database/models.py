@@ -63,8 +63,15 @@ class Tweet(models.Model):
 
     # Insert the data in the Tweet table
     @classmethod
-    def insert_tweet(cls, tweet_id, tweet_body):
-        tweet = Tweet(tweet_id=tweet_id, tweet_body=tweet_body, upload_date=timezone.now())
+    def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count):
+        tweet = Tweet(
+            tweet_id=tweet_id,
+            tweet_body=tweet_body,
+            creation_date=format_datetime(creation_date),
+            fav_count=fav_count,
+            rt_count=rt_count,
+            upload_date=timezone.now()
+        )
 
         tweet.save()
 
@@ -101,9 +108,19 @@ def store(hashtags):
                 tweet['user']['statuses_count']
             )
 
-            Tweet.insert_tweet(tweet['id'], tweet['text'])
+            print tweet['retweet_count']
+
+            Tweet.insert_tweet(
+                tweet['id'],
+                tweet['text'],
+                tweet['created_at'],
+                tweet['favorite_count'],
+                tweet['retweet_count']
+            )
             count += 1
-        print count
+            if count >= 100:
+                break
+        # print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
