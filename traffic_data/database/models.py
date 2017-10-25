@@ -2,9 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
-from datetime import datetime
 from TwitterSearch import *
-import json
 
 # testing something
 # Required keys to access the API
@@ -80,17 +78,22 @@ class Tweet(models.Model):
 
 
 class Hashtag(models.Model):
-    class Meta:
-        unique_together = (('tweet_id', 'hashtag'),)
-
     tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
-    hashtag = models.CharField(default=None, max_length=255)
+    hashtag = models.CharField(default=None, max_length=255, null=True)
+
+    def __str__(self):
+        return str(self.tweet_id)
+
+    @classmethod
+    def insert_hashtag(cls, tweet_id, hashtag):
+        hashtag = Hashtag(tweet_id=tweet_id, hashtag=hashtag)
+        hashtag.save()
 
 
-def store(hashtags):
+def store(tags):
     try:
         tso = TwitterSearchOrder()
-        tso.set_keywords(hashtags)
+        tso.set_keywords(tags)
 
         ts = TwitterSearch(
             consumer_key=key,
@@ -98,8 +101,7 @@ def store(hashtags):
             access_token=token_key,
             access_token_secret=token_secret
         )
-        count = 0
-
+        
         for tweet in ts.search_tweets_iterable(tso):
             User.insert_user(
                 tweet['user']['id'],
@@ -111,8 +113,6 @@ def store(hashtags):
                 tweet['user']['statuses_count']
             )
 
-            print tweet['user']['id']
-
             Tweet.insert_tweet(
                 tweet['id'],
                 tweet['text'],
@@ -123,10 +123,11 @@ def store(hashtags):
                 tweet['lang'],
                 tweet['user']['id']
             )
-            count += 1
-            if count >= 100:
-                break
-                # print count
+            hashtags_list = tweet['entities']['hashtags']
+
+            for hashtag in hashtags_list:
+                Hashtag.insert_hashtag(tweet['user']['id'], hashtag['text'])
+
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
@@ -173,19 +174,6 @@ def print_user(tweet):
            tweet['user']['friends_count'], 'created_at:', tweet['user']['created_at'], 'statuses_count:',
            tweet['user']['statuses_count'])
     print ''
-
-
-# def print_tweet(tweet):
-# print json.dumps(tweet, sort_keys=True, indent=3, separators=(',', ': '))
-# print('tweet id:', tweet)
-#     tweet['entities']['urls'],
-#     tweet['created_at'],
-#     0,  # tweet['reply_count'], there's no field 'reply_count' in the json but there is one on the document
-#     tweet['favorite_count'],
-#     tweet['retweet_count'],
-#     tweet['in_reply_to_status_id'],
-#     tweet['lang'],
-#     tweet['user']['id']
 
 
 # These need to be in the controller not here but it's here for testing.
