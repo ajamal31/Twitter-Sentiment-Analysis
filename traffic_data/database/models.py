@@ -63,13 +63,16 @@ class Tweet(models.Model):
 
     # Insert the data in the Tweet table
     @classmethod
-    def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count):
+    def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count, tid_parent, lang, user_id):
         tweet = Tweet(
             tweet_id=tweet_id,
             tweet_body=tweet_body,
             creation_date=format_datetime(creation_date),
             fav_count=fav_count,
             rt_count=rt_count,
+            tid_parent=tid_parent,
+            lang=lang,
+            # user_id=user_id,
             upload_date=timezone.now()
         )
 
@@ -108,19 +111,22 @@ def store(hashtags):
                 tweet['user']['statuses_count']
             )
 
-            print tweet['retweet_count']
+            print tweet['user']['id']
 
             Tweet.insert_tweet(
                 tweet['id'],
                 tweet['text'],
                 tweet['created_at'],
                 tweet['favorite_count'],
-                tweet['retweet_count']
+                tweet['retweet_count'],
+                tweet['in_reply_to_status_id'],
+                tweet['lang'],
+                tweet['user']['id']
             )
             count += 1
             if count >= 100:
                 break
-        # print count
+                # print count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
@@ -182,6 +188,7 @@ def print_user(tweet):
 #     tweet['user']['id']
 
 
+# These need to be in the controller not here but it's here for testing.
 hashtags = ['yegtraffic']
 print "Getting data and storing it..."
 store(hashtags)
