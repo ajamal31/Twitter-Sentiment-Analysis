@@ -42,13 +42,13 @@ Run the following two commands:
 
 #### Add the following in your /etc/my.cnf file:
 #### If my.cnf does not exist in your /etc directory, then create it and add the following:
-[client]
+[client] <br />
 default-character-set = utf8mb4
 
-[mysql]
+[mysql] <br />
 default-character-set = utf8mb4
 
-[mysqld]
+[mysqld] <br />
 character-set-client-handshake = FALSE <br />
 character-set-server = utf8mb4 <br />
 collation-server = utf8mb4_unicode_ci
