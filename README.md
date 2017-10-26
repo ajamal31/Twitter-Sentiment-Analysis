@@ -41,6 +41,7 @@ Run the following two commands:
 #### Exit MySQL
 
 #### Add the following in your /etc/my.cnf file:
+#### If my.cnf does not exist in your /etc directory, then create it and add the following:
 [client]
 default-character-set = utf8mb4
 
