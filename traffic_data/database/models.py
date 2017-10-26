@@ -57,7 +57,7 @@ class Tweet(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
-        return str(self.tweet_body.encode('utf-8'))
+        return str(self.tweet_id)
 
     # Insert the data in the Tweet table
     @classmethod
@@ -81,12 +81,19 @@ class Hashtag(models.Model):
     tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
     hashtag = models.CharField(default=None, max_length=255, null=True)
 
+    # The attributes below need to be unique to avoid duplicates
+    class Meta:
+        unique_together = ["tweet_id", "hashtag"]
+
     def __str__(self):
-        return str(self.hashtag)
+        return str(self.tweet_id)
 
     @classmethod
     def insert_hashtag(cls, tweet_id, hashtag):
-        hashtag = Hashtag(tweet_id=tweet_id, hashtag=hashtag)
+        hashtag = Hashtag(
+            tweet_id=tweet_id,
+            hashtag=hashtag
+        )
         hashtag.save()
 
 
@@ -101,8 +108,9 @@ def store(tags):
             access_token=token_key,
             access_token_secret=token_secret
         )
-        
+        count = 0
         for tweet in ts.search_tweets_iterable(tso):
+            count +=1
             User.insert_user(
                 tweet['user']['id'],
                 tweet['user']['screen_name'],
@@ -126,8 +134,12 @@ def store(tags):
             hashtags_list = tweet['entities']['hashtags']
 
             for hashtag in hashtags_list:
-                Hashtag.insert_hashtag(tweet['user']['id'], hashtag['text'])
+                if not Hashtag.objects.filter(tweet_id=tweet['user']['id'], hashtag=hashtag['text'].lower()):
+                    Hashtag.insert_hashtag(tweet['user']['id'], (hashtag['text'].lower()))
 
+            if count >= 200:
+                break
+        print 'tweet count:', count
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
@@ -179,5 +191,5 @@ def print_user(tweet):
 # These need to be in the controller not here but it's here for testing.
 hashtags = ['yegtraffic']
 print "Getting data and storing it..."
-# store(hashtags)
+store(hashtags)
 print("Data stored")
