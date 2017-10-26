@@ -40,8 +40,7 @@ Run the following two commands:
 
 #### Exit MySQL
 
-#### Add the following in your /etc/my.cnf file:
-#### If my.cnf does not exist in your /etc directory, then create it and add the following:
+#### Add the following in your /etc/my.cnf file. Note: If my.cnf does not exist in your /etc directory, then create it and add the following:
 [client] <br />
 default-character-set = utf8mb4
 
