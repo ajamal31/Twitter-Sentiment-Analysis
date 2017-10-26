@@ -29,7 +29,8 @@ Run the following two commands:
 ### Convert database to a database that can support utf8mb4:
 
 #### Run MySQL
-- USE tweets
+###### Run the following commands in order:
+1. USE tweets
 - ALTER DATABASE tweets CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 - ALTER TABLE tweets.tweet CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 - ALTER TABLE tweets.tweet CHANGE tweet_body tweet_body VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
