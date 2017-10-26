@@ -30,18 +30,15 @@ Run the following two commands:
 
 ### Run MySQL
 USE tweets
-### For each database:
 ALTER DATABASE tweets CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-### For each table:
 ALTER TABLE tweets.tweet CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-### For each column:
 ALTER TABLE tweets.tweet CHANGE tweet_body tweet_body VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 SET NAMES utf8mb4;
 SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-set global character_set_server=utf8;
-set session character_set_server=utf8;
+SET global character_set_server=utf8;
+SET session character_set_server=utf8;
 
 ### Exit MySQL
 
