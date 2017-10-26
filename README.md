@@ -49,6 +49,6 @@ default-character-set = utf8mb4
 default-character-set = utf8mb4
 
 [mysqld]
-character-set-client-handshake = FALSE
-character-set-server = utf8mb4
+character-set-client-handshake = FALSE <br />
+character-set-server = utf8mb4 <br />
 collation-server = utf8mb4_unicode_ci
