@@ -32,8 +32,8 @@ Run the following two commands:
 ##### Run the following commands in order:
 1. USE tweets
 2. ALTER DATABASE tweets CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
-3. ALTER TABLE tweets.tweet CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-4. ALTER TABLE tweets.tweet CHANGE tweet_body tweet_body VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+3. ALTER TABLE database_tweet CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+4. ALTER TABLE database_tweet CHANGE tweet_body tweet_body VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 5. SET NAMES utf8mb4;
 6. SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
 7. SET global character_set_server=utf8;

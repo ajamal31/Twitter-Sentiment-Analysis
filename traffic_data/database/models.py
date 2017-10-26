@@ -25,7 +25,7 @@ class User(models.Model):
     total_tweets = models.IntegerField(null=True, default=None)
 
     def __str__(self):  # __unicode__ on Python 2
-        return str(self.id)
+        return str(self.user_name)
 
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
@@ -57,7 +57,7 @@ class Tweet(models.Model):
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
     def __str__(self):
-        return str(self.tweet_id)
+        return str(self.tweet_body.encode('utf-8'))
 
     # Insert the data in the Tweet table
     @classmethod
@@ -82,7 +82,7 @@ class Hashtag(models.Model):
     hashtag = models.CharField(default=None, max_length=255, null=True)
 
     def __str__(self):
-        return str(self.tweet_id)
+        return str(self.hashtag)
 
     @classmethod
     def insert_hashtag(cls, tweet_id, hashtag):
@@ -179,5 +179,5 @@ def print_user(tweet):
 # These need to be in the controller not here but it's here for testing.
 hashtags = ['yegtraffic']
 print "Getting data and storing it..."
-store(hashtags)
+# store(hashtags)
 print("Data stored")
