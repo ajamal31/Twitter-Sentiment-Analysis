@@ -4,7 +4,6 @@ from django.db import models
 from django.utils import timezone
 from TwitterSearch import *
 
-# testing something
 # Required keys to access the API
 key = 'w645Oz4LizFb9bd1UzbAbdzVq'
 secret = '9UfawqpsphzYHyjKi6S1j06AyLagDn4EvaXZiVFVeU99KtiG7u'
@@ -14,6 +13,7 @@ token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 
 # Create your models here.
 
+# User table and the method that we need for it
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, default=0)
     user_name = models.TextField(null=True, default=None)
@@ -24,9 +24,10 @@ class User(models.Model):
     upload_date = models.DateTimeField(null=True, default=None)
     total_tweets = models.IntegerField(null=True, default=None)
 
-    def __str__(self):  # __unicode__ on Python 2
+    def __str__(self):
         return str(self.user_name)
 
+    # Add the data in the User table
     @classmethod
     def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
         user = User(
@@ -39,9 +40,11 @@ class User(models.Model):
             upload_date=timezone.now(),
             total_tweets=total_tweets
         )
+
         user.save()
 
 
+# Tweet table and the method that we need for it
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, default=0)
     tweet_body = models.CharField(null=True, default=None, max_length=140)
@@ -77,6 +80,7 @@ class Tweet(models.Model):
         tweet.save()
 
 
+# Hashtag table and the method that we need for it
 class Hashtag(models.Model):
     tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
     hashtag = models.CharField(default=None, max_length=255, null=True)
@@ -88,17 +92,22 @@ class Hashtag(models.Model):
     def __str__(self):
         return str(self.tweet_id)
 
+    # Insert the data in the table
     @classmethod
     def insert_hashtag(cls, tweet_id, hashtag):
-        hashtag = Hashtag(
-            tweet_id=tweet_id,
-            hashtag=hashtag
-        )
-        hashtag.save()
+        if not Hashtag.objects.filter(tweet_id=tweet_id, hashtag=hashtag):
+            hashtag = Hashtag(
+                tweet_id=tweet_id,
+                hashtag=hashtag
+            )
+
+            hashtag.save()
 
 
+# Function responsible for making the api calls and storing the data.
 def store(tags):
     try:
+        # Provides the wrapper with the necessary data for making the calls and retrieving the data
         tso = TwitterSearchOrder()
         tso.set_keywords(tags)
 
@@ -108,9 +117,13 @@ def store(tags):
             access_token=token_key,
             access_token_secret=token_secret
         )
+
         count = 0
+
         for tweet in ts.search_tweets_iterable(tso):
-            count +=1
+
+            count += 1
+
             User.insert_user(
                 tweet['user']['id'],
                 tweet['user']['screen_name'],
@@ -131,19 +144,24 @@ def store(tags):
                 tweet['lang'],
                 tweet['user']['id']
             )
+
             hashtags_list = tweet['entities']['hashtags']
 
+            # Add the hashtags and duplicates are not added
             for hashtag in hashtags_list:
-                if not Hashtag.objects.filter(tweet_id=tweet['user']['id'], hashtag=hashtag['text'].lower()):
-                    Hashtag.insert_hashtag(tweet['user']['id'], (hashtag['text'].lower()))
+                Hashtag.insert_hashtag(tweet['id'], (hashtag['text'].lower()))
 
+            # Stop after 200 tweets but this will be removed
             if count >= 200:
                 break
+
         print 'tweet count:', count
+
     except TwitterSearchException as e:  # take care of all those ugly errors if there are some
         print(e)
 
 
+# Format's the datetime to match the format of the database's datetime field
 def format_datetime(datetime):
     datetime_split = datetime.split(" ")
     datetime_format = datetime_split[5] + '-' + convert_month(datetime_split[1]) + '-' + datetime_split[2] + ' ' + \
@@ -151,6 +169,7 @@ def format_datetime(datetime):
     return datetime_format
 
 
+# Converts the letter version of the month to its digits
 def convert_month(month):
     if month == 'Jan':
         return '01'
@@ -177,9 +196,10 @@ def convert_month(month):
     elif month == 'Dec':
         return '12'
     else:
-        return 'NOTHING MATCHED to the month!'
+        return ''
 
 
+# I added this for debugging purposes before but this can go if it's not needed
 def print_user(tweet):
     print ('id:', tweet['user']['id'], 'screen name:', tweet['user']['screen_name'], 'followers_count:',
            tweet['user']['followers_count'], 'favourites_count:', tweet['user']['favourites_count'], 'friends_count:',
