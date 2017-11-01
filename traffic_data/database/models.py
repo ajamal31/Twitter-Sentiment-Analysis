@@ -2,18 +2,12 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
-from TwitterSearch import *
-
-# Required keys to access the API
-key = 'w645Oz4LizFb9bd1UzbAbdzVq'
-secret = '9UfawqpsphzYHyjKi6S1j06AyLagDn4EvaXZiVFVeU99KtiG7u'
-token_key = '1113900372-SIKdu4TXMdDEpsBBqdIdurWvjH5Mt1SwDaEhAcz'
-token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
-
 
 # Create your models here.
 
 # User table and the method that we need for it
+
+
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, default=0)
     user_name = models.TextField(null=True, default=None)
@@ -43,8 +37,9 @@ class User(models.Model):
 
         user.save()
 
-
 # Tweet table and the method that we need for it
+
+
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, default=0)
     tweet_body = models.CharField(null=True, default=None, max_length=140)
@@ -56,6 +51,16 @@ class Tweet(models.Model):
     rt_count = models.IntegerField(null=True, default=None)
     tid_parent = models.BigIntegerField(null=True, default=None)
     lang = models.CharField(null=True, default=None, max_length=10)
+    # Compound field returned from VADER
+    sentiment = models.FloatField(null=True, default=None)
+    # The pos, neu, and neg scores are ratios for proportions of text that fall in each category
+    pos = models.FloatField(null=True, default=None)
+    neu = models.FloatField(null=True, default=None)
+    neg = models.FloatField(null=True, default=None)
+    # A string summarizing sentiment of tweet_body.
+    # Positive if sentiment >= 0.5, negative if sentiment <=-0.5. Neutral otherwise.
+    # Breakpoints taken from VADER documentation.
+    sentiment_string = models.CharField(null=True, default=None, max_length=5)
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
@@ -64,7 +69,8 @@ class Tweet(models.Model):
 
     # Insert the data in the Tweet table
     @classmethod
-    def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count, tid_parent, lang, user_id):
+    def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count,
+                     tid_parent, lang, user_id, sentiment, pos, neg, neu, sentiment_string):
         tweet = Tweet(
             tweet_id=tweet_id,
             tweet_body=tweet_body,
@@ -73,14 +79,20 @@ class Tweet(models.Model):
             rt_count=rt_count,
             tid_parent=tid_parent,
             lang=lang,
-            # user_id=user_id,
-            upload_date=timezone.now()
+            user_id=user_id,
+            upload_date=timezone.now(),
+            sentiment=sentiment,
+            pos=pos,
+            neg=neg,
+            neu=neu,
+            sentiment_string=sentiment_string
         )
 
         tweet.save()
 
-
 # Hashtag table and the method that we need for it
+
+
 class Hashtag(models.Model):
     tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
     hashtag = models.CharField(default=None, max_length=255, null=True)
@@ -103,73 +115,18 @@ class Hashtag(models.Model):
 
             hashtag.save()
 
-
-# Function responsible for making the api calls and storing the data.
-def store(tags):
-    try:
-        # Provides the wrapper with the necessary data for making the calls and retrieving the data
-        tso = TwitterSearchOrder()
-        tso.set_keywords(tags)
-
-        ts = TwitterSearch(
-            consumer_key=key,
-            consumer_secret=secret,
-            access_token=token_key,
-            access_token_secret=token_secret
-        )
-
-        count = 0
-
-        for tweet in ts.search_tweets_iterable(tso):
-
-            count += 1
-
-            User.insert_user(
-                tweet['user']['id'],
-                tweet['user']['screen_name'],
-                tweet['user']['followers_count'],
-                tweet['user']['favourites_count'],
-                tweet['user']['friends_count'],
-                tweet['user']['created_at'],
-                tweet['user']['statuses_count']
-            )
-
-            Tweet.insert_tweet(
-                tweet['id'],
-                tweet['text'],
-                tweet['created_at'],
-                tweet['favorite_count'],
-                tweet['retweet_count'],
-                tweet['in_reply_to_status_id'],
-                tweet['lang'],
-                tweet['user']['id']
-            )
-
-            hashtags_list = tweet['entities']['hashtags']
-
-            # Add the hashtags and duplicates are not added
-            for hashtag in hashtags_list:
-                Hashtag.insert_hashtag(tweet['id'], (hashtag['text'].lower()))
-
-            # Stop after 200 tweets but this will be removed
-            if count >= 200:
-                break
-
-        print 'tweet count:', count
-
-    except TwitterSearchException as e:  # take care of all those ugly errors if there are some
-        print(e)
-
-
 # Format's the datetime to match the format of the database's datetime field
+
+
 def format_datetime(datetime):
     datetime_split = datetime.split(" ")
     datetime_format = datetime_split[5] + '-' + convert_month(datetime_split[1]) + '-' + datetime_split[2] + ' ' + \
-                      datetime_split[3] + datetime_split[4]
+        datetime_split[3] + datetime_split[4]
     return datetime_format
 
-
 # Converts the letter version of the month to its digits
+
+
 def convert_month(month):
     if month == 'Jan':
         return '01'
@@ -197,19 +154,3 @@ def convert_month(month):
         return '12'
     else:
         return ''
-
-
-# I added this for debugging purposes before but this can go if it's not needed
-def print_user(tweet):
-    print ('id:', tweet['user']['id'], 'screen name:', tweet['user']['screen_name'], 'followers_count:',
-           tweet['user']['followers_count'], 'favourites_count:', tweet['user']['favourites_count'], 'friends_count:',
-           tweet['user']['friends_count'], 'created_at:', tweet['user']['created_at'], 'statuses_count:',
-           tweet['user']['statuses_count'])
-    print ''
-
-
-# These need to be in the controller not here but it's here for testing.
-hashtags = ['yegtraffic']
-print "Getting data and storing it..."
-store(hashtags)
-print("Data stored")

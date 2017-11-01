@@ -52,3 +52,50 @@ default-character-set = utf8mb4
 character-set-client-handshake = FALSE <br />
 character-set-server = utf8mb4 <br />
 collation-server = utf8mb4_unicode_ci
+
+Testing:
+
+db user needs to be able to create databases. The easiest way to accomplish this is to open mysql and do the following:
+
+GRANT ALL ON *\.\* TO dbuser@localhost;
+
+Sentiment Analysis:
+
+pip install vaderSentiment
+
+If it tells you you're missing a lexicon, do the following:
+
+python
+import nltk
+nltk.download()
+d
+vader_lexicon
+
+Vader Licence:
+
+The MIT License (MIT)
+
+Copyright (c) 2016 C.J. Hutto
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Vader Citation:
+
+Hutto, C.J. & Gilbert, E.E. (2014). VADER: A Parsimonious Rule-based Model for Sentiment Analysis of Social Media Text. Eighth International Conference on Weblogs and Social Media (ICWSM-14). Ann Arbor, MI, June 2014.
+
