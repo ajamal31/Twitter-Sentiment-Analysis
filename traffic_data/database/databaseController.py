@@ -10,9 +10,8 @@ secret = '9UfawqpsphzYHyjKi6S1j06AyLagDn4EvaXZiVFVeU99KtiG7u'
 token_key = '1113900372-SIKdu4TXMdDEpsBBqdIdurWvjH5Mt1SwDaEhAcz'
 token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 
+
 # Function responsible for making the api calls and storing the data.
-
-
 def store(tags):
     try:
         tso = TwitterSearchOrder()
@@ -68,13 +67,14 @@ def store(tags):
                 get_sentiment_string(ss['compound'])
             )
             hashtags_list = tweet['entities']['hashtags']
+
             # Add the hashtags and duplicates are not added
             for hashtag in hashtags_list:
-                if not mod.Hashtag.objects.filter(tweet_id=tweet['user']['id'], hashtag=hashtag['text'].lower()):
-                    mod.Hashtag.insert_hashtag(
-                        tweet['user']['id'], (hashtag['text'].lower()))
+                mod.Hashtag.insert_hashtag(
+                    tweet['id'], hashtag['text'].lower()
+                )
 
-             # Stop after 200 tweets but this will be removed
+            # Stop after 200 tweets but this will be removed
             if count >= 200:
                 break
         print 'tweet count:', count
@@ -90,9 +90,8 @@ def get_sentiment_string(compound):
     else:
         return "neu"
 
+
 # I added this for debugging purposes before but this can go if it's not needed
-
-
 def print_user(tweet):
     print ('id:', tweet['user']['id'], 'screen name:', tweet['user']['screen_name'], 'followers_count:',
            tweet['user']['followers_count'], 'favourites_count:', tweet['user']['favourites_count'], 'friends_count:',
@@ -100,9 +99,8 @@ def print_user(tweet):
            tweet['user']['statuses_count'])
     print ''
 
+
 # These need to be in the controller not here but it's here for testing.
-
-
 def updateDatabase():
     hashtags = ['yegtraffic']
     print "Getting data and storing it..."

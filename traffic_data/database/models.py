@@ -3,11 +3,10 @@ from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
 
+
 # Create your models here.
 
 # User table and the method that we need for it
-
-
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, default=0)
     user_name = models.TextField(null=True, default=None)
@@ -37,9 +36,8 @@ class User(models.Model):
 
         user.save()
 
+
 # Tweet table and the method that we need for it
-
-
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, default=0)
     tweet_body = models.CharField(null=True, default=None, max_length=140)
@@ -90,9 +88,8 @@ class Tweet(models.Model):
 
         tweet.save()
 
+
 # Hashtag table and the method that we need for it
-
-
 class Hashtag(models.Model):
     tweet_id = models.BigIntegerField(editable=False, default=None, null=True)
     hashtag = models.CharField(default=None, max_length=255, null=True)
@@ -115,18 +112,16 @@ class Hashtag(models.Model):
 
             hashtag.save()
 
+
 # Format's the datetime to match the format of the database's datetime field
-
-
 def format_datetime(datetime):
     datetime_split = datetime.split(" ")
     datetime_format = datetime_split[5] + '-' + convert_month(datetime_split[1]) + '-' + datetime_split[2] + ' ' + \
-        datetime_split[3] + datetime_split[4]
+                      datetime_split[3] + datetime_split[4]
     return datetime_format
 
+
 # Converts the letter version of the month to its digits
-
-
 def convert_month(month):
     if month == 'Jan':
         return '01'
