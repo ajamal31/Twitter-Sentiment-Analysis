@@ -10,8 +10,7 @@ secret = '9UfawqpsphzYHyjKi6S1j06AyLagDn4EvaXZiVFVeU99KtiG7u'
 token_key = '1113900372-SIKdu4TXMdDEpsBBqdIdurWvjH5Mt1SwDaEhAcz'
 token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 
-
-# Function responsible for making the api calls and storing the data.
+# Function responsible for making the api calls and storing the data
 def store(tags):
     try:
         tso = TwitterSearchOrder()
@@ -90,7 +89,6 @@ def get_sentiment_string(compound):
     else:
         return "neu"
 
-
 # I added this for debugging purposes before but this can go if it's not needed
 def print_user(tweet):
     print ('id:', tweet['user']['id'], 'screen name:', tweet['user']['screen_name'], 'followers_count:',
@@ -98,7 +96,6 @@ def print_user(tweet):
            tweet['user']['friends_count'], 'created_at:', tweet['user']['created_at'], 'statuses_count:',
            tweet['user']['statuses_count'])
     print ''
-
 
 # These need to be in the controller not here but it's here for testing.
 def updateDatabase():
