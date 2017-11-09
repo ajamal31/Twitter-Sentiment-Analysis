@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.utils import timezone
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 # Create your models here.
 
@@ -89,6 +90,15 @@ class Tweet(models.Model):
         )
 
         tweet.save()
+
+    # Insert the reply count data in the Tweet table
+    @classmethod
+    def insert_replycount(cls, tw_id, reply_count):
+        tweet_object = get_object_or_404(Tweet, pk = tw_id)#get object by tweet_id
+	tweet_object.rep_count = reply_count
+
+        tweet_object.save(update_fields=["rep_count"])
+
 
 # Hashtag table and the method that we need for it
 
