@@ -17,9 +17,11 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from traffic_data import views
 
 urlpatterns = [
     url(r'^', include('graph.urls')),
     url(r'^database/', include('database.urls')),
+    url(r'^dashboard/', views.dashboardview.as_view(), name='dashboard'),
     url(r'^admin/', admin.site.urls),
 ]

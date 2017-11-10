@@ -13,3 +13,8 @@ class HomePageView(TemplateView):
             Tweet.objects.filter(sentiment_string="neg").count()
         ]
         return render(request, 'index.html', {'dbdata': data})
+
+class dashboardview(TemplateView):
+    def get(self, request, **kwargs):
+        template = 'dash_temp.html'
+        return render(request,template)
