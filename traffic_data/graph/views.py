@@ -6,11 +6,23 @@ from django.views.generic import TemplateView
 from database.models import Tweet
 from nltk import word_tokenize
 
+from django.template.loader import render_to_string
+
+
 # Create your views here.
 
 
 class HomePageView(TemplateView):
+    num_tweets = 20
     def get(self, request, **kwargs):
+        return render(request, 'index.html', self.gen_data(self.num_tweets))
+
+    def post(self, request, **kwargs):
+        tweet_count = int(request.POST.get('num_tweets'))
+        data = render(request, 'retweet.html', self.gen_data(tweet_count));
+        return data
+
+    def gen_data(self, num_of_tweets):
         data = [
             Tweet.objects.filter(sentiment_string="pos").count(),
             Tweet.objects.filter(sentiment_string="neu").count(),
@@ -19,10 +31,10 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
         rtSorted = list(tweets.order_by("-rt_count"))
-        rtSorted = rtSorted[:10]
+        rtSorted = rtSorted[:num_of_tweets]
 
         favSorted = list(tweets.order_by("-fav_count"))
-        favSorted = favSorted[:10]
+        favSorted = favSorted[:num_of_tweets]
         # d3 cannot create two sperate entries for something with the same name.
         # Could EASILY become a problem down the line.
         usedNames = []
@@ -32,11 +44,11 @@ class HomePageView(TemplateView):
             usedNames.append(item.user_id.user_name)
 
         repSorted = list(tweets.order_by("-rep_count"))
-        repSorted = repSorted[:10]
+        repSorted = repSorted[:num_of_tweets]
 
-        return render(request, 'index.html',
-                      {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
-                       'replyCounts': repSorted})
+        json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
+                       'replyCounts': repSorted}
+        return json
 
 
 class WordCloudView(TemplateView):
@@ -77,7 +89,6 @@ class WordCloudView(TemplateView):
 
 class LineChartView(TemplateView):
     def get(self, request, **kwargs):
-
         tweets = list(Tweet.objects.all().order_by('tweet_id'))
 
         return render(request, 'line_chart.html', {'tweets': tweets, 'tweets_length': len(tweets)})

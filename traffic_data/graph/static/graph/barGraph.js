@@ -1,5 +1,5 @@
 function makeGraph(data, title) {
-    var margin = { top: 40, right: 20, bottom: 30, left: 100 },
+    var margin = {top: 40, right: 20, bottom: 30, left: 100},
         width = 500 - margin.left - margin.right,
         height = 500 - margin.top - margin.bottom;
 
@@ -40,8 +40,12 @@ function makeGraph(data, title) {
     svg.call(tip);
 
     // The following code was contained in the callback function.
-    y.domain(data.map(function (d) { return d.tag; }));
-    x.domain([0, d3.max(data, function (d) { return d.count; })]);
+    y.domain(data.map(function (d) {
+        return d.tag;
+    }));
+    x.domain([0, d3.max(data, function (d) {
+        return d.count;
+    })]);
 
     svg.append("g")
         .attr("class", "x axis")
@@ -64,10 +68,14 @@ function makeGraph(data, title) {
         .data(data)
         .enter().append("rect")
         .attr("class", "bar")
-        .attr("y", function (d) { return y(d.tag); })
+        .attr("y", function (d) {
+            return y(d.tag);
+        })
         .attr("height", y.rangeBand())
         .attr("x", 0)
-        .attr("width", function (d) { return x(d.count); })
+        .attr("width", function (d) {
+            return x(d.count);
+        })
         .on('mouseover', tip.show)
         .on('mouseout', tip.hide)
 
@@ -75,4 +83,7 @@ function makeGraph(data, title) {
         d.count = +d.count;
         return d;
     }
+
+
+    return svg;
 }

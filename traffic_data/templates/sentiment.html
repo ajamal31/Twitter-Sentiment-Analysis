@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    sentimentData = [
+        { tag: "Positive", count: {{ sentimentCounts.0 | safe }}},
+        { tag: "Neutral", count: {{ sentimentCounts.1 | safe }}},
+        { tag: "Negative", count: {{ sentimentCounts.2 | safe }}}
+    ];
+
+    makeGraph(sentimentData, "Tweets by Sentiment");
+</script>
+
+</body>
+</html>
