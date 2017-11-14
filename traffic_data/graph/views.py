@@ -32,19 +32,15 @@ class HomePageView(TemplateView):
         tweets = Tweet.objects.all()
         rtSorted = list(tweets.order_by("-rt_count"))
         rtSorted = rtSorted[:num_of_tweets]
+        rtSorted = fixNames(rtSorted)
 
         favSorted = list(tweets.order_by("-fav_count"))
         favSorted = favSorted[:num_of_tweets]
-        # d3 cannot create two sperate entries for something with the same name.
-        # Could EASILY become a problem down the line.
-        usedNames = []
-        for item in favSorted:
-            if item.user_id.user_name in usedNames:
-                item.user_id.user_name = item.user_id.user_name + " "
-            usedNames.append(item.user_id.user_name)
+        favSorted = fixNames(favSorted)
 
         repSorted = list(tweets.order_by("-rep_count"))
         repSorted = repSorted[:num_of_tweets]
+        repSorted = fixNames(repSorted)
 
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                        'replyCounts': repSorted}
@@ -92,3 +88,15 @@ class LineChartView(TemplateView):
         tweets = list(Tweet.objects.all().order_by('tweet_id'))
 
         return render(request, 'line_chart.html', {'tweets': tweets, 'tweets_length': len(tweets)})
+
+# d3 cannot create two sperate entries for something with the same name.
+# Could EASILY become a problem down the line.
+def fixNames(tweets):
+        usedNames = []
+        for item in tweets:
+            while usedNames.count(item.user_id.user_name) >= 1:
+                if item.user_id.user_name in usedNames:
+                    item.user_id.user_name = item.user_id.user_name + " "
+            usedNames.append(item.user_id.user_name)
+
+        return tweets
