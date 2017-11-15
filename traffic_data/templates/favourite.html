@@ -11,11 +11,11 @@
     var userName = "{{ item.user_id.user_name | safe }}";
     var favc = {{ item.fav_count | safe }};
     favouriteData.unshift(
-        { tag: userName, count: favc }
+        { "User": userName, "Number of Favourites": favc }
     );
     {% endfor %}
 
-    makeGraph(favouriteData, "Most Favourited");
+    makeSocialGraph(favouriteData, "Most Favourited", "Number of Favourites" );
 </script>
 </body>
 </html>

@@ -8,12 +8,12 @@
 
 <script>
     sentimentData = [
-        { tag: "Positive", count: {{ sentimentCounts.0 | safe }}},
-        { tag: "Neutral", count: {{ sentimentCounts.1 | safe }}},
-        { tag: "Negative", count: {{ sentimentCounts.2 | safe }}}
+        { "Sentiment": "Positive", "Number of Tweets": {{ sentimentCounts.0 | safe }}},
+        { "Sentiment": "Neutral", "Number of Tweets": {{ sentimentCounts.1 | safe }}},
+        { "Sentiment": "Negative", "Number of Tweets": {{ sentimentCounts.2 | safe }}}
     ];
 
-    makeGraph(sentimentData, "Tweets by Sentiment");
+    makeSentimentGraph(sentimentData, "Tweets by Sentiment", "Number of Tweets", "Sentiment");
 </script>
 
 </body>

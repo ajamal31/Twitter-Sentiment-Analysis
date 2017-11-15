@@ -12,10 +12,10 @@
     var userName = "{{ item.user_id.user_name | safe }}";
     var rtc = {{ item.rt_count | safe }};
     retweetData.unshift(
-        { tag: userName, count: rtc }
+        { "User": userName, "Number of Retweets": rtc}
     );
     {% endfor %}
 
-     var graph = makeGraph(retweetData, "Most Retweeted");
+     var graph = makeSocialGraph(retweetData, "Most Retweeted", "Number of Retweets");
 </script>
 </body>
