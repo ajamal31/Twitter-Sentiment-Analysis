@@ -67,7 +67,8 @@ def store(tags):
                 ss['pos'],
                 ss['neg'],
                 ss['neu'],
-                get_sentiment_string(ss['compound'])
+                get_sentiment_string(ss['compound']),
+                'retweeted_status' in tweet
             )
             hashtags_list = tweet['entities']['hashtags']
 

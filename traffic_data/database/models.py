@@ -62,6 +62,7 @@ class Tweet(models.Model):
     # Positive if sentiment >= 0.5, negative if sentiment <=-0.5. Neutral otherwise.
     # Breakpoints taken from VADER documentation.
     sentiment_string = models.CharField(null=True, default=None, max_length=5)
+    is_rt = models.BooleanField(default=False)
 
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, default=0)
 
@@ -71,7 +72,7 @@ class Tweet(models.Model):
     # Insert the data in the Tweet table
     @classmethod
     def insert_tweet(cls, tweet_id, tweet_body, creation_date, fav_count, rt_count,
-                     tid_parent, lang, user_id, sentiment, pos, neg, neu, sentiment_string):
+                     tid_parent, lang, user_id, sentiment, pos, neg, neu, sentiment_string, is_rt):
         tweet = Tweet(
             tweet_id=tweet_id,
             tweet_body=tweet_body,
@@ -86,7 +87,8 @@ class Tweet(models.Model):
             pos=pos,
             neg=neg,
             neu=neu,
-            sentiment_string=sentiment_string
+            sentiment_string=sentiment_string,
+            is_rt=is_rt
         )
 
         tweet.save()
