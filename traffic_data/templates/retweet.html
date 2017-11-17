@@ -4,18 +4,19 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<script>
-    retweetData = [];
 
-    {% for item in retweetCounts %}
-    var userName = "{{ item.user_id.user_name | safe }}";
-    var rtc = {{ item.rt_count | safe }};
-    retweetData.unshift(
-        { "User": userName, "Number of Retweets": rtc}
-    );
-    {% endfor %}
+<div class="retweet-graph">
+    <script>
+        retweetData = [];
 
-     var graph = makeSocialGraph(retweetData, "Most Retweeted", "Number of Retweets");
-</script>
-</body>
+        {% for item in retweetCounts %}
+        var userName = "{{ item.user_id.user_name | safe }}";
+        var rtc = {{ item.rt_count | safe }};
+        retweetData.unshift(
+            { "User": userName, "Number of Retweets": rtc}
+        );
+        {% endfor %}
+
+         var graph = makeSocialGraph(retweetData, "Most Retweeted", "Number of Retweets");
+    </script>
+</div>

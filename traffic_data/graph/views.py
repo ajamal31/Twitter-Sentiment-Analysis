@@ -14,6 +14,7 @@ from django.template.loader import render_to_string
 
 class HomePageView(TemplateView):
     num_tweets = 20
+
     def get(self, request, **kwargs):
         return render(request, 'index.html', self.gen_data(self.num_tweets))
 
@@ -30,6 +31,15 @@ class HomePageView(TemplateView):
         ]
 
         tweets = Tweet.objects.all()
+
+        recent_tweets = [];
+        count = 0;
+        for tweet in tweets:
+            recent_tweets.append(tweet.tweet_body.replace("\n", ""))
+            count += 1
+            if(count >10):
+                break
+
         rtSorted = list(tweets.order_by("-rt_count"))
         rtSorted = rtSorted[:num_of_tweets]
         rtSorted = fixNames(rtSorted)
@@ -43,7 +53,7 @@ class HomePageView(TemplateView):
         repSorted = fixNames(repSorted)
 
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
-                       'replyCounts': repSorted}
+                'replyCounts': repSorted, 'recentTweets': recent_tweets}
         return json
 
 
@@ -89,14 +99,15 @@ class LineChartView(TemplateView):
 
         return render(request, 'line_chart.html', {'tweets': tweets, 'tweets_length': len(tweets)})
 
+
 # d3 cannot create two sperate entries for something with the same name.
 # Could EASILY become a problem down the line.
 def fixNames(tweets):
-        usedNames = []
-        for item in tweets:
-            while usedNames.count(item.user_id.user_name) >= 1:
-                if item.user_id.user_name in usedNames:
-                    item.user_id.user_name = item.user_id.user_name + " "
-            usedNames.append(item.user_id.user_name)
+    usedNames = []
+    for item in tweets:
+        while usedNames.count(item.user_id.user_name) >= 1:
+            if item.user_id.user_name in usedNames:
+                item.user_id.user_name = item.user_id.user_name + " "
+        usedNames.append(item.user_id.user_name)
 
-        return tweets
+    return tweets
