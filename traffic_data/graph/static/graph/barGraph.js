@@ -1,6 +1,6 @@
 function makeGraph(data, title, xTitle, yTitle){
 
-    var svg = dimple.newSvg("body", 800, 600);
+    var svg = dimple.newSvg(".graphs", "100%", "100%");
     var chart = new dimple.chart(svg, data);
     chart.addCategoryAxis("y", yTitle);
     chart.addMeasureAxis("x", xTitle);
