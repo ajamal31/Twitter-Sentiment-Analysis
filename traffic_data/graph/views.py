@@ -40,7 +40,7 @@ class HomePageView(TemplateView):
             if(count >10):
                 break
 
-        rtSorted = list(tweets.order_by("-rt_count"))
+        rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
         rtSorted = rtSorted[:num_of_tweets]
         rtSorted = fixNames(rtSorted)
 
