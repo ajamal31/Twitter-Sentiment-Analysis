@@ -10,7 +10,11 @@
 <script>
 
     {% for tweet in recentTweets %}
-        $( "#tweets" ).append( "<p>{{ tweet }} </p>" );
+        $( "#tweets" )
+            .append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
+                '<p lang="en">{{ tweet }} </p>' +
+                '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
+                '</blockquote>');
     {% endfor %}
 
 </script>

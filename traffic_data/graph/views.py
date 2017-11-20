@@ -23,6 +23,23 @@ class HomePageView(TemplateView):
         data = render(request, 'retweet.html', self.gen_data(tweet_count));
         return data
 
+    # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
+    # Returns a list containing all the tweets requests
+    def get_recent_tweets(self, tweets, tweets_size):
+
+        recent_tweets = []
+        count = 0
+
+        for tweet in tweets:
+            if not tweet.is_rt:
+                recent_tweets.append(tweet.tweet_body.replace("\n", ""))
+                count += 1
+
+            if count == tweets_size:
+                break
+
+        return recent_tweets
+
     def gen_data(self, num_of_tweets):
         data = [
             Tweet.objects.filter(sentiment_string="pos").count(),
@@ -32,13 +49,7 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
 
-        recent_tweets = [];
-        count = 0;
-        for tweet in tweets:
-            recent_tweets.append(tweet.tweet_body.replace("\n", ""))
-            count += 1
-            if(count >10):
-                break
+        recent_tweets = self.get_recent_tweets(tweets, 10)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
         rtSorted = rtSorted[:num_of_tweets]
@@ -55,6 +66,7 @@ class HomePageView(TemplateView):
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                 'replyCounts': repSorted, 'recentTweets': recent_tweets}
         return json
+
 
 
 class WordCloudView(TemplateView):
