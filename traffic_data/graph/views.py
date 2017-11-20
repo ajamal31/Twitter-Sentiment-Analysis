@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 
 
 class HomePageView(TemplateView):
-    num_tweets = 20
+    num_tweets = 10
 
     def get(self, request, **kwargs):
         return render(request, 'index.html', self.gen_data(self.num_tweets))
@@ -26,7 +26,6 @@ class HomePageView(TemplateView):
     # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
     # Returns a list containing all the tweets requests
     def get_recent_tweets(self, tweets, tweets_size):
-
         recent_tweets = []
         count = 0
 
