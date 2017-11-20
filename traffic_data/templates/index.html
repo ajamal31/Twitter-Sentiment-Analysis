@@ -95,14 +95,19 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-8 graphs">
-                {% include 'sentiment.html' %}
-                {% include 'retweet.html' %}
-                {% include 'favourite.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-8 graphs">
+            <div class="sentiment">
+                    {% include 'sentiment.html' %}
             </div>
-
+            <div class="retweet">
+                    {% include 'retweet.html' %}
+            </div>
+            <div class="favourite">
+                    {% include 'favourite.html' %}
+            </div>
+        </div>
             <div id="tweets" class="col-sm-4">
                 {% include 'tweets.html' %}
             </div>

@@ -70,3 +70,17 @@
 .keen-dashboard .chart-stage .chart-title {
   border: medium none;
 }
+
+.sentiment {
+    border: 1px solid;
+    height: 300px;
+    width: 100%;
+    margin: 2.5%;
+}
+
+.retweet, .favourite {
+    border: 1px solid;
+    height: 400px;
+    width: 100%;
+    margin: 2.5%;
+}
