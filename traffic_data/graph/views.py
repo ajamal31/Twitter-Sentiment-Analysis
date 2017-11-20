@@ -52,8 +52,17 @@ class HomePageView(TemplateView):
         repSorted = repSorted[:num_of_tweets]
         repSorted = fixNames(repSorted)
 
+        reply_tweets = []
+        for tweet in repSorted:
+            child_tweet_obj = tweets.filter(tid_parent = tweet.tweet_id)
+            replies = []
+            for child_body in child_tweet_obj:
+                replies.append(child_body.tweet_body.replace("\n", " "))
+            reply_tweets.append(replies)
+            
+
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
-                'replyCounts': repSorted, 'recentTweets': recent_tweets}
+                'replyCounts': repSorted, 'recentTweets': recent_tweets, 'childTweet' : reply_tweets}
         return json
 
 
