@@ -81,7 +81,7 @@
     margin: 2.5%;
 }
 
-.retweet, .favourite {
+.retweet, .favourite, .reply {
     border: 1px solid;
     height: 400px;
     width: 100%;
