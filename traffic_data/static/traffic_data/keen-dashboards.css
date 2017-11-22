@@ -75,14 +75,14 @@
 }
 
 .sentiment {
-    border: 1px solid;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     height: 300px;
     width: 100%;
     margin: 2.5%;
 }
 
 .retweet, .favourite, .reply {
-    border: 1px solid;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     height: 400px;
     width: 100%;
     margin: 2.5%;
