@@ -8,6 +8,7 @@ from nltk import word_tokenize
 
 from django.template.loader import render_to_string
 
+import re
 
 # Create your views here.
 
@@ -23,6 +24,10 @@ class HomePageView(TemplateView):
         data = render(request, 'retweet.html', self.gen_data(tweet_count));
         return data
 
+    def clean_tweet(self, tweet):
+        clean_tweet = tweet.replace("\n", "").replace("&amp", "&")
+        return clean_tweet
+
     # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
     # Returns a list containing all the tweets requests
     def get_recent_tweets(self, tweets, tweets_size):
@@ -30,12 +35,9 @@ class HomePageView(TemplateView):
         count = 0
 
         for tweet in tweets:
-            if not tweet.is_rt:
-                recent_tweets.append(tweet.tweet_body.replace("\n", ""))
+            if not tweet.is_rt and (tweet.tweet_body[0:2] != 'RT') and count <= tweets_size:
+                recent_tweets.append(self.clean_tweet(tweet.tweet_body))
                 count += 1
-
-            if count == tweets_size:
-                break
 
         return recent_tweets
 
@@ -48,7 +50,7 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
 
-        recent_tweets = self.get_recent_tweets(tweets, 10)
+        recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), 10)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
         rtSorted = rtSorted[:num_of_tweets]
