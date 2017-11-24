@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    $(".sentiment").click(function(){
+        $("#tweets").html("<b>Most Recent Tweets</b>");
+    });
+    {% for tweet in recentTweets %}
+    $(".sentiment").click(function(){
+        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
+            '<p lang="en">{{ tweet }} </p>' +
+            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
+            '</blockquote>');
+    });
+    {% endfor %}
+
+    $(".reply").click(function(){
+        $("#tweets").html("<b>Top 10 Replied Tweets</b>");
+    });
+    {% for tweet in topReply %}
+    $(".reply").click(function(){
+        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
+            '<p lang="en">{{ tweet }} </p>' +
+            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
+            '</blockquote>');
+    });
+    {% endfor %}
+
+    $(".favourite").click(function(){
+        $("#tweets").html("<b>Top 10 Favorited Tweets</b>");
+    });
+    {% for tweet in topFavorite %}
+    $(".favourite").click(function(){
+        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
+            '<p lang="en">{{ tweet }} </p>' +
+            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
+            '</blockquote>');
+    });
+    {% endfor %}
+
+    $(".retweet").click(function(){
+        $("#tweets").html("<b>Top 10 Retweeted Tweets</b>");
+    });
+    {% for tweet in topRetweet %}
+    $(".retweet").click(function(){
+        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
+            '<p lang="en">{{ tweet }} </p>' +
+            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
+            '</blockquote>');
+    });
+
+ {% endfor %}
+
+</script>
+
+</body>
+</html>

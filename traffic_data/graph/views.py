@@ -41,6 +41,19 @@ class HomePageView(TemplateView):
 
         return recent_tweets
 
+    def get_top_tweets(self, sortedTweets, tweets_size):
+        top_tweets = []
+        count = 0
+
+        for tweet in sortedTweets:
+            top_tweets.append(tweet.tweet_body.replace("\n", ""))
+            count += 1
+
+            if count == tweets_size:
+                break
+
+        return top_tweets
+
     def gen_data(self, num_of_tweets):
         data = [
             Tweet.objects.filter(sentiment_string="pos").count(),
@@ -64,8 +77,13 @@ class HomePageView(TemplateView):
         repSorted = repSorted[:num_of_tweets]
         repSorted = fixNames(repSorted)
 
+        topReplyTweet = self.get_top_tweets(repSorted, 10)
+        topFavTweet = self.get_top_tweets(favSorted, 10)
+        topRtTweet = self.get_top_tweets(rtSorted, 10)
+
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
-                'replyCounts': repSorted, 'recentTweets': recent_tweets}
+                'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
+                'topFavorite': topFavTweet, 'topReply': topReplyTweet}
         return json
 
 

@@ -7,7 +7,7 @@
 <body>
 
 <script>
-
+    $("#tweets").html("<b>Most Recent Tweets</b>");
     {% for tweet in recentTweets %}
         $( "#tweets" )
             .append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +

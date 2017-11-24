@@ -51,8 +51,8 @@
     <!-- Dashboard -->
     <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
-</head>
 
+</head>
 
 <body class="keen-dashboard" style="padding-top: 80px;">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -113,6 +113,7 @@
         </div>
         <div id="tweets" class="col-sm-4">
             {% include 'tweets.html' %}
+            {% include 'topTweets.html' %}
         </div>
 
     </div>
