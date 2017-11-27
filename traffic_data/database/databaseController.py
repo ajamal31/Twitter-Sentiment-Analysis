@@ -28,9 +28,8 @@ def store(tags):
             access_token_secret=token_secret
         )
 	tweet_id_array =[]#using array instead of calling twitter search again, to make it more time efficient 
-        count = 0
+
         for tweet in ts.search_tweets_iterable(tso):
-            count += 1
             tweet_id_array.append(tweet['id'])
             ss = sid.polarity_scores(tweet['text'])
             u = mod.User(
@@ -77,11 +76,6 @@ def store(tags):
                 mod.Hashtag.insert_hashtag(
                     tweet['id'], hashtag['text'].lower()
                 )
-
-            # Stop after 200 tweets but this will be removed
-            if count >= 200:
-                break
-        print 'tweet count:', count
 
         #count and save the rep_count after all the tweet data is saved and updated in database
         for tweetid in tweet_id_array:
