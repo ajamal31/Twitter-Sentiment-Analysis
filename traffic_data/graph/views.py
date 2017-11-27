@@ -5,10 +5,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from database.models import Tweet
 from nltk import word_tokenize
-
+from datetime import datetime, timedelta
 from django.template.loader import render_to_string
-
-import re
 
 # Create your views here.
 
@@ -75,7 +73,13 @@ class HomePageView(TemplateView):
 
         repSorted = list(tweets.order_by("-rep_count"))
         repSorted = repSorted[:num_of_tweets]
-        repSorted = fixNames(repSorted)
+        repSorted = fixNames(repSorted)        
+
+        tweets = list(tweets.order_by("-creation_date"))
+
+        for tweet in tweets:
+            tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
+            tweet.tweet_body = tweet.tweet_body.replace('"', '\\"')
 
         topReplyTweet = self.get_top_tweets(repSorted, 10)
         topFavTweet = self.get_top_tweets(favSorted, 10)
@@ -83,7 +87,8 @@ class HomePageView(TemplateView):
 
         json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                 'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
-                'topFavorite': topFavTweet, 'topReply': topReplyTweet}
+                'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets}
+
         return json
 
 

@@ -13,6 +13,7 @@
     {% load static %}
 
     <script src="{% static 'graph/barGraph.js' %}"></script>
+    <script src="{% static 'graph/lineGraph.js' %}"></script>
 
     <!-- jQuery file link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -115,7 +116,9 @@
             {% include 'tweets.html' %}
             {% include 'topTweets.html' %}
         </div>
-
+    </div>
+    <div class="sent_line">
+        {% include 'line_chart.html' %}
     </div>
 </div>
 </body>
