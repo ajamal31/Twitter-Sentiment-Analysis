@@ -16,7 +16,7 @@ token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 def store(tags):
     try:
         tso = TwitterSearchOrder()
-        tso.set_keywords(tags)
+        tso.set_keywords(tags, or_operator = True)
 
         sid = SentimentIntensityAnalyzer()
 
@@ -27,55 +27,57 @@ def store(tags):
             access_token=token_key,
             access_token_secret=token_secret
         )
-	tweet_id_array =[]#using array instead of calling twitter search again, to make it more time efficient 
-
+        
+        tweet_id_array =[]#using array instead of calling twitter search again, to make it more time efficient 
+       
         for tweet in ts.search_tweets_iterable(tso):
-            tweet_id_array.append(tweet['id'])
-            ss = sid.polarity_scores(tweet['text'])
-            u = mod.User(
-                tweet['user']['id'],
-                tweet['user']['screen_name'],
-                tweet['user']['followers_count'],
-                tweet['user']['favourites_count'],
-                tweet['user']['friends_count'],
-                tweet['user']['created_at'],
-                timezone.now(),
-                tweet['user']['statuses_count']
-            )
-
-            mod.User.insert_user(
-                tweet['user']['id'],
-                tweet['user']['screen_name'],
-                tweet['user']['followers_count'],
-                tweet['user']['favourites_count'],
-                tweet['user']['friends_count'],
-                tweet['user']['created_at'],
-                tweet['user']['statuses_count']
-            )
-
-            mod.Tweet.insert_tweet(
-                tweet['id'],
-                tweet['text'],
-                tweet['created_at'],
-                tweet['favorite_count'],
-                tweet['retweet_count'],
-                tweet['in_reply_to_status_id'],
-                tweet['lang'],
-                u,
-                ss['compound'],
-                ss['pos'],
-                ss['neg'],
-                ss['neu'],
-                get_sentiment_string(ss['compound']),
-                'retweeted_status' in tweet
-            )
-            hashtags_list = tweet['entities']['hashtags']
-
-            # Add the hashtags and duplicates are not added
-            for hashtag in hashtags_list:
-                mod.Hashtag.insert_hashtag(
-                    tweet['id'], hashtag['text'].lower()
+            if (tweet['user']['location'][0:8].lower() == 'edmonton'):
+                tweet_id_array.append(tweet['id'])
+                ss = sid.polarity_scores(tweet['text'])
+                u = mod.User(
+                    tweet['user']['id'],
+                    tweet['user']['screen_name'],
+                    tweet['user']['followers_count'],
+                    tweet['user']['favourites_count'],
+                    tweet['user']['friends_count'],
+                    tweet['user']['created_at'],
+                    timezone.now(),
+                    tweet['user']['statuses_count']
                 )
+
+                mod.User.insert_user(
+                    tweet['user']['id'],
+                    tweet['user']['screen_name'],
+                    tweet['user']['followers_count'],
+                    tweet['user']['favourites_count'],
+                    tweet['user']['friends_count'],
+                    tweet['user']['created_at'],
+                    tweet['user']['statuses_count']
+                )
+
+                mod.Tweet.insert_tweet(
+                    tweet['id'],
+                    tweet['text'],
+                    tweet['created_at'],
+                    tweet['favorite_count'],
+                    tweet['retweet_count'],
+                    tweet['in_reply_to_status_id'],
+                    tweet['lang'],
+                    u,
+                    ss['compound'],
+                    ss['pos'],
+                    ss['neg'],
+                    ss['neu'],
+                    get_sentiment_string(ss['compound']),
+                    'retweeted_status' in tweet
+                )
+                hashtags_list = tweet['entities']['hashtags']
+
+                # Add the hashtags and duplicates are not added
+                for hashtag in hashtags_list:
+                    mod.Hashtag.insert_hashtag(
+                        tweet['id'], hashtag['text'].lower()
+                    )
 
         #count and save the rep_count after all the tweet data is saved and updated in database
         for tweetid in tweet_id_array:
@@ -109,7 +111,7 @@ def print_user(tweet):
 
 # These need to be in the controller not here but it's here for testing.
 def updateDatabase():
-    hashtags = ['yegtraffic']
+    hashtags = ['yegtraffic','visionzero','ABRoads']
     print "Getting data and storing it..."
     store(hashtags)
     print("Data stored")
