@@ -25,6 +25,7 @@ class HomePageView(TemplateView):
     def clean_tweet(self, tweet):
         clean_tweet = tweet.replace("\n", "").replace("&amp", "&").replace('"', '\\"')
         clean_tweet = " ".join(clean_tweet.split())
+  
         return clean_tweet
 
     # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
@@ -35,7 +36,8 @@ class HomePageView(TemplateView):
 
         for tweet in tweets:
             if not tweet.is_rt and (tweet.tweet_body[0:2] != 'RT') and count <= tweets_size:
-                recent_tweets.append(self.clean_tweet(tweet.tweet_body))
+                tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
+                recent_tweets.append(tweet)
                 count += 1
 
         return recent_tweets
@@ -45,8 +47,8 @@ class HomePageView(TemplateView):
         count = 0
 
         for tweet in sortedTweets:
-            top_tweets.append(tweet.tweet_body.replace("\n", ""))
-            count += 1
+            tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
+            top_tweets.append(tweet)
 
             if count == tweets_size:
                 break

@@ -12,12 +12,15 @@
         $("#tweets").html("<b>Most Recent Tweets</b>");
     });
     {% for tweet in recentTweets %}
-    $(".sentiment").click(function(){
-        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
-            '<p lang="en">{{ tweet }} </p>' +
-            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
-            '</blockquote>');
-    });
+        $(".sentiment").click(function(){
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var t_user = "{{ tweet.user_id.user_name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
+        });
     {% endfor %}
 
     $(".reply").click(function(){
@@ -25,10 +28,13 @@
     });
     {% for tweet in topReply %}
     $(".reply").click(function(){
-        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
-            '<p lang="en">{{ tweet }} </p>' +
-            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
-            '</blockquote>');
+        var date = new Date("{{ tweet.creation_date | safe }}");
+        var formattedDate = date.toDateString();
+        var t_body = "{{ tweet.tweet_body | safe }}";
+        var t_user = "{{ tweet.user_id.user_name | safe }}";
+        var t_url = "{{ tweet.tweet_url }}";
+        var t_rating = "{{ tweet.sentiment_string | safe }}";
+        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     });
     {% endfor %}
 
@@ -37,10 +43,13 @@
     });
     {% for tweet in topFavorite %}
     $(".favourite").click(function(){
-        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
-            '<p lang="en">{{ tweet }} </p>' +
-            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
-            '</blockquote>');
+        var date = new Date("{{ tweet.creation_date | safe }}");
+        var formattedDate = date.toDateString();
+        var t_body = "{{ tweet.tweet_body | safe }}";
+        var t_user = "{{ tweet.user_id.user_name | safe }}";
+        var t_url = "{{ tweet.tweet_url }}";
+        var t_rating = "{{ tweet.sentiment_string | safe }}";
+        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     });
     {% endfor %}
 
@@ -49,12 +58,14 @@
     });
     {% for tweet in topRetweet %}
     $(".retweet").click(function(){
-        $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
-            '<p lang="en">{{ tweet }} </p>' +
-            '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
-            '</blockquote>');
+        var date = new Date("{{ tweet.creation_date | safe }}");
+        var formattedDate = date.toDateString();
+        var t_body = "{{ tweet.tweet_body | safe }}";
+        var t_user = "{{ tweet.user_id.user_name | safe }}";
+        var t_url = "{{ tweet.tweet_url }}";
+        var t_rating = "{{ tweet.sentiment_string | safe }}";
+        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     });
-
  {% endfor %}
 
 </script>

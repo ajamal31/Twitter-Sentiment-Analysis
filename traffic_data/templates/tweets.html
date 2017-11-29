@@ -7,15 +7,24 @@
 <body>
 
 <script>
+
+    var clickHandler = function (arg) {
+        return function() {
+            alert(arg);
+        }
+    }
+
     $("#tweets").html("<b>Most Recent Tweets</b>");
     {% for tweet in recentTweets %}
-        $( "#tweets" )
-            .append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
-                '<p lang="en">{{ tweet }} </p>' +
-                '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
-                '</blockquote>');
+        var date = new Date("{{ tweet.creation_date | safe }}");
+        var formattedDate = date.toDateString();
+        var t_body = "{{ tweet.tweet_body | safe }}";
+        var t_user = "{{ tweet.user_id.user_name | safe }}";
+        var t_url = "{{ tweet.tweet_url }}";
+        var t_rating = "{{ tweet.sentiment_string | safe }}";
+    process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     {% endfor %}
-
+    
 </script>
 
 </body>
