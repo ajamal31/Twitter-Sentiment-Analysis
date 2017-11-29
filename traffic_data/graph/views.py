@@ -23,7 +23,8 @@ class HomePageView(TemplateView):
         return data
 
     def clean_tweet(self, tweet):
-        clean_tweet = tweet.replace("\n", "").replace("&amp", "&")
+        clean_tweet = tweet.replace("\n", "").replace("&amp", "&").replace('"', '\\"')
+        clean_tweet = " ".join(clean_tweet.split())
         return clean_tweet
 
     # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
@@ -79,7 +80,6 @@ class HomePageView(TemplateView):
 
         for tweet in tweets:
             tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
-            tweet.tweet_body = tweet.tweet_body.replace('"', '\\"')
 
         topReplyTweet = self.get_top_tweets(repSorted, 10)
         topFavTweet = self.get_top_tweets(favSorted, 10)
