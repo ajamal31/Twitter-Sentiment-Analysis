@@ -18,7 +18,6 @@ $(document).ready(function(){
                     type: 'POST',
                     success: function(data){
                         $("#update-view").html(data);
-                        alert("test success" + data);
                     }
                 });
             },
