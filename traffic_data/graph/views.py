@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from database.models import Tweet
 from nltk import word_tokenize
+import json
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 
@@ -19,8 +20,7 @@ class HomePageView(TemplateView):
 
     def post(self, request, **kwargs):
         tweet_count = int(request.POST.get('num_tweets'))
-        data = render(request, 'retweet.html', self.gen_data(tweet_count));
-        return data
+        return render(request, 'graphs.html', self.gen_data(tweet_count))
 
     def clean_tweet(self, tweet):
         clean_tweet = tweet.replace("\n", "").replace("&amp", "&").replace('"', '\\"')

@@ -15,8 +15,13 @@
     <script src="{% static 'graph/barGraph.js' %}"></script>
     <script src="{% static 'graph/lineGraph.js' %}"></script>
 
-    <!-- jQuery file link -->
+    <!-- jQuery files link -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- jQuery's slider links -->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -52,65 +57,56 @@
     <!-- Dashboard -->
     <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
+    <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
+
+    <script src="{% static 'listeners.js' %}"></script>
+    <script src="{% static 'dateslider.js' %}"></script>
+</head>
 
 </head>
 
 <body class="keen-dashboard" style="padding-top: 80px;">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-
-            <div class="row">
-                <div class="col-sm-8">
-                    <a class="navbar-brand" href="./">
-                        Sentiment Analysis
-                    </a>
-                </div>
-
-                <!--Number of tweets dropdown menu-->
-                <div class="col-sm-4 dropdown">
-                    <button id="tweet_btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                        # of Tweets
-                        <span class="caret"></span>
-                    </button>
-                    <ul id="num_tweets" class="dropdown-menu">
-                        <li><a class="item">10</a></li>
-                        <li><a class="item">25</a></li>
-                        <li><a class="item">50</a></li>
-                    </ul>
-                </div>
+    <div id="header-bar" class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <a class="navbar-brand" href="./">
+                    Sentiment Analysis
+                </a>
             </div>
+            <div class="col-sm-2">
+                <a class="header-text">
+                    Number of Tweets:
+                </a>
+            </div>
+            <!--Number of tweets dropdown menu-->
+            <div class="col-sm-1 dropdown">
+                <button id="tweet_btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    10
+                    <i class="caret"></i>
+                </button>
+                <ul id="num_tweets" class="dropdown-menu">
+                    <li><a class="item">5</a></li>
+                    <li><a class="item">10</a></li>
+                    <li><a class="item">20</a></li>
+                </ul>
+            </div>
+            <div id="date-range" class="col-sm-1">Date range:</div>
+            <div id="date-slider" class="col-sm-6"></div>
         </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-left">
-                <!--leaving this as comment out for now, just in case if we need it later-->
-                <!--<li><a href="https://keen.io">Home</a></li>-->
-            </ul>
-        </div>
+        <!--<div class="navbar-collapse collapse">-->
+            <!--<ul class="nav navbar-nav navbar-left">-->
+                <!--&lt;!&ndash;leaving this as comment out for now, just in case if we need it later&ndash;&gt;-->
+                <!--&lt;!&ndash;<li><a href="https://keen.io">Home</a></li>&ndash;&gt;-->
+            <!--</ul>-->
+        <!--</div>-->
     </div>
 </div>
 
-<div class="container-fluid">
+<div id="graphs-id" class="container-fluid">
     <div class="row">
         <div class="col-sm-8 graphs">
-            <div class="sentiment">
-                {% include 'sentiment.html' %}
-            </div>
-            <div class="retweet">
-                {% include 'retweet.html' %}
-            </div>
-            <div class="favourite">
-                {% include 'favourite.html' %}
-            </div>
-            <div class="reply">
-                {% include 'reply.html' %}
-            </div>
+            {% include 'graphs.html' %}
         </div>
         <div id="tweets" class="col-sm-4">
             {% include 'tweets.html' %}
@@ -136,9 +132,9 @@
     //makeSocialGraph(replyData, "Most Replied", "Number of Replies");
 
 </script>
-</div>
 
-<!--This should to be moved. It can't be removed because it's need for ajax calls.-->
 {% csrf_token %}
+
+</div>
 
 </html>
