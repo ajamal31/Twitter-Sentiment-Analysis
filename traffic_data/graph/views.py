@@ -11,6 +11,12 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 
+class ReloadView(TemplateView):
+    num_tweets = 10
+    def post(self, request, **kwargs):
+        data = render(request, 'all_view.html', HomePageView().gen_data(self.num_tweets));
+        return data
+
 
 class HomePageView(TemplateView):
     num_tweets = 10

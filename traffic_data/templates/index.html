@@ -62,6 +62,7 @@
 
     <script src="{% static 'listeners.js' %}"></script>
     <script src="{% static 'dateslider.js' %}"></script>
+    <script src="{% static '/traffic_data/reload_view.js' %}"></script>
 </head>
 
 </head>
@@ -94,6 +95,7 @@
             </div>
             <div id="date-range" class="col-sm-1">Date range:</div>
             <div id="date-slider" class="col-sm-6"></div>
+            <p1 id="update">Update</p1>
         </div>
         <!--<div class="navbar-collapse collapse">-->
             <!--<ul class="nav navbar-nav navbar-left">-->
@@ -105,28 +107,8 @@
 </div>
 
 <div id="graphs-id" class="container-fluid">
-    <div class="row">
-        <div class="col-sm-8 graphs">
-            <div class="sentiment">
-                {% include 'sentiment.html' %}
-            </div>
-            <div class="retweet">
-                {% include 'retweet.html' %}
-            </div>
-            <div class="favourite">
-                {% include 'favourite.html' %}
-            </div>
-            <div class="reply">
-                {% include 'reply.html' %}
-            </div>
-            <div class="sent_line">
-                {% include 'line_chart.html' %}
-            </div>
-        </div>
-        <div id="tweets" class="col-sm-4">
-            {% include 'tweets.html' %}
-            {% include 'topTweets.html' %}
-        </div>
+    <div class="row" id ="update-view">
+        {% include 'all_view.html' %}
     </div>
 </div>
 </body>

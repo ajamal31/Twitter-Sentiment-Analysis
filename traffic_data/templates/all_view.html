@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+        <div class="col-sm-8 graphs">
+            <div class="sentiment">
+                {% include 'sentiment.html' %}
+            </div>
+            <div class="retweet">
+                {% include 'retweet.html' %}
+            </div>
+            <div class="favourite">
+                {% include 'favourite.html' %}
+            </div>
+            <div class="reply">
+                {% include 'reply.html' %}
+            </div>
+            <div class="sent_line">
+                {% include 'line_chart.html' %}
+            </div>
+        </div>
+        <div id="tweets" class="col-sm-4">
+            {% include 'tweets.html' %}
+            <div id="test">
+                {% include 'topTweets.html' %}
+            </div>
+        </div>
+
+</body>
+</html>

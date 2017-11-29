@@ -8,11 +8,11 @@
 
 <script>
 
-    $(".sentiment").click(function(){
+    $(".sentiment").on("click", function(){
         $("#tweets").html("<b>Most Recent Tweets</b>");
     });
     {% for tweet in recentTweets %}
-    $(".sentiment").click(function(){
+    $(".sentiment").on("click", function(){
         $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
             '<p lang="en">{{ tweet }} </p>' +
             '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
@@ -20,11 +20,11 @@
     });
     {% endfor %}
 
-    $(".reply").click(function(){
+    $(".reply").on("click", function(){
         $("#tweets").html("<b>Top 10 Replied Tweets</b>");
     });
     {% for tweet in topReply %}
-    $(".reply").click(function(){
+    $(".reply").on("click", function(){
         $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
             '<p lang="en">{{ tweet }} </p>' +
             '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
@@ -32,11 +32,11 @@
     });
     {% endfor %}
 
-    $(".favourite").click(function(){
+    $(".favourite").on("click", function(){
         $("#tweets").html("<b>Top 10 Favorited Tweets</b>");
     });
     {% for tweet in topFavorite %}
-    $(".favourite").click(function(){
+    $(".favourite").on("click", function(){
         $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
             '<p lang="en">{{ tweet }} </p>' +
             '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
@@ -44,11 +44,11 @@
     });
     {% endfor %}
 
-    $(".retweet").click(function(){
+    $(".retweet").on("click", function(){
         $("#tweets").html("<b>Top 10 Retweeted Tweets</b>");
     });
     {% for tweet in topRetweet %}
-    $(".retweet").click(function(){
+    $(".retweet").on("click", function(){
         $("#tweets").append('<blockquote class=\"twitter-tweet\" data-lang=\"en\">' +
             '<p lang="en">{{ tweet }} </p>' +
             '&mdash; author (@author)<a href=""> November, 18, 2016</a>' +
