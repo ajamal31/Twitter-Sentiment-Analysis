@@ -1,0 +1,14 @@
+/*
+ * Contains the styling for the graphs
+ */
+
+ /* For the div that contains all the graphs */
+.graphs {
+    margin: 5% 0%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 95vh;
+}

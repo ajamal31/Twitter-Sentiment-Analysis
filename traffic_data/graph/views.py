@@ -62,7 +62,7 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
 
-        recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), 10)
+        recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), 9)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
         rtSorted = rtSorted[:num_of_tweets]

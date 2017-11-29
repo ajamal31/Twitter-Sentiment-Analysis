@@ -57,6 +57,7 @@
     <!-- Dashboard -->
     <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
+    <link rel="stylesheet" type="text/css" href="{%static 'graph/bar-graphs.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
 
     <script src="{% static 'listeners.js' %}"></script>
@@ -106,15 +107,26 @@
 <div id="graphs-id" class="container-fluid">
     <div class="row">
         <div class="col-sm-8 graphs">
-            {% include 'graphs.html' %}
+            <div class="sentiment">
+                {% include 'sentiment.html' %}
+            </div>
+            <div class="retweet">
+                {% include 'retweet.html' %}
+            </div>
+            <div class="favourite">
+                {% include 'favourite.html' %}
+            </div>
+            <div class="reply">
+                {% include 'reply.html' %}
+            </div>
+            <div class="sent_line">
+                {% include 'line_chart.html' %}
+            </div>
         </div>
         <div id="tweets" class="col-sm-4">
             {% include 'tweets.html' %}
             {% include 'topTweets.html' %}
         </div>
-    </div>
-    <div class="sent_line">
-        {% include 'line_chart.html' %}
     </div>
 </div>
 </body>

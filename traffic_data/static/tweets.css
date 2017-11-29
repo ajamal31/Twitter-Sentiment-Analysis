@@ -1,3 +1,8 @@
+/*
+ * Contains the styling for the tweets
+ */
+
+/* The block that holds the tweet body */
 blockquote.twitter-tweet {
     display: inline-block;
     font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
@@ -11,9 +16,10 @@ blockquote.twitter-tweet {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     margin: 10px 5px;
     padding: 16px;
-    max-width: 468px;
+    width: 57vh;
 }
 
+/* Tweet body text */
 blockquote.twitter-tweet p {
     font-size: 14px;
     font-weight: normal;
@@ -30,4 +36,15 @@ blockquote.twitter-tweet a {
 blockquote.twitter-tweet a:hover,
 blockquote.twitter-tweet a:focus {
     text-decoration: underline;
+}
+
+/* The container that holds the tweets */
+#tweets {
+    margin: 5% 66%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 90vh;
 }
