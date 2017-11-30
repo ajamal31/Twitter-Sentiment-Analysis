@@ -14,7 +14,7 @@
         var date = "{{ tweet.creation_date | safe }}";
         formattedDate = date.substring(0, 19);
         var t_body = "{{ tweet.tweet_body | safe }}";
-        var user = "{{ tweet.user_id.user_name | safe }}";
+        var user = "{{ tweet.user_id.screen_name | safe }}";
 
         data.push(
             { "Created": formattedDate, "Sentiment": sent, "Tweet": t_body, "User": user }

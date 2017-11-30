@@ -8,7 +8,7 @@
 <script>
     favouriteData = []
     {% for item in favouriteCounts %}
-    var userName = "{{ item.user_id.user_name | safe }}";
+    var userName = "{{ item.user_id.screen_name | safe }}";
     var favc = {{ item.fav_count | safe }};
     favouriteData.unshift(
         { "User": userName, "Number of Favourites": favc }

@@ -10,7 +10,7 @@
     replyData = [];
 
     {% for item in replyCounts %}
-      var userName = "{{ item.user_id.user_name | safe }}";
+      var userName = "{{ item.user_id.screen_name | safe }}";
       var repc = {{ item.rep_count | safe }};
       replyData.unshift(
         {"User": userName, "Number of Replies": repc}

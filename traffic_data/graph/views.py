@@ -143,9 +143,9 @@ class LineChartView(TemplateView):
 def fixNames(tweets):
     usedNames = []
     for item in tweets:
-        while usedNames.count(item.user_id.user_name) >= 1:
-            if item.user_id.user_name in usedNames:
-                item.user_id.user_name = item.user_id.user_name + " "
-        usedNames.append(item.user_id.user_name)
+        while usedNames.count(item.user_id.screen_name) >= 1:
+            if item.user_id.screen_name in usedNames:
+                item.user_id.screen_name = item.user_id.screen_name + " "
+        usedNames.append(item.user_id.screen_name)
 
     return tweets

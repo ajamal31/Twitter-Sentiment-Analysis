@@ -19,10 +19,11 @@
         var date = new Date("{{ tweet.creation_date | safe }}");
         var formattedDate = date.toDateString();
         var t_body = "{{ tweet.tweet_body | safe }}";
-        var t_user = "{{ tweet.user_id.user_name | safe }}";
+        var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+        var name = "{{ tweet.user_id.name | safe }}";
         var t_url = "{{ tweet.tweet_url }}";
         var t_rating = "{{ tweet.sentiment_string | safe }}";
-    process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
+    process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
     {% endfor %}
     
 </script>

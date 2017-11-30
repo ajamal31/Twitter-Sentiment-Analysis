@@ -10,7 +10,8 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 # User table and the method that we need for it
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, default=0)
-    user_name = models.TextField(null=True, default=None)
+    screen_name = models.TextField(null=True, default=None)
+    name = models.TextField(null=True, default=None)
     total_followers = models.IntegerField(null=True, default=None)
     total_fav = models.IntegerField(null=True, default=None)
     total_following = models.IntegerField(null=True, default=None)
@@ -19,14 +20,15 @@ class User(models.Model):
     total_tweets = models.IntegerField(null=True, default=None)
 
     def __str__(self):
-        return str(self.user_name)
+        return str(self.screen_name)
 
     # Add the data in the User table
     @classmethod
-    def insert_user(cls, user_id, user_name, total_followers, total_fav, total_following, creation_date, total_tweets):
+    def insert_user(cls, user_id, screen_name, name, total_followers, total_fav, total_following, creation_date, total_tweets):
         user = User(
             user_id=user_id,
-            user_name=user_name,
+            screen_name=screen_name,
+            name = name,
             total_followers=total_followers,
             total_fav=total_fav,
             total_following=total_following,
@@ -45,9 +47,9 @@ class Tweet(models.Model):
     tweet_url = models.TextField(null=True, default=None)
     creation_date = models.DateTimeField(null=True, default=None)
     upload_date = models.DateTimeField(null=True, default=None)
-    rep_count = models.IntegerField(null=True, default=None)
-    fav_count = models.IntegerField(null=True, default=None)
-    rt_count = models.IntegerField(null=True, default=None)
+    rep_count = models.IntegerField(null=True, default=0)
+    fav_count = models.IntegerField(null=True, default=0)
+    rt_count = models.IntegerField(null=True, default=0)
     tid_parent = models.BigIntegerField(null=True, default=None)
     lang = models.CharField(null=True, default=None, max_length=10)
     # Compound field returned from VADER

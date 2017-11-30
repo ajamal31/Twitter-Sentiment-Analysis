@@ -37,6 +37,7 @@ def store(tags):
                 u = mod.User(
                     tweet['user']['id'],
                     tweet['user']['screen_name'],
+                    tweet['user']['name'],
                     tweet['user']['followers_count'],
                     tweet['user']['favourites_count'],
                     tweet['user']['friends_count'],
@@ -48,6 +49,7 @@ def store(tags):
                 mod.User.insert_user(
                     tweet['user']['id'],
                     tweet['user']['screen_name'],
+                    tweet['user']['name'],
                     tweet['user']['followers_count'],
                     tweet['user']['favourites_count'],
                     tweet['user']['friends_count'],
