@@ -10,8 +10,8 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 # User table and the method that we need for it
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, default=0)
-    screen_name = models.TextField(null=True, default=None)
-    name = models.TextField(null=True, default=None)
+    screen_name = models.CharField(null=True, default=None, max_length=140)
+    name = models.CharField(null=True, default=None, max_length=140)
     total_followers = models.IntegerField(null=True, default=None)
     total_fav = models.IntegerField(null=True, default=None)
     total_following = models.IntegerField(null=True, default=None)

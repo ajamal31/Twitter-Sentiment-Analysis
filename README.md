@@ -34,10 +34,12 @@ Run the following two commands:
 2. ALTER DATABASE tweets CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 3. ALTER TABLE database_tweet CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 4. ALTER TABLE database_tweet CHANGE tweet_body tweet_body VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-5. SET NAMES utf8mb4;
-6. SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
-7. SET global character_set_server=utf8;
-8. SET session character_set_server=utf8;
+5. ALTER TABLE database_tweet CHANGE name name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+6. ALTER TABLE database_tweet CHANGE screen_name screen_name VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+7. SET NAMES utf8mb4;
+8. SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+9. SET global character_set_server=utf8;
+10. SET session character_set_server=utf8;
 
 #### Exit MySQL
 
