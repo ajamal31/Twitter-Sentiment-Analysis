@@ -3,9 +3,7 @@
 
     $(".sentiment").click(function(){
         $("#tweets").html("<b>Most Recent Tweets</b>");
-    });
-    {% for tweet in recentTweets %}
-        $(".sentiment").click(function(){
+        {% for tweet in recentTweets %}
             var date = new Date("{{ tweet.creation_date | safe }}");
             var formattedDate = date.toDateString();
             var t_body = "{{ tweet.tweet_body | safe }}";
@@ -13,52 +11,46 @@
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
             process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
-        });
     {% endfor %}
+    });
 
     $(".reply").click(function(){
         $("#tweets").html("<b>Top 10 Replied Tweets</b>");
-    });
-    {% for tweet in topReply %}
-    $(".reply").click(function(){
-        var date = new Date("{{ tweet.creation_date | safe }}");
-        var formattedDate = date.toDateString();
-        var t_body = "{{ tweet.tweet_body | safe }}";
-        var t_user = "{{ tweet.user_id.user_name | safe }}";
-        var t_url = "{{ tweet.tweet_url }}";
-        var t_rating = "{{ tweet.sentiment_string | safe }}";
-        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
-    });
+        {% for tweet in topReply %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var t_user = "{{ tweet.user_id.user_name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     {% endfor %}
+    });
 
     $(".favourite").click(function(){
         $("#tweets").html("<b>Top 10 Favorited Tweets</b>");
-    });
-    {% for tweet in topFavorite %}
-    $(".favourite").click(function(){
-        var date = new Date("{{ tweet.creation_date | safe }}");
-        var formattedDate = date.toDateString();
-        var t_body = "{{ tweet.tweet_body | safe }}";
-        var t_user = "{{ tweet.user_id.user_name | safe }}";
-        var t_url = "{{ tweet.tweet_url }}";
-        var t_rating = "{{ tweet.sentiment_string | safe }}";
-        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
-    });
+        {% for tweet in topFavorite %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var t_user = "{{ tweet.user_id.user_name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
     {% endfor %}
+    });
 
     $(".retweet").click(function(){
         $("#tweets").html("<b>Top 10 Retweeted Tweets</b>");
+        {% for tweet in topRetweet %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var t_user = "{{ tweet.user_id.user_name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
+    {% endfor %}
     });
-    {% for tweet in topRetweet %}
-    $(".retweet").click(function(){
-        var date = new Date("{{ tweet.creation_date | safe }}");
-        var formattedDate = date.toDateString();
-        var t_body = "{{ tweet.tweet_body | safe }}";
-        var t_user = "{{ tweet.user_id.user_name | safe }}";
-        var t_url = "{{ tweet.tweet_url }}";
-        var t_rating = "{{ tweet.sentiment_string | safe }}";
-        process_tweet(t_body, formattedDate, t_user, t_url, t_rating);
-    });
- {% endfor %}
 
 </script>

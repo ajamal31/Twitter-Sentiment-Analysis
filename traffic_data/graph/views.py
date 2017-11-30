@@ -49,7 +49,7 @@ class HomePageView(TemplateView):
         for tweet in sortedTweets:
             tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
             top_tweets.append(tweet)
-
+            count += 1
             if count == tweets_size:
                 break
 
