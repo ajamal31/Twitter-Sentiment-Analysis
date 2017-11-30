@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<script>
+replyData = [];
 
-<div class="reply-graph">
-    <script>
-    replyData = [];
+{% for item in replyCounts %}
+  var userName = "{{ item.user_id.user_name | safe }}";
+  var repc = {{ item.rep_count | safe }};
+  replyData.unshift(
+    {"User": userName, "Number of Replies": repc}
+  );
+{% endfor %}
 
-    {% for item in replyCounts %}
-      var userName = "{{ item.user_id.user_name | safe }}";
-      var repc = {{ item.rep_count | safe }};
-      replyData.unshift(
-        {"User": userName, "Number of Replies": repc}
-      );
-    {% endfor %}
-
-    makeSocialGraph(replyData,".reply", "Most Replied", "Number of Replies");
-    </script>
-</div>
+makeSocialGraph(replyData,".reply", "Most Replied", "Number of Replies");
+</script>

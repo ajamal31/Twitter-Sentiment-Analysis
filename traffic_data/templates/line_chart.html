@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-
-    <script>
-
+ <script>
         var data = [];
 
         {% for tweet in tweets %}
@@ -22,5 +14,4 @@
         {% endfor %}
 
         makeLineGraph(data, ".sent_line", "Sentiment Over Time");
-    </script>
-</html>
+ </script>

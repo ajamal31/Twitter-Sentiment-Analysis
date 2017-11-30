@@ -26,7 +26,7 @@ $(document).ready(function () {
                 num_tweets: tweet_count,
             },
             success: function (data) {
-                $('.graphs').html(data);
+                $('.bar-graphs').html(data);
             },
             error: function (xhr, errmsg, err) {
                 alert(errmsg)

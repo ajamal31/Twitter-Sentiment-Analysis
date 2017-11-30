@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<meta charset="utf-8">
 
-<head>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://cdn.rawgit.com/jasondavies/d3-cloud/master/build/d3.layout.cloud.js"></script>
 
 <style>
     text:hover { opacity: .7 !important; }
 </style>
-
-</head>
 
 <body>
     <script>
@@ -31,7 +26,7 @@
           .fontSize(function(d) { return d.size; })
           .on("end", draw)
           .start();
-    
+
       function draw(words) {
         d3.select("body").append("svg")
             .attr("width", width)
@@ -51,4 +46,4 @@
             .text(function(d) { return d.text; });
       }
     </script>
-    </body>
+</body>

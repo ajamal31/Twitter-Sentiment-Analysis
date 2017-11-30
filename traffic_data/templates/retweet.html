@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<script>
+    retweetData = [];
 
-<div class="retweet-graph">
-    <script>
-        retweetData = [];
+    {% for item in retweetCounts %}
+    var userName = "{{ item.user_id.user_name | safe }}";
+    var rtc = {{ item.rt_count | safe }};
+    retweetData.unshift(
+        { "User": userName, "Number of Retweets": rtc}
+    );
+    {% endfor %}
 
-        {% for item in retweetCounts %}
-        var userName = "{{ item.user_id.user_name | safe }}";
-        var rtc = {{ item.rt_count | safe }};
-        retweetData.unshift(
-            { "User": userName, "Number of Retweets": rtc}
-        );
-        {% endfor %}
-
-         var graph = makeSocialGraph(retweetData, ".retweet", "Most Retweeted", "Number of Retweets");
-    </script>
-</div>
+     var graph = makeSocialGraph(retweetData, ".retweet", "Most Retweeted", "Number of Retweets");
+</script>
