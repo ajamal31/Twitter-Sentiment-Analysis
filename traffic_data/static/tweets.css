@@ -48,3 +48,18 @@ blockquote.twitter-tweet a:focus {
     top: 0;
     height: 90vh;
 }
+
+#neutral-rating {
+    color: black;
+    font-weight: bold;
+}
+
+#positive-rating {
+    color: green;
+    font-weight: bold;
+}
+
+#negative-rating {
+    color: red;
+    font-weight: bold;
+}

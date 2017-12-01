@@ -1,26 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+ <script>
+     var data = [];
 
-    <script>
+    {% for tweet in tweets %}
+    var sent = {{ tweet.sentiment | safe }};
+    var date = "{{ tweet.creation_date | safe }}";
+    formattedDate = date.substring(0, 19);
+    var t_body = "{{ tweet.tweet_body | safe }}";
+    var user = "{{ tweet.user_id.screen_name | safe }}";
 
-        var data = [];
+    data.push(
+        { "Created": formattedDate, "Sentiment": sent, "Tweet": t_body, "User": user }
+    );
+    {% endfor %}
 
-        {% for tweet in tweets %}
-        var sent = {{ tweet.sentiment | safe }};
-        var date = "{{ tweet.creation_date | safe }}";
-        formattedDate = date.substring(0, 19);
-        var t_body = "{{ tweet.tweet_body | safe }}";
-        var user = "{{ tweet.user_id.screen_name | safe }}";
-
-        data.push(
-            { "Created": formattedDate, "Sentiment": sent, "Tweet": t_body, "User": user }
-        );
-        {% endfor %}
-
-        makeLineGraph(data, ".sent_line", "Sentiment Over Time");
-    </script>
-</html>
+    makeLineGraph(data, ".sent_line", "Sentiment Over Time");
+ </script>

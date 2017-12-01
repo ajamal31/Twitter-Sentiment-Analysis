@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 <script>
-    favouriteData = []
+    favouriteData = [];
     {% for item in favouriteCounts %}
     var userName = "{{ item.user_id.screen_name | safe }}";
     var favc = {{ item.fav_count | safe }};
@@ -16,6 +9,20 @@
     {% endfor %}
 
     makeSocialGraph(favouriteData, ".favourite", "Most Favourited", "Number of Favourites" );
+
+    $(document).ready(function() {
+        $(".favourite").click(function(){
+            $("#tweets").html("<b>Most Liked Tweets</b>");
+            {% for tweet in topFavorite %}
+                var date = new Date("{{ tweet.creation_date | safe }}");
+                var formattedDate = date.toDateString();
+                var t_body = "{{ tweet.tweet_body | safe }}";
+                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+                var name = "{{ tweet.user_id.name | safe }}";
+                var t_url = "{{ tweet.tweet_url }}";
+                var t_rating = "{{ tweet.sentiment_string | safe }}";
+                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
+            {% endfor %}
+        });
+    });
 </script>
-</body>
-</html>

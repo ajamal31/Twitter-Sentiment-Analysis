@@ -1,22 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<script>
+    retweetData = [];
 
-<div class="retweet-graph">
-    <script>
-        retweetData = [];
+    {% for item in retweetCounts %}
+    var userName = "{{ item.user_id.screen_name | safe }}";
+    var rtc = {{ item.rt_count | safe }};
+    retweetData.unshift(
+        { "User": userName, "Number of Retweets": rtc}
+    );
+    {% endfor %}
 
-        {% for item in retweetCounts %}
-        var userName = "{{ item.user_id.screen_name | safe }}";
-        var rtc = {{ item.rt_count | safe }};
-        retweetData.unshift(
-            { "User": userName, "Number of Retweets": rtc}
-        );
-        {% endfor %}
+     makeSocialGraph(retweetData, ".retweet", "Most Retweeted", "Number of Retweets");
 
-         var graph = makeSocialGraph(retweetData, ".retweet", "Most Retweeted", "Number of Retweets");
-    </script>
-</div>
+    $(document).ready(function() {
+        $(".retweet").click(function(){
+            $("#tweets").html("<b>Most Retweeted Tweets</b>");
+            {% for tweet in topRetweet %}
+                var date = new Date("{{ tweet.creation_date | safe }}");
+                var formattedDate = date.toDateString();
+                var t_body = "{{ tweet.tweet_body | safe }}";
+                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+                var name = "{{ tweet.user_id.name | safe }}";
+                var t_url = "{{ tweet.tweet_url }}";
+                var t_rating = "{{ tweet.sentiment_string | safe }}";
+                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
+            {% endfor %}
+        });
+    });
+</script>

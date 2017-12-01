@@ -9,6 +9,7 @@ import json
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 
+
 # Create your views here.
 
 
@@ -25,7 +26,7 @@ class HomePageView(TemplateView):
     def clean_tweet(self, tweet):
         clean_tweet = tweet.replace("\n", "").replace("&amp", "&").replace('"', '\\"')
         clean_tweet = " ".join(clean_tweet.split())
-  
+
         return clean_tweet
 
     # Get the recent tweets in the database. The number of tweets returned passed in a parameter.
@@ -49,6 +50,8 @@ class HomePageView(TemplateView):
         for tweet in sortedTweets:
             tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
             top_tweets.append(tweet)
+
+            count += 1
 
             if count == tweets_size:
                 break
@@ -76,7 +79,7 @@ class HomePageView(TemplateView):
 
         repSorted = list(tweets.order_by("-rep_count"))
         repSorted = repSorted[:num_of_tweets]
-        repSorted = fixNames(repSorted)        
+        repSorted = fixNames(repSorted)
 
         tweets = list(tweets.order_by("-creation_date"))
 
@@ -87,12 +90,11 @@ class HomePageView(TemplateView):
         topFavTweet = self.get_top_tweets(favSorted, 10)
         topRtTweet = self.get_top_tweets(rtSorted, 10)
 
-        json = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
-                'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
-                'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets}
+        tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
+                      'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
+                      'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets}
 
-        return json
-
+        return tweet_data
 
 
 class WordCloudView(TemplateView):

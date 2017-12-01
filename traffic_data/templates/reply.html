@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-
-<div class="reply-graph">
-    <script>
+<script>
     replyData = [];
 
     {% for item in replyCounts %}
@@ -18,5 +10,20 @@
     {% endfor %}
 
     makeSocialGraph(replyData,".reply", "Most Replied", "Number of Replies");
-    </script>
-</div>
+
+    $(document).ready(function() {
+        $(".reply").click(function(){
+            $("#tweets").html("<b>Most Replied Tweets</b>");
+            {% for tweet in topReply %}
+                var date = new Date("{{ tweet.creation_date | safe }}");
+                var formattedDate = date.toDateString();
+                var t_body = "{{ tweet.tweet_body | safe }}";
+                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+                var name = "{{ tweet.user_id.name | safe }}";
+                var t_url = "{{ tweet.tweet_url }}";
+                var t_rating = "{{ tweet.sentiment_string | safe }}";
+                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
+            {% endfor %}
+        });
+    });
+</script>

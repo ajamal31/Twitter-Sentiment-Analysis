@@ -1,11 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
 <script>
     sentimentData = [
         { "Sentiment": "Positive", "Number of Tweets": {{ sentimentCounts.0 | safe }}},
@@ -14,7 +6,20 @@
     ];
 
     makeSentimentGraph(sentimentData, ".sentiment", "Tweets by Sentiment", "Number of Tweets", "Sentiment");
-</script>
 
-</body>
-</html>
+    $(document).ready(function() {
+        $(".sentiment").click(function(){
+            $("#tweets").html("<b>Recent Tweets</b>");
+            {% for tweet in recentTweets %}
+                var date = new Date("{{ tweet.creation_date | safe }}");
+                var formattedDate = date.toDateString();
+                var t_body = "{{ tweet.tweet_body | safe }}";
+                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+                var name = "{{ tweet.user_id.name | safe }}";
+                var t_url = "{{ tweet.tweet_url }}";
+                var t_rating = "{{ tweet.sentiment_string | safe }}";
+                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
+            {% endfor %}
+        });
+    });
+</script>

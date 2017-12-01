@@ -77,17 +77,8 @@
 <div id="graphs-id" class="container-fluid">
     <div class="row">
         <div class="col-sm-8 graphs">
-            <div class="sentiment">
-                {% include 'sentiment.html' %}
-            </div>
-            <div class="retweet">
-                {% include 'retweet.html' %}
-            </div>
-            <div class="favourite">
-                {% include 'favourite.html' %}
-            </div>
-            <div class="reply">
-                {% include 'reply.html' %}
+            <div class="bar-graphs">
+                {% include 'graphs.html' %}
             </div>
             <div class="sent_line">
                 {% include 'line_chart.html' %}
@@ -95,7 +86,6 @@
         </div>
         <div id="tweets" class="col-sm-4">
             {% include 'tweets.html' %}
-            {% include 'topTweets.html' %}
         </div>
     </div>
 </div>
