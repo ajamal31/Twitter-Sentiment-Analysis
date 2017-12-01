@@ -21,6 +21,8 @@ class HomePageView(TemplateView):
 
     def post(self, request, **kwargs):
         tweet_count = int(request.POST.get('num_tweets'))
+        hashtag = request.POST.get('hashtag')
+        print hashtag
         return render(request, 'graphs.html', self.gen_data(tweet_count))
 
     def clean_tweet(self, tweet):
