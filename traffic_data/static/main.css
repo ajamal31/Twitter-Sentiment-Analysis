@@ -19,8 +19,8 @@
 .num-tweet {
     display: inline-block;
     color: white;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 1.3rem;
+    padding-bottom: 1.0rem;
 }
 
 #tweet_btn {
@@ -44,14 +44,13 @@
 label {
     display: inline-block;
     color:white;
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-top: 1.3rem;
+    padding-bottom: 1.0rem;
 }
 
 #updated {
     color: white;
 }
-
 
 #updated p {
     margin:auto;
@@ -62,4 +61,3 @@ label {
 #updated p:hover {
     color:blue;
 }
-
