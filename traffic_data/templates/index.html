@@ -37,7 +37,8 @@
     <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
 
     <script src="{% static 'listeners.js' %}"></script>
-    <script src="{% static 'dateslider.js' %}"></script>
+    <script src="{% static 'datepicker.js' %}"></script>
+
 </head>
 
 </head>
@@ -58,7 +59,7 @@
             </div>
             <!--Number of tweets dropdown menu-->
             <div class="col-sm-1 dropdown">
-                <button id="tweet_btn" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     10
                     <i class="caret"></i>
                 </button>
@@ -68,8 +69,13 @@
                     <li><a class="item">20</a></li>
                 </ul>
             </div>
-            <div id="date-range" class="col-sm-1">Date range:</div>
-            <div id="date-slider" class="col-sm-6"></div>
+            <!--Date picker text fields with calender-->
+            <div class="col-sm-7">
+                <label class="datepicker" for="from">From</label>
+                <input type="text" id="from" name="from">
+                <label class="datepicker" for="to">to</label>
+                <input type="text" id="to" name="to">
+            </div>
         </div>
     </div>
 </div>
