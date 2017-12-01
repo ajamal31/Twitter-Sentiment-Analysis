@@ -1,3 +1,8 @@
+#flex {
+  display: flex;
+  flex-direction: row;  
+}
+
 #date-slider {
     margin: 0 0 0 82vh;
     background-color: white;
@@ -9,6 +14,13 @@
 
 #date-range {
     color: white;
+}
+
+.num-tweet {
+    display: inline-block;
+    color: white;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 }
 
 #tweet_btn {
@@ -25,6 +37,29 @@
     color: white;
 }
 
-.datepicker {
+.date-picker {
     color: white;
 }
+
+label {
+    display: inline-block;
+    color:white;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+#updated {
+    color: white;
+}
+
+
+#updated p {
+    margin:auto;
+    float: right;
+    padding: 20%;
+}
+
+#updated p:hover {
+    color:blue;
+}
+

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
-<title>City of Edmonton</title>
+<title>Social Medai Analytic and Visualization: Visualzing traffic related tweets in Edmonton</title>
 
 <head>
 
@@ -46,19 +46,14 @@
 <body class="keen-dashboard" style="padding-top: 80px;">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div id="header-bar" class="container-fluid">
-        <div class="row">
+        <div class="row" id="flex">
             <div class="col-sm-2">
-                <a class="navbar-brand" href="./">
+                <a class="navbar-brand" href="./" >
                     Sentiment Analysis
                 </a>
             </div>
-            <div class="col-sm-2">
-                <a class="header-text">
-                    Number of Tweets:
-                </a>
-            </div>
-            <!--Number of tweets dropdown menu-->
-            <div class="col-sm-1 dropdown">
+            <div class="col-sm-2"><p1 class="num-tweet">Number of Tweets:</p1>
+    
                 <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     10
                     <i class="caret"></i>
@@ -70,11 +65,14 @@
                 </ul>
             </div>
             <!--Date picker text fields with calender-->
-            <div class="col-sm-7">
+            <div class="col-sm-7" >
                 <label class="datepicker" for="from">From</label>
-                <input type="text" id="from" name="from">
+                <input type="text" id="from" name="from" placeholder="choose starting date">
                 <label class="datepicker" for="to">to</label>
-                <input type="text" id="to" name="to">
+                <input type="text" id="to" name="to" placeholder="choose ending date">
+            </div>
+            <div class="col-sm-1" id="updated">
+                <p><b>Update</b></p>
             </div>
         </div>
     </div>
