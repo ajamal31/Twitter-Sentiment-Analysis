@@ -33,4 +33,15 @@ $(document).ready(function () {
             }
         });
     });
+
+    //update database and reloading view
+    $("#updated").on('click', function(){
+        $("#updated").unbind();
+        $("#updated").html("<p style='color:red;'>loading...</p>");
+        $.ajax({url:'database/',
+            success: function(){
+                location.reload(true);
+            }
+        });
+    });
 });
