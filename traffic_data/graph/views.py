@@ -24,7 +24,7 @@ class HomePageView(TemplateView):
         return render(request, 'graphs.html', self.gen_data(tweet_count))
 
     def clean_tweet(self, tweet):
-        clean_tweet = tweet.replace("\n", "").replace("&amp", "&").replace('"', '\\"')
+        clean_tweet = tweet.replace("\n", "").replace("&amp;", "&").replace('"', '\\"')
         clean_tweet = " ".join(clean_tweet.split())
 
         return clean_tweet
@@ -36,7 +36,7 @@ class HomePageView(TemplateView):
         count = 0
 
         for tweet in tweets:
-            if not tweet.is_rt and (tweet.tweet_body[0:2] != 'RT') and count <= tweets_size:
+            if not tweet.is_rt and count <= tweets_size:
                 tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
                 recent_tweets.append(tweet)
                 count += 1
