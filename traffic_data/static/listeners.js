@@ -35,12 +35,15 @@ $(document).ready(function () {
     });
 
     //update database and reloading view
-    $("#updated").on('click', function(){
-        $("#updated").unbind();
-        $("#updated").html("<p style='color:red;'>loading...</p>");
+    $(document).on('click',"#bind", function(){
+        $("#updated").html("<br><p style='color: white;'>Updating...</p>");
         $.ajax({url:'database/',
             success: function(){
                 location.reload(true);
+            },
+            error: function(){
+                $("#updated").html("<a id='bind'><b>Update Tweets</b></a>");
+                alert("Failed to update");
             }
         });
     });
