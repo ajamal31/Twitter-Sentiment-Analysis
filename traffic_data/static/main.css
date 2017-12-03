@@ -18,7 +18,6 @@
 
 .num-tweet {
     display: inline-block;
-    color: white;
     padding-top: 1.3rem;
     padding-bottom: 1.0rem;
 }
@@ -52,14 +51,9 @@ label {
     color: white;
 }
 
-#updated p {
+#updated a {
     margin:auto;
     float: right;
-    padding: 20%;
-}
-
-#updated p:hover {
-    color:blue;
 }
 
 .head-title {
