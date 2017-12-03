@@ -59,14 +59,18 @@
             </div>
             <!--Number of tweets dropdown menu-->
             <div class="col-sm-1 dropdown">
-                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     10
                     <i class="caret"></i>
                 </button>
                 <ul id="num_tweets" class="dropdown-menu">
                     <li><a class="item">5</a></li>
                     <li><a class="item">10</a></li>
+                    <li><a class="item">15</a></li>
                     <li><a class="item">20</a></li>
+                    <li><a class="item">25</a></li>
+                    <li><a class="item">30</a></li>
                 </ul>
             </div>
             <!--Date picker text fields with calender-->
@@ -90,7 +94,7 @@
                 {% include 'line_chart.html' %}
             </div>
         </div>
-        <div id="tweets" class="col-sm-4">
+        <div id="tweets" class="col-sm-4" tweets-type="recent">
             {% include 'tweets.html' %}
         </div>
     </div>

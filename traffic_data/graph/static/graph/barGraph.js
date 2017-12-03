@@ -1,3 +1,5 @@
+var draw_time = 800;
+
 function makeGraph(data, title, divName, xTitle, yTitle) {
 
     var svg = dimple.newSvg(divName, "100%", "100%");
@@ -21,11 +23,21 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
 function makeSocialGraph(data, divName, title, xTitle) {
     chart = makeGraph(data, title, divName, xTitle, "User");
     chart.axes[0].addOrderRule(xTitle, false);
-    chart.draw();
+    chart.draw(draw_time);
+    return;
 }
 
 function makeSentimentGraph(data, divName, title, xTitle) {
     chart = makeGraph(data, title, divName, xTitle, "Sentiment");
     chart.axes[0].addOrderRule(["Positive", "Neutral", "Negative"]);
-    chart.draw();
+    chart.draw(draw_time);
+    return;
+}
+
+function redraw_socialgraph(data, object_name, title, x_title) {
+    $(object_name).remove();
+    var class_name = object_name.slice(1);
+    $(".bar-graphs").append("<div class=" + class_name + "></div>");
+    makeSocialGraph(data, object_name, title, x_title);
+    return;
 }

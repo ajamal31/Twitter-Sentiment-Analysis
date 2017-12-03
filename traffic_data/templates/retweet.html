@@ -1,29 +1,51 @@
 <script>
-    retweetData = [];
 
-    {% for item in retweetCounts %}
-    var userName = "{{ item.user_id.screen_name | safe }}";
-    var rtc = {{ item.rt_count | safe }};
-    retweetData.unshift(
-        { "User": userName, "Number of Retweets": rtc}
-    );
-    {% endfor %}
+    function get_rt_data() {
+        retweetData = [];
 
-     makeSocialGraph(retweetData, ".retweet", "Most Retweeted", "Number of Retweets");
+        {% for item in retweetCounts %}
+        var userName = "{{ item.user_id.screen_name | safe }}";
+        var rtc = {{ item.rt_count | safe }};
+        retweetData.push(
+            { "User": userName, "Number of Retweets": rtc}
+        );
+        {% endfor %}
+
+        return retweetData;
+    }
+
+    function get_rt_tweets() {
+        var rt_block = [];
+        {% for tweet in topRetweet %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+        {% endfor %}
+        return rt_block;
+    }
+
+    var rt_data = get_rt_data();
+    var max_tweets = $("#tweet_btn").text();
+    var rt_container = ".retweet";
+    var rt_title = "Most Retweeted";
+    var rt_x_title = "Number of Retweets";
+    var rt_tweets = get_rt_tweets();
+
+    makeSocialGraph(rt_data.slice(0, max_tweets), rt_container, rt_title, rt_x_title);
+    bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
 
     $(document).ready(function() {
-        $(".retweet").click(function(){
-            $("#tweets").html("<b>Most Retweeted Tweets</b>");
-            {% for tweet in topRetweet %}
-                var date = new Date("{{ tweet.creation_date | safe }}");
-                var formattedDate = date.toDateString();
-                var t_body = "{{ tweet.tweet_body | safe }}";
-                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
-                var name = "{{ tweet.user_id.name | safe }}";
-                var t_url = "{{ tweet.tweet_url }}";
-                var t_rating = "{{ tweet.sentiment_string | safe }}";
-                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
-            {% endfor %}
+        $('#num_tweets a').click(function() {
+            var max_tweets = $(this).text();
+            var new_data = rt_data.slice(0, max_tweets);
+            redraw_socialgraph(new_data, rt_container, rt_title, rt_x_title);
+            update_tweets('retweet', rt_tweets.slice(0, max_tweets));
+            bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
         });
     });
 </script>

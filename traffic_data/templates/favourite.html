@@ -1,28 +1,51 @@
 <script>
-    favouriteData = [];
-    {% for item in favouriteCounts %}
-    var userName = "{{ item.user_id.screen_name | safe }}";
-    var favc = {{ item.fav_count | safe }};
-    favouriteData.unshift(
-        { "User": userName, "Number of Favourites": favc }
-    );
-    {% endfor %}
+    function get_fav_data () {
+        favouriteData = [];
 
-    makeSocialGraph(favouriteData, ".favourite", "Most Favourited", "Number of Favourites" );
+        {% for item in favouriteCounts %}
+        var userName = "{{ item.user_id.screen_name | safe }}";
+        var favc = {{ item.fav_count | safe }};
+        favouriteData.push(
+            { "User": userName, "Number of Favourites": favc }
+        );
+        {% endfor %}
+
+        return favouriteData;
+    };
+
+    function get_fav_tweets() {
+        var fav_block = [];
+        {% for tweet in topFavorite %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+        {% endfor %}
+        return fav_block;
+    }
+
+    var max_tweets = $("#tweet_btn").text();
+    var fav_data = get_fav_data();
+    var fav_container = ".favourite";
+    var fav_title = "Most Favourited";
+    var fav_x_title = "Number of Favourites";
+    var fav_tweets = get_fav_tweets();
+
+    makeSocialGraph(fav_data.slice(0, max_tweets), fav_container, fav_title, fav_x_title);
+    bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
 
     $(document).ready(function() {
-        $(".favourite").click(function(){
-            $("#tweets").html("<b>Most Liked Tweets</b>");
-            {% for tweet in topFavorite %}
-                var date = new Date("{{ tweet.creation_date | safe }}");
-                var formattedDate = date.toDateString();
-                var t_body = "{{ tweet.tweet_body | safe }}";
-                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
-                var name = "{{ tweet.user_id.name | safe }}";
-                var t_url = "{{ tweet.tweet_url }}";
-                var t_rating = "{{ tweet.sentiment_string | safe }}";
-                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
-            {% endfor %}
+        $('#num_tweets a').click(function () {
+            var max_tweets = $(this).text();
+            var new_data = fav_data.slice(0, max_tweets);
+            redraw_socialgraph(new_data, fav_container, fav_title, fav_x_title);
+            update_tweets('favourite', fav_tweets.slice(0, max_tweets));
+            bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
         });
     });
+
 </script>

@@ -1,29 +1,50 @@
 <script>
-    replyData = [];
+    function get_rp_data() {
+        replyData = [];
 
-    {% for item in replyCounts %}
-      var userName = "{{ item.user_id.screen_name | safe }}";
-      var repc = {{ item.rep_count | safe }};
-      replyData.unshift(
-        {"User": userName, "Number of Replies": repc}
-      );
-    {% endfor %}
+        {% for item in replyCounts %}
+          var userName = "{{ item.user_id.screen_name | safe }}";
+          var repc = {{ item.rep_count | safe }};
+          replyData.push(
+            {"User": userName, "Number of Replies": repc}
+          );
+        {% endfor %}
 
-    makeSocialGraph(replyData,".reply", "Most Replied", "Number of Replies");
+        return replyData;
+    }
+
+    function get_rp_tweets() {
+        var rp_block = [];
+        {% for tweet in topReply %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            rp_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+        {% endfor %}
+        return rp_block;
+    }
+
+    var max_tweets = $("#tweet_btn").text();
+    var rp_data = get_rp_data();
+    var rp_container = ".reply";
+    var rp_title = "Most Replied";
+    var rp_x_title = "Number of Replies";
+    var rp_tweets = get_rp_tweets();
+
+    makeSocialGraph(rp_data.slice(0, max_tweets), rp_container, rp_title, rp_x_title);
+    bind_tweets(rp_container,'reply', rp_tweets.slice(0, max_tweets), max_tweets);
 
     $(document).ready(function() {
-        $(".reply").click(function(){
-            $("#tweets").html("<b>Most Replied Tweets</b>");
-            {% for tweet in topReply %}
-                var date = new Date("{{ tweet.creation_date | safe }}");
-                var formattedDate = date.toDateString();
-                var t_body = "{{ tweet.tweet_body | safe }}";
-                var screen_name = "{{ tweet.user_id.screen_name | safe }}";
-                var name = "{{ tweet.user_id.name | safe }}";
-                var t_url = "{{ tweet.tweet_url }}";
-                var t_rating = "{{ tweet.sentiment_string | safe }}";
-                process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating);
-            {% endfor %}
+        $('#num_tweets a').click(function() {
+            var max_tweets = $(this).text();
+            var new_data = rp_data.slice(0, max_tweets);
+            redraw_socialgraph(new_data, rp_container, rp_title, rp_x_title);
+            update_tweets('reply', rp_tweets.slice(0, max_tweets));
+            bind_tweets(rp_container,'reply', rp_tweets.slice(0, max_tweets), max_tweets);
         });
     });
 </script>

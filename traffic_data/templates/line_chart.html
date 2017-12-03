@@ -13,5 +13,7 @@
     );
     {% endfor %}
 
-    makeLineGraph(data, ".sent_line", "Sentiment Over Time");
+    $(document).ready(function() {
+        makeLineGraph(data, ".sent_line", "Sentiment Over Time");
+    });
  </script>

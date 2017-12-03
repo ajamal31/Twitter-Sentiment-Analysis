@@ -5,23 +5,31 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from database.models import Tweet
 from nltk import word_tokenize
+from django.http import HttpResponse
 import json
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 
 
 # Create your views here.
-
-
 class HomePageView(TemplateView):
-    num_tweets = 10
+    num_tweets = 30
 
     def get(self, request, **kwargs):
-        return render(request, 'index.html', self.gen_data(self.num_tweets))
+        return render(request, 'index.html', self.get_tweets(self.num_tweets))
 
     def post(self, request, **kwargs):
         tweet_count = int(request.POST.get('num_tweets'))
-        return render(request, 'graphs.html', self.gen_data(tweet_count))
+
+        graphs_data = render(request, 'graphs.html', self.get_tweets(tweet_count))
+        tweet_data = render(request, 'tweets.html', self.get_tweets(tweet_count))
+
+        new_data = {
+            'graphs': str(graphs_data),
+            'tweets': str(tweet_data)
+        }
+
+        return HttpResponse(json.dumps(new_data))
 
     def clean_tweet(self, tweet):
         clean_tweet = tweet.replace("\n", "").replace("&amp;", "&").replace('"', '\\"')
@@ -36,7 +44,7 @@ class HomePageView(TemplateView):
         count = 0
 
         for tweet in tweets:
-            if not tweet.is_rt and count <= tweets_size:
+            if not tweet.is_rt and count < tweets_size:
                 tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
                 recent_tweets.append(tweet)
                 count += 1
@@ -58,7 +66,7 @@ class HomePageView(TemplateView):
 
         return top_tweets
 
-    def gen_data(self, num_of_tweets):
+    def get_tweets(self, how_many):
         data = [
             Tweet.objects.filter(sentiment_string="pos").count(),
             Tweet.objects.filter(sentiment_string="neu").count(),
@@ -67,18 +75,18 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
 
-        recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), 9)
+        recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), how_many)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
-        rtSorted = rtSorted[:num_of_tweets]
+        rtSorted = rtSorted[:how_many]
         rtSorted = fixNames(rtSorted)
 
         favSorted = list(tweets.order_by("-fav_count"))
-        favSorted = favSorted[:num_of_tweets]
+        favSorted = favSorted[:how_many]
         favSorted = fixNames(favSorted)
 
         repSorted = list(tweets.order_by("-rep_count"))
-        repSorted = repSorted[:num_of_tweets]
+        repSorted = repSorted[:how_many]
         repSorted = fixNames(repSorted)
 
         tweets = list(tweets.order_by("-creation_date"))
@@ -86,9 +94,9 @@ class HomePageView(TemplateView):
         for tweet in tweets:
             tweet.tweet_body = self.clean_tweet(tweet.tweet_body)
 
-        topReplyTweet = self.get_top_tweets(repSorted, 10)
-        topFavTweet = self.get_top_tweets(favSorted, 10)
-        topRtTweet = self.get_top_tweets(rtSorted, 10)
+        topReplyTweet = self.get_top_tweets(repSorted, how_many)
+        topFavTweet = self.get_top_tweets(favSorted, how_many)
+        topRtTweet = self.get_top_tweets(rtSorted, how_many)
 
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
