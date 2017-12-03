@@ -2,14 +2,14 @@ function makeLineGraph(data, divName, title) {
 
     var svg = dimple.newSvg(divName, "100%", "100%");
     var myChart = new dimple.chart(svg, data);
-    var x = myChart.addTimeAxis("x", "Created", "%Y-%m-%d %H:%M:%S","%Y/%m/%d");
+    var x = myChart.addTimeAxis("x", "Created", "%a %b %d %Y %H:%M:%S","%Y/%m/%d");
     myChart.addMeasureAxis("y", "Sentiment");
     var s = myChart.addSeries(null, dimple.plot.line);
 
     s.getTooltipText = function (e) {
         var i, 
         tooltip = [];
-        var format = d3.timeFormat("%Y-%m-%d %H:%M:%S");
+        var format = d3.timeFormat("%a %b %d %Y %H:%M:%S");
         for (i = 0;  i < data.length; i++) {
             if (format(e.x) === data[i].Created ) {
                 tooltip.push("User: " + data[i].User);
