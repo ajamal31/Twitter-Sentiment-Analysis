@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from database.models import Tweet
+from database.models import Hashtag
 from nltk import word_tokenize
 from django.http import HttpResponse
 import json
@@ -98,9 +99,11 @@ class HomePageView(TemplateView):
         topFavTweet = self.get_top_tweets(favSorted, how_many)
         topRtTweet = self.get_top_tweets(rtSorted, how_many)
 
+        hashtags = Hashtag.objects.all();
+
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
-                      'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets}
+                      'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets, 'hashtags': hashtags}
 
         return tweet_data
 
