@@ -18,6 +18,7 @@
 
 .num-tweet {
     display: inline-block;
+    color: white;
     padding-top: 1.3rem;
     padding-bottom: 1.0rem;
 }
