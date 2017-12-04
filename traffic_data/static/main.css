@@ -79,3 +79,7 @@ label {
     color: #cecece;
     background-color: transparent;
 }
+
+#bind {
+    padding-top: .7rem;
+}
