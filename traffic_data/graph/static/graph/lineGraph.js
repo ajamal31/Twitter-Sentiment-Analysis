@@ -4,10 +4,11 @@ function makeLineGraph(data, divName, title) {
     var myChart = new dimple.chart(svg, data);
     var x = myChart.addTimeAxis("x", "Created", "%a %b %d %Y %H:%M:%S","%Y/%m/%d");
     myChart.addMeasureAxis("y", "Sentiment");
-    var s = myChart.addSeries(null, dimple.plot.line);
+    myChart.addColorAxis("Sentiment", ["red", "yellow", "green"]);
+    var s = myChart.addSeries(null, dimple.plot.bubble);
 
     s.getTooltipText = function (e) {
-        var i, 
+        var i,
         tooltip = [];
         var format = d3.timeFormat("%a %b %d %Y %H:%M:%S");
         for (i = 0;  i < data.length; i++) {
@@ -20,8 +21,8 @@ function makeLineGraph(data, divName, title) {
         }
         return tooltip
         };
-    
-    myChart.setMargins("10%", "20%", "10%", "15%");
+
+    myChart.setMargins("15%", "20%", "5%", "25%");
 
     svg.append("text")
     .attr("x", myChart._xPixels() + myChart._widthPixels()/2)
@@ -31,5 +32,33 @@ function makeLineGraph(data, divName, title) {
     .style("text-decoration", "underline")
     .text(title);
 
+    myChart.axes[0].showGridlines = true;
+    myChart.axes[1].showGridlines = false;
+    myChart.axes[1].fontSize = "12px";
     myChart.draw();
+    myChart.axes[0].titleShape.style("font-size", "12px");
+
+    rotate_labels(myChart);
+
+    window.onresize = function () {
+        // As of 1.1.0 the second parameter here allows you to draw
+        // without reprocessing data.  This saves a lot on performance
+        // when you know the data won't have changed.
+        myChart.draw(0, true);
+        rotate_labels(myChart);
+        
+
+    };
+}
+
+function rotate_labels(chart) {
+    chart.axes[0].shapes.selectAll('text').attr('transform',
+    function () {
+        var transformAttributeValue = d3.select(this).attr('transform');
+
+        if (transformAttributeValue) {
+            transformAttributeValue = transformAttributeValue.replace('rotate(90,', 'rotate(45,');
+        }
+        return transformAttributeValue;
+    });
 }

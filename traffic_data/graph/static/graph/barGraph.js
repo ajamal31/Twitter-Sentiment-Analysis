@@ -7,7 +7,7 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
     chart.addCategoryAxis("y", yTitle);
     chart.addMeasureAxis("x", xTitle);
     var s = chart.addSeries(null, dimple.plot.bar);
-    chart.setMargins("20%", "20%", "10%", "15%");
+    chart.setMargins("15%", "20%", "5%", "15%");
 
     s.tooltipFontSize = "14px";
     s.getTooltipText = function (e) {
@@ -31,9 +31,11 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
     else {
         chart.axes[0].addOrderRule(xTitle, false);
     }
-
+    
+    chart.axes[1].fontSize = "12px";
     chart.draw(draw_time);
-
+    chart.axes[0].titleShape.style("font-size", "12px");
+    
     s.shapes.on("mouseover", function (e) {
         d3.select(divName).selectAll("rect").style("opacity", .3);
         d3.select(this).style("opacity", 0.8);
@@ -44,18 +46,22 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
         d3.selectAll("rect").style("opacity", 0.8);
         dimple._removeTooltip(e, this, chart, s);
     })
+
+    window.onresize = function () {
+        // As of 1.1.0 the second parameter here allows you to draw
+        // without reprocessing data.  This saves a lot on performance
+        // when you know the data won't have changed.
+        chart.draw(0, true);
+    };
+    
 }
 
 function makeSocialGraph(data, divName, title, xTitle) {
     makeGraph(data, title, divName, xTitle, "User");
 }
-
-function makeSentimentGraph(data, divName, title, xTitle) {
-    makeGraph(data, title, divName, xTitle, "Sentiment");
-}
    
 function makeSentimentGraph(data, divName, title, xTitle) {
-    chart = makeGraph(data, title, divName, xTitle, "Sentiment");
+    makeGraph(data, title, divName, xTitle, "Sentiment");
 }
 
 function redraw_socialgraph(data, object_name, title, x_title) {
