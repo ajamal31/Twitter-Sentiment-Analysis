@@ -13,7 +13,7 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
     s.getTooltipText = function (e) {
         tooltip = [];
         tooltip.push(yTitle + ": " + e.cy);
-        tooltip.push("Tweets" + ": " + e.cx);
+        tooltip.push(xTitle + ": " + e.cx);
         return tooltip;
     }
 
