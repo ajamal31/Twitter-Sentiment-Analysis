@@ -14,22 +14,37 @@ from django.template.loader import render_to_string
 # Create your views here.
 class HomePageView(TemplateView):
     num_tweets = 30
+    default_min_date = datetime(2013, 9, 30, 7, 6, 5)
+    default_max_date = datetime(3030, 9, 30, 7, 6, 5)
 
     def get(self, request, **kwargs):
-        return render(request, 'index.html', self.get_tweets(self.num_tweets))
+        return render(request, 'index.html', self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date))
 
     def post(self, request, **kwargs):
-        tweet_count = int(request.POST.get('num_tweets'))
+        min_date_str = request.POST.get('min_date')
+        min_date_str = min_date_str[:24]
 
-        graphs_data = render(request, 'graphs.html', self.get_tweets(tweet_count))
-        tweet_data = render(request, 'tweets.html', self.get_tweets(tweet_count))
+        max_date_str = request.POST.get('max_date')
+        max_date_str = max_date_str[:24]
+
+        min_date = datetime.strptime(min_date_str, "%a %b %d %Y %H:%M:%S")
+        max_date = datetime.strptime(max_date_str, "%a %b %d %Y %H:%M:%S")
+
+        data = self.get_tweets(self.num_tweets, min_date, max_date)
+
+        bar_data = render(request, 'graphs.html', data)
+        line_data = render(request, 'line_chart.html', data)
+        tweet_data = render(request, 'tweets.html', data)
 
         new_data = {
-            'graphs': str(graphs_data),
-            'tweets': str(tweet_data)
+            'bar' : str(bar_data)[38:],
+            'line' : str(line_data)[38:],
+            'tweet': str(tweet_data)[38]
         }
-
-        return HttpResponse(json.dumps(new_data))
+        
+        response = HttpResponse(json.dumps(new_data))
+        
+        return response
 
     def clean_tweet(self, tweet):
         clean_tweet = tweet.replace("\n", "").replace("&amp;", "&").replace('"', '\\"')
@@ -66,15 +81,17 @@ class HomePageView(TemplateView):
 
         return top_tweets
 
-    def get_tweets(self, how_many):
-        data = [
-            Tweet.objects.filter(sentiment_string="pos").count(),
-            Tweet.objects.filter(sentiment_string="neu").count(),
-            Tweet.objects.filter(sentiment_string="neg").count()
-        ]
-
+    def get_tweets(self, how_many, min_date, max_date):
         tweets = Tweet.objects.all()
+        tweets = tweets.filter(creation_date__gt = min_date)
+        tweets = tweets.filter(creation_date__lt = max_date)
 
+        data = [
+            tweets.filter(sentiment_string="pos").count(),
+            tweets.filter(sentiment_string="neu").count(),
+            tweets.filter(sentiment_string="neg").count()
+        ]
+        
         recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), how_many)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
@@ -98,10 +115,17 @@ class HomePageView(TemplateView):
         topFavTweet = self.get_top_tweets(favSorted, how_many)
         topRtTweet = self.get_top_tweets(rtSorted, how_many)
 
+        if (len(tweets) > 0):
+            latest = tweets[0].creation_date
+            earliest = tweets[-1].creation_date
+        else :
+            latest = datetime.now()
+            earliest = datetime.now()
+
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
-                      'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets}
-
+                      'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets,
+                      'min_date': earliest, 'max_date': latest}
         return tweet_data
 
 
@@ -137,7 +161,7 @@ class WordCloudView(TemplateView):
             key, value = max(tweet_dict.iteritems(), key=lambda p: p[1])
             result[key] = value
             tweet_dict.pop(key, None)
-        print type(result)
+
         return render(request, 'word_cloud.html', {'result': result})
 
 
