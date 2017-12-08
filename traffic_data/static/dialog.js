@@ -1,11 +1,12 @@
 $(document).ready(function () {
     $(document).on("click", ".get-url",function (e) {
         e.preventDefault();
-        var id = $(this).attr('id');
+        var url = $(this).attr('id');
+        url = url.replace(/\s/g,"");
+        var text = '<a href=' + url +'></a>' + '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
         var feed = document.createElement("blockquote");
             feed.className = "twitter-tweet";
-            feed.innerHTML =  '<a href=' + id + '></a>'
-            + '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+            feed.innerHTML =  text;
         $(".dial").html(feed);
         $(".dial").dialog({
             title: "Tweet",

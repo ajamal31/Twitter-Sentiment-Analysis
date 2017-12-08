@@ -5,7 +5,7 @@ function process_tweet(body, date, screen_name, name, url, rating, tweet_id) {
 
     var block = document.createElement("blockquote");
     block.className = "twitter-tweet get-url";
-    block.id = "https://www.twitter.com/" + screen_name + "/statuses/" + tweet_id
+    block.id = "https://www.twitter.com/" + screen_name + "/status/" + tweet_id
     block.innerHTML = '<data-lang=\"en\">' +
         "<p lang='en'>" + body + "</p>" +
         "<p id=" + rating_text_id + " lang='en'>Tweet Rating: " + output_rating + "</p>" +
