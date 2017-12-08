@@ -11,9 +11,6 @@ function process_tweet(body, date, screen_name, name, url, rating, tweet_id) {
         "<p id=" + rating_text_id + " lang='en'>Tweet Rating: " + output_rating + "</p>" +
         "&mdash; " + name + " (@" + screen_name + ") " + '<a style="text-decoration:none">' +
         date + "</a>";
-    //block.onclick = function (tweet) {
-    //    window.open(url);
-    //}
 
     return block;
 }
