@@ -4,15 +4,16 @@ function process_tweet(body, date, screen_name, name, url, rating) {
     var rating_text_id = rating_id(output_rating);
 
     var block = document.createElement("blockquote");
-    block.className = "twitter-tweet";
+    block.className = "twitter-tweet get-url";
+    block.id = url
     block.innerHTML = '<data-lang=\"en\">' +
         "<p lang='en'>" + body + "</p>" +
         "<p id=" + rating_text_id + " lang='en'>Tweet Rating: " + output_rating + "</p>" +
         "&mdash; " + name + " (@" + screen_name + ") " + '<a style="text-decoration:none">' +
         date + "</a>";
-    block.onclick = function (tweet) {
-        window.open(url);
-    }
+    //block.onclick = function (tweet) {
+    //    window.open(url);
+    //}
 
     return block;
 }

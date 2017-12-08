@@ -84,3 +84,12 @@ label {
     color: #cecece;
     background-color: transparent;
 }
+
+.dial-head {
+    z-index: 1060;
+}
+
+.dial-head .ui-dialog-titlebar{
+    background-color: #eff4f7;
+    background-image: none;
+}
