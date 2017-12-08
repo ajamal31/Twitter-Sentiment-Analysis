@@ -8,7 +8,7 @@ $(document).ready(function () {
             + '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
         $(".dial").html(feed);
         $(".dial").dialog({
-            title: "Twitter feeds",
+            title: "Tweet",
             draggable: false,
             position: {my: "center", at: "top"},
             modal: true,
