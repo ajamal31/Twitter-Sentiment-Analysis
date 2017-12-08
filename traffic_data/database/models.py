@@ -89,7 +89,7 @@ class Tweet(models.Model):
             neu=neu,
             sentiment_string=sentiment_string,
             is_rt=is_rt,
-            tweet_url = "https://www.twitter.com/statuses/" + str(tweet_id)
+            tweet_url = "https://www.twitter.com/" + str(user_id) + "/statuses/" + str(tweet_id)
         )
 
         tweet.save()
