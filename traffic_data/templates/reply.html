@@ -23,7 +23,8 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
-            rp_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            var t_id = "{{tweet.tweet_id | safe }}";
+            rp_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
         {% endfor %}
         return rp_block;
     }

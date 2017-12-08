@@ -1,11 +1,11 @@
-function process_tweet(body, date, screen_name, name, url, rating) {
+function process_tweet(body, date, screen_name, name, url, rating, tweet_id) {
 
     var output_rating = complete_rating(rating);
     var rating_text_id = rating_id(output_rating);
 
     var block = document.createElement("blockquote");
     block.className = "twitter-tweet get-url";
-    block.id = url
+    block.id = "https://www.twitter.com/" + screen_name + "/statuses/" + tweet_id
     block.innerHTML = '<data-lang=\"en\">' +
         "<p lang='en'>" + body + "</p>" +
         "<p id=" + rating_text_id + " lang='en'>Tweet Rating: " + output_rating + "</p>" +
