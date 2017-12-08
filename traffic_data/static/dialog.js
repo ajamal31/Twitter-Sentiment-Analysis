@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    $('.get-url').click(function (e) {
+    $(document).on("click", ".get-url",function (e) {
         e.preventDefault();
         var id = $(this).attr('id');
         var feed = document.createElement("blockquote");
             feed.className = "twitter-tweet";
-            feed.innerHTML =  '<a href=' + id + '></a>'
+            feed.innerHTML =  '<a href=' + id + '>' + id + '</a>'
             + '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
-        $( ".dial" ).html(feed);
-        $( ".dial" ).dialog({
+        $(".dial").html(feed);
+        $(".dial").dialog({
             title: "Twitter feeds",
             draggable: false,
             position: {my: "center", at: "top"},
