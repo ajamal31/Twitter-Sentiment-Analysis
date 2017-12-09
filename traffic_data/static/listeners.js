@@ -16,6 +16,27 @@ function bind_tweets(graph_container, type, tweets, max_tweets) {
     });
 }
 
+function make_ajax(start_date, end_date, hashtag) {
+    $.ajax({
+        url: "/",
+        type: "POST",
+        data: {
+            min_date: start_date,
+            max_date: end_date,
+            hashtag: hashtag
+        },
+        success: function (data) {
+            data = JSON.parse(data);
+            $('.bar-graphs').html(data.bar);
+            $('.sent_line').html(data.line);
+            $('.top_tweets').html(data.tweets);
+        },
+        error: function (xhr, errmsg, err) {
+            alert(errmsg)
+        }
+    });
+}
+
 $(document).ready(function () {
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
@@ -33,41 +54,30 @@ $(document).ready(function () {
     });
 
     $('#from').on("change", function (e) {
-        $.ajax({
-            url: "/",
-            type: "POST",
-            data: {
-                min_date: $("#from").datepicker("getDate"),
-                max_date: $("#to").datepicker("getDate")
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                $('.bar-graphs').html(data.bar);
-                $('.sent_line').html(data.line);
-                $('.top_tweets').html(data.tweets);
-            },
-            error: function (xhr, errmsg, err) {
-                alert(errmsg)
-            }
-        });
+        var start_date = $("#from").datepicker("getDate");
+        var end_date = $("#to").datepicker("getDate");
+        var hash_tag = $('#hashtag-dropdown').text();
+        make_ajax(start_date, end_date, hash_tag);
     });
+
     $('#to').on("change", function (e) {
-        $.ajax({
-            url: "/",
-            type: "POST",
-            data: {
-                min_date: $("#from").datepicker("getDate"),
-                max_date: $("#to").datepicker("getDate")
-            },
-            success: function (data) {
-                data = JSON.parse(data);
-                $('.bar-graphs').html(data.bar);
-                $('.sent_line').html(data.line);
-                $('.top_tweets').html(data.tweets);
-            },
-            error: function (xhr, errmsg, err) {
-                alert(errmsg)
-            }
-        });
+        var start_date = $("#from").datepicker("getDate");
+        var end_date = $("#to").datepicker("getDate");
+        var hash_tag = $('#hashtag-dropdown').text();
+        make_ajax(start_date, end_date, hash_tag);
+    });
+
+    $('#hashtag-list li a').on("click", function () {
+
+        // slice is used to strip off the '#' from the text
+        var hashtag = ($(this).text()).slice(1);
+        $('#hashtag-dropdown').html(hashtag + "<i class=\"caret\"></i>");
+
+        var start_date = $("#from").datepicker("getDate");
+        var end_date = $("#to").datepicker("getDate");
+        var hash_tag = $('#hashtag-dropdown').text();
+
+        make_ajax(start_date, end_date, hash_tag);
+
     });
 });
