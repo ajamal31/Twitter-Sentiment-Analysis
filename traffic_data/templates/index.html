@@ -36,6 +36,11 @@
     <link rel="stylesheet" type="text/css" href="{%static 'graph/bar-graphs.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
 
+    <script>
+        var min_date = "{{ min_date }}".substring(0, 13);
+        var max_date = "{{ max_date }}".substring(0,13);
+    </script>
+
     <script src="{% static 'listeners.js' %}"></script>
     <script src="{% static 'datepicker.js' %}"></script>
 
@@ -99,12 +104,14 @@
             <div class="bar-graphs">
                 {% include 'graphs.html' %}
             </div>
-            <div class="sent_line">
-                {% include 'line_chart.html' %}
-            </div>
+            <div class="sent_line" id="sent_line">
+                    {% include 'line_chart.html' %}
+                </div>
         </div>
         <div id="tweets" class="col-sm-4" tweets-type="recent">
-            {% include 'tweets.html' %}
+            <div id="top_tweets">
+                {% include 'tweets.html' %}
+            </div>
         </div>
     </div>
 </div>
