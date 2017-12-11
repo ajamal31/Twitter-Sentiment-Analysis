@@ -70,7 +70,12 @@ $(document).ready(function () {
     $('#hashtag-list li a').on("click", function () {
 
         // slice is used to strip off the '#' from the text
-        var hashtag = ($(this).text()).slice(1);
+        var hashtag = $(this).text();
+
+        if (hashtag !== 'All') {
+            hashtag = ($(this).text()).slice(1);
+        }
+        
         $('#hashtag-dropdown').html(hashtag + "<i class=\"caret\"></i>");
 
         var start_date = $("#from").datepicker("getDate");

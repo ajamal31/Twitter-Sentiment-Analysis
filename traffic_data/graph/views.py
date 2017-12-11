@@ -9,6 +9,7 @@ from nltk import word_tokenize
 from django.http import HttpResponse
 import json
 from datetime import datetime, timedelta
+from itertools import chain
 from django.template.loader import render_to_string
 
 
@@ -91,16 +92,11 @@ class HomePageView(TemplateView):
 
     def get_tweets(self, how_many, min_date, max_date, hashtag):
 
-        if hashtag == 'All':
-            tweets = Tweet.objects.all()
-        else:
-            # tweets = Tweet.objects.all()
-            query_str = "SELECT * " \
-                        "FROM database_tweet AS tweet, database_hashtag AS hashtag " \
-                        "WHERE tweet.tweet_id = hashtag.tweet_id AND hashtag = %s"
-            tweets = Tweet.objects.raw(query_str, [hashtag])
-            # for r in raw_tweets:
-            #     print 'raw tweets: ', r.tweet_body, '\n'
+        tweets = Tweet.objects.all()
+
+        if hashtag != 'All':
+            needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
+            tweets = Tweet.objects.filter(tweet_id__in=needed_tweets)
 
         tweets = tweets.filter(creation_date__gt=min_date)
         tweets = tweets.filter(creation_date__lt=max_date)
