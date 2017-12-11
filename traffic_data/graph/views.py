@@ -35,9 +35,7 @@ class HomePageView(TemplateView):
         min_date = datetime.strptime(min_date_str, "%a %b %d %Y %H:%M:%S")
         max_date = datetime.strptime(max_date_str, "%a %b %d %Y %H:%M:%S")
 
-        hashtag = request.POST.get('hashtag');
-
-        print hashtag
+        hashtag = request.POST.get('hashtag').replace('\n', '').replace(' ', '')
 
         data = self.get_tweets(self.num_tweets, min_date, max_date, hashtag)
 

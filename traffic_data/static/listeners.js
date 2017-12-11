@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('#num_tweets a').click(function (e) {
         e.preventDefault();
         var tweet_count = $(this).text();
-        document.getElementById("tweet_btn").innerHTML = tweet_count + "<i class=\"caret\"></i>";
+        document.getElementById("tweet_btn").innerHTML = tweet_count + " <i class=\"caret\"></i>";
     });
 });
 
@@ -75,8 +75,8 @@ $(document).ready(function () {
         if (hashtag !== 'All') {
             hashtag = ($(this).text()).slice(1);
         }
-        
-        $('#hashtag-dropdown').html(hashtag + "<i class=\"caret\"></i>");
+
+        $('#hashtag-dropdown').html(hashtag + " <i class=\"caret\"></i>");
 
         var start_date = $("#from").datepicker("getDate");
         var end_date = $("#to").datepicker("getDate");

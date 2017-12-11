@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
-<title>Social Media Analytic and Visualization: Visualzing traffic related tweets in Edmonton</title>
+<title>Social Media Analytic and Visualization: Visualizing traffic related tweets in Edmonton</title>
 
 <head>
 
@@ -38,7 +38,7 @@
 
     <script>
         var min_date = "{{ min_date }}".substring(0, 13);
-        var max_date = "{{ max_date }}".substring(0,13);
+        var max_date = "{{ max_date }}".substring(0, 13);
     </script>
 
     <script src="{% static 'listeners.js' %}"></script>
@@ -53,16 +53,16 @@
     <div id="header-bar" class="container-fluid">
         <div class="row" id="flex">
             <div class="col-sm-4">
-                <a class="head-title" href="./" >
+                <a class="head-title" href="./">
                     <p>Social Media Analytic and Visualization:</p>
-                    <p1>Visualzing traffic related tweets in Edmonton</p1>
+                    <p1>Visualizing traffic related tweets in Edmonton</p1>
                 </a>
             </div>
-            <div class="col-sm-2"><p1 class="num-tweet">Number of Tweets:</p1>
-    
-                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    10
-                    <i class="caret"></i>
+            <div class="col-sm-2">
+                <p1 class="num-tweet">Number of Tweets:</p1>
+
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10 <i class="caret"></i>
                 </button>
                 <ul id="num_tweets" class="dropdown-menu">
                     <li><a class="item">5</a></li>
@@ -73,10 +73,10 @@
                     <li><a class="item">30</a></li>
                 </ul>
             </div>
-            <div class="col-sm-2"><p1 class="hashtag">Hashtag:</p1>
-                <button id="hashtag-dropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    All
-                    <i class="caret"></i>
+            <div class="col-sm-2">
+                <p1 class="hashtag">Hashtag:</p1>
+                <button id="hashtag-dropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All <i class="caret"></i>
                 </button>
                 <ul id="hashtag-list" class="dropdown-menu">
                     <li><a class="item">All</a></li>
@@ -86,7 +86,7 @@
                 </ul>
             </div>
             <!--Date picker text fields with calender-->
-            <div class="col-sm-5" >
+            <div class="col-sm-5">
                 <label class="datepicker" for="from">From</label>
                 <input type="text" id="from" name="from" placeholder="choose starting date">
                 <label class="datepicker" for="to">to</label>
@@ -106,8 +106,8 @@
                 {% include 'graphs.html' %}
             </div>
             <div class="sent_line" id="sent_line">
-                    {% include 'line_chart.html' %}
-                </div>
+                {% include 'line_chart.html' %}
+            </div>
         </div>
         <div id="tweets" class="col-sm-4" tweets-type="recent">
             <div id="top_tweets">
