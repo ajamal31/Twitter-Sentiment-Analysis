@@ -17,5 +17,8 @@ $(document).ready(function () {
             minWidth: 500,
             dialogClass: 'dial-head'
         });
+        $(".ui-widget-overlay").on("click", function(){
+            $(".dial").dialog("close");
+        });
     });
 });
