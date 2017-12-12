@@ -89,7 +89,7 @@ class Tweet(models.Model):
             neu=neu,
             sentiment_string=sentiment_string,
             is_rt=is_rt,
-            tweet_url = "https://www.twitter.com/" + str(user_id) + "/statuses/" + str(tweet_id)
+            tweet_url = "https://www.twitter.com/" + erase_space(str(user_id)) + "/statuses/" + str(tweet_id)
         )
 
         tweet.save()
@@ -126,6 +126,10 @@ class Hashtag(models.Model):
 
             hashtag.save()
 
+# get rid of extra spaces in string
+def erase_space(string):
+    string = string.replace(" ","")
+    return string
 
 # Format's the datetime to match the format of the database's datetime field
 def format_datetime(datetime):
