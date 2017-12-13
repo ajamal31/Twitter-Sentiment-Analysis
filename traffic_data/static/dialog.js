@@ -1,9 +1,8 @@
 $(document).ready(function () {
-    $(document).on("click", ".get-url",function (e) {
-        e.preventDefault();
+    $(document).on("click", ".get-url",function () {
         var url = $(this).attr('id');
-        url = url.replace(/\s/g,"");
-        var text = '<a href=' + url +'></a>' + '<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>';
+            url = url.replace(/\s/g,"");
+        var text = '<a href=' + url +'></a>';
         var feed = document.createElement("blockquote");
             feed.className = "twitter-tweet";
             feed.innerHTML =  text;
@@ -17,6 +16,8 @@ $(document).ready(function () {
             minWidth: 500,
             dialogClass: 'dial-head'
         });
+        $.getScript("/static/twitter_widget.js");
+
         $(".ui-widget-overlay").on("click", function(){
             $(".dial").dialog("close");
         });
