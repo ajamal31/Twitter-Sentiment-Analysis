@@ -84,3 +84,7 @@ label {
     color: #cecece;
     background-color: transparent;
 }
+
+.tweet-highlight {
+    background-color: #fff999;
+}

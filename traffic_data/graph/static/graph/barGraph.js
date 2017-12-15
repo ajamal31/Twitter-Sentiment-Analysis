@@ -47,7 +47,13 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
         s.shapes.on("mouseleave", function (e) {
             d3.selectAll("rect").style("opacity", 0.8);
             dimple._removeTooltip(e, this, chart, s);
-        })
+        });
+        
+        s.shapes.on("click", function (e) {
+            var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
+            $(".twitter-tweet").removeClass("tweet-highlight");
+            $("." + tid.ID).addClass("tweet-highlight");
+        });
 
         window.onresize = function () {
             // As of 1.1.0 the second parameter here allows you to draw
