@@ -52,14 +52,17 @@ blockquote.twitter-tweet a:focus {
 #neutral-rating {
     color: black;
     font-weight: bold;
+    font-size: 1.125em;
 }
 
 #positive-rating {
     color: green;
     font-weight: bold;
+    font-size: 1.125em;
 }
 
 #negative-rating {
     color: red;
     font-weight: bold;
+    font-size: 1.125em;
 }
