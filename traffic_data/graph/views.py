@@ -9,7 +9,6 @@ from nltk import word_tokenize
 from django.http import HttpResponse
 import json
 from datetime import datetime, timedelta
-from itertools import chain
 from django.template.loader import render_to_string
 
 

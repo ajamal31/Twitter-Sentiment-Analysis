@@ -20,10 +20,6 @@
     var recent_tweets = get_recent_tweets();
     var recent_title = make_tweets_title('recent', max_tweets);
 
-//    if (recent_tweets.length < max_tweets) {
-//        console.log(recent_tweets.length);
-//        max_tweets = recent_tweets.length;
-//    }
 
     $("#tweets").html("<b>" + recent_title + "</b>");
     $("#tweets").append(recent_tweets.slice(0, max_tweets));
