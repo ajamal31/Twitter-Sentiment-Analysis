@@ -55,14 +55,9 @@ label {
     color: white;
 }
 
-#updated p {
+#updated a {
     margin:auto;
     float: right;
-    padding: 20%;
-}
-
-#updated p:hover {
-    color:blue;
 }
 
 .head-title {
@@ -86,4 +81,8 @@ label {
     text-decoration: none;
     color: #cecece;
     background-color: transparent;
+}
+
+#bind {
+    padding-top: .7rem;
 }

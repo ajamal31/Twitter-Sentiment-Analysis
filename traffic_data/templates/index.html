@@ -43,6 +43,7 @@
 
     <script src="{% static 'listeners.js' %}"></script>
     <script src="{% static 'datepicker.js' %}"></script>
+    <script src="{% static 'reload_page.js' %}"></script>
 
 </head>
 
@@ -59,10 +60,11 @@
                 </a>
             </div>
             <div class="col-sm-2">
-                <p1 class="num-tweet">Number of Tweets:</p1>
-
-                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10 <i class="caret"></i>
+                <p1 class="num-tweet" class="header-text">Number of Tweets:</p1>
+    
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    10
+                    <i class="caret"></i>
                 </button>
                 <ul id="num_tweets" class="dropdown-menu">
                     <li><a class="item">5</a></li>
@@ -93,7 +95,7 @@
                 <input type="text" id="to" name="to" placeholder="choose ending date">
             </div>
             <div class="col-sm-1" id="updated">
-                <p><b>Update</b></p>
+                <a id="bind" class="header-text"><b>Update Tweets</b></a>
             </div>
         </div>
     </div>
