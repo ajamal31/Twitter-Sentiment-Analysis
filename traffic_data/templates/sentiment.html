@@ -3,7 +3,7 @@
     var neu = {{ sentimentCounts.1 | safe }};
     var neg = {{ sentimentCounts.2 | safe }};
 
-    if (pos > 0 && neg > 0 && neu > 0) {
+    if (pos > 0 || neg > 0 || neu > 0) {
         sentimentData = [
             { "Sentiment": "Positive", "Number of Tweets": pos},
             { "Sentiment": "Neutral", "Number of Tweets": neu},
@@ -13,6 +13,7 @@
     else {
         sentimentData = [];
     }
+    console.log(sentimentData.length);
     makeSentimentGraph(sentimentData, ".sentiment", "Tweets by Sentiment", "Number of Tweets", "Sentiment");
 
     function get_recent_tweets() {
