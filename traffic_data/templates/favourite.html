@@ -5,9 +5,11 @@
         {% for item in favouriteCounts %}
         var userName = "{{ item.user_id.screen_name | safe }}";
         var favc = {{ item.fav_count | safe }};
-        favouriteData.push(
-            { "User": userName, "Number of Favourites": favc }
-        );
+        if (favc > 0) { 
+            favouriteData.push(
+                { "User": userName, "Number of Favourites": favc }
+            );
+        }
         {% endfor %}
 
         return favouriteData;
@@ -23,7 +25,10 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
-            fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            var favc = {{ tweet.fav_count | safe }};
+            if (favc > 0) {
+                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            }
         {% endfor %}
         return fav_block;
     }

@@ -6,11 +6,12 @@
         {% for item in retweetCounts %}
         var userName = "{{ item.user_id.screen_name | safe }}";
         var rtc = {{ item.rt_count | safe }};
-        retweetData.push(
-            { "User": userName, "Number of Retweets": rtc}
-        );
+        if (rtc > 0) {
+            retweetData.push(
+                { "User": userName, "Number of Retweets": rtc}
+            );
+        }
         {% endfor %}
-
         return retweetData;
     }
 
@@ -24,7 +25,10 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
-            rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            var rtc = {{ tweet.rt_count | safe }};
+            if (rtc > 0) {
+                rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            }
         {% endfor %}
         return rt_block;
     }
