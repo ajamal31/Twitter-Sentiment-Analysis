@@ -5,6 +5,7 @@ $(document).ready(function () {
         var text = '<a href=' + url +'></a>';
         var feed = document.createElement("blockquote");
             feed.className = "twitter-tweet";
+            feed.setAttribute("data-conversation", "none");
             feed.innerHTML =  text;
         $(".dial").html(feed);
         $(".dial").dialog({
