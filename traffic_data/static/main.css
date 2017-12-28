@@ -1,6 +1,7 @@
 #flex {
   display: flex;
-  flex-direction: row;  
+  flex-direction: row;
+  white-space: nowrap;
 }
 
 #date-slider {
@@ -16,6 +17,7 @@
     color: white;
 }
 
+.hashtag,
 .num-tweet {
     display: inline-block;
     color: white;
@@ -23,7 +25,8 @@
     padding-bottom: 1.0rem;
 }
 
-#tweet_btn {
+#tweet_btn,
+#hashtag-dropdown {
     border-color: #eee #ddd #bbb;
     border-radius: 5px;
     border-style: solid;
@@ -52,14 +55,9 @@ label {
     color: white;
 }
 
-#updated p {
+#updated a {
     margin:auto;
     float: right;
-    padding: 20%;
-}
-
-#updated p:hover {
-    color:blue;
 }
 
 .head-title {
@@ -92,4 +90,8 @@ label {
 .dial-head .ui-dialog-titlebar{
     background-color: #eff4f7;
     background-image: none;
+}
+
+#bind {
+    padding-top: .7rem;
 }
