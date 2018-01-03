@@ -7,7 +7,13 @@
         var favc = {{ item.fav_count | safe }};
         var tid = "{{ item.tweet_url | safe }}";
         tid_split = tid.split("/");
-        id = tid_split[5];
+        var id;
+        if (tid_split.length == 5) {
+            id = tid_split[4];
+        }
+        else {
+            id = tid_split[5];
+        }
         favouriteData.push(
             { "User": userName, "Number of Favourites": favc, "ID": id }
         );
