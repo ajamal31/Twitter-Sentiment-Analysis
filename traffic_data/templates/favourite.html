@@ -37,7 +37,7 @@
             var t_id  = "{{ tweet.tweet_id | safe }}";
             var favc = {{ tweet.fav_count | safe }};
             if (favc > 0) {
-                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
             }
         {% endfor %}
         return fav_block;
