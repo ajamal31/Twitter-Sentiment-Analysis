@@ -42,17 +42,14 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             d3.select(divName).selectAll("rect").style("opacity", .3);
             d3.select(this).style("opacity", 0.8);
             dimple._showBarTooltip(e, this, chart, s);
+            var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
+            $("." + tid.ID).addClass("tweet-highlight");
         });
 
         s.shapes.on("mouseleave", function (e) {
             d3.selectAll("rect").style("opacity", 0.8);
             dimple._removeTooltip(e, this, chart, s);
-        });
-        
-        s.shapes.on("click", function (e) {
-            var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
             $(".twitter-tweet").removeClass("tweet-highlight");
-            $("." + tid.ID).addClass("tweet-highlight");
         });
 
         window.onresize = function () {
