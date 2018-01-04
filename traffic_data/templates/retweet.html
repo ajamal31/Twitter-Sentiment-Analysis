@@ -15,11 +15,13 @@
         else {
             id = tid_split[5];
         }
-        retweetData.push(
-            { "User": userName, "Number of Retweets": rtc, "ID": id }
-        );
-        {% endfor %}
 
+        if (rtc > 0) {
+            retweetData.push(
+                { "User": userName, "Number of Retweets": rtc, "ID": id }
+            );
+        }
+        {% endfor %}
         return retweetData;
     }
 
@@ -34,7 +36,10 @@
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
             var t_id  = "{{ tweet.tweet_id | safe }}";
-            rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
+            var rtc = {{ tweet.rt_count | safe }};
+            if (rtc > 0) {
+                rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
+            }
         {% endfor %}
         return rt_block;
     }

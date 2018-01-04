@@ -3,6 +3,7 @@ from django.db import models
 from django.utils import timezone
 from TwitterSearch import *
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
+from requests.exceptions import ConnectionError
 from .models import Tweet
 
 # Required keys to access the API
@@ -90,7 +91,7 @@ def store(tags):
             )       
 
 
-    except TwitterSearchException as e:  # take care of all those ugly errors if there are some
+    except (TwitterSearchException, ConnectionError) as e:  # take care of all those ugly errors if there are some
         print(e)
 
 def get_sentiment_string(compound):

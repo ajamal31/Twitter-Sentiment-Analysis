@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from database.models import Tweet
+from database.models import Hashtag
 from nltk import word_tokenize
 from django.http import HttpResponse
 import json
@@ -16,9 +17,12 @@ class HomePageView(TemplateView):
     num_tweets = 30
     default_min_date = datetime(2013, 9, 30, 7, 6, 5)
     default_max_date = datetime(3030, 9, 30, 7, 6, 5)
+    default_hashtag = 'All'
 
     def get(self, request, **kwargs):
-        return render(request, 'index.html', self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date))
+        return render(request, 'index.html',
+                      self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date,
+                                      self.default_hashtag))
 
     def post(self, request, **kwargs):
         min_date_str = request.POST.get('min_date')
@@ -30,20 +34,22 @@ class HomePageView(TemplateView):
         min_date = datetime.strptime(min_date_str, "%a %b %d %Y %H:%M:%S")
         max_date = datetime.strptime(max_date_str, "%a %b %d %Y %H:%M:%S")
 
-        data = self.get_tweets(self.num_tweets, min_date, max_date)
+        hashtag = request.POST.get('hashtag').replace('\n', '').replace(' ', '')
+
+        data = self.get_tweets(self.num_tweets, min_date, max_date, hashtag)
 
         bar_data = render(request, 'graphs.html', data)
         line_data = render(request, 'line_chart.html', data)
         tweet_data = render(request, 'tweets.html', data)
 
         new_data = {
-            'bar' : str(bar_data)[38:],
-            'line' : str(line_data)[38:],
+            'bar': str(bar_data)[38:],
+            'line': str(line_data)[38:],
             'tweet': str(tweet_data)[38]
         }
-        
+
         response = HttpResponse(json.dumps(new_data))
-        
+
         return response
 
     def clean_tweet(self, tweet):
@@ -81,17 +87,23 @@ class HomePageView(TemplateView):
 
         return top_tweets
 
-    def get_tweets(self, how_many, min_date, max_date):
+    def get_tweets(self, how_many, min_date, max_date, hashtag):
+
         tweets = Tweet.objects.all()
-        tweets = tweets.filter(creation_date__gt = min_date)
-        tweets = tweets.filter(creation_date__lt = max_date)
+
+        if hashtag != 'All':
+            needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
+            tweets = Tweet.objects.filter(tweet_id__in=needed_tweets)
+
+        tweets = tweets.filter(creation_date__gt=min_date)
+        tweets = tweets.filter(creation_date__lt=max_date)
 
         data = [
             tweets.filter(sentiment_string="pos").count(),
             tweets.filter(sentiment_string="neu").count(),
             tweets.filter(sentiment_string="neg").count()
         ]
-        
+
         recent_tweets = self.get_recent_tweets(tweets.order_by("-creation_date"), how_many)
 
         rtSorted = list(tweets.order_by("-rt_count").filter(is_rt=False))
@@ -118,7 +130,7 @@ class HomePageView(TemplateView):
         if (len(tweets) > 0):
             latest = tweets[0].creation_date
             earliest = tweets[-1].creation_date
-        else :
+        else:
             latest = datetime.now()
             earliest = datetime.now()
 

@@ -14,9 +14,11 @@
         else {
             id = tid_split[5];
         }
-        favouriteData.push(
-            { "User": userName, "Number of Favourites": favc, "ID": id }
-        );
+        if (favc > 0) { 
+            favouriteData.push(
+                { "User": userName, "Number of Favourites": favc, "ID": id }
+            );
+        }
         {% endfor %}
 
         return favouriteData;
@@ -33,7 +35,10 @@
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
             var t_id  = "{{ tweet.tweet_id | safe }}";
-            fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
+            var favc = {{ tweet.fav_count | safe }};
+            if (favc > 0) {
+                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+            }
         {% endfor %}
         return fav_block;
     }
