@@ -7,12 +7,11 @@
 
     {% load static %}
 
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+
     <!-- D3 library files -->
     <script src="{% static 'graph/d3.v4.min.js' %}"></script>
     <script src="{% static 'graph/dimple.v2.3.0.min.js' %}"></script>
-    <script src="{% static 'graph/barGraph.js' %}"></script>
-    <script src="{% static 'graph/lineGraph.js' %}"></script>
-    <script src="{% static 'tweet_info.js' %}"></script>
 
     <!-- jQuery files link -->
     <script src="{% static '/jquery/jquery.min.js' %}"></script>
@@ -43,15 +42,17 @@
         var max_date = "{{ max_date }}".substring(0, 13);
     </script>
 
+    <script src="{% static 'graph/barGraph.js' %}"></script>
+    <script src="{% static 'graph/lineGraph.js' %}"></script>
+    <script src="{% static 'tweet_info.js' %}"></script>
     <script src="{% static 'listeners.js' %}"></script>
     <script src="{% static 'datepicker.js' %}"></script>
     <script src="{% static 'reload_page.js' %}"></script>
 
 </head>
 
-</head>
+<script>console.log("Script done loading!");</script>
 
-<body class="keen-dashboard" style="padding-top: 80px;">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div id="header-bar" class="container-fluid">
         <div class="row" id="flex">
@@ -63,7 +64,8 @@
             <div class="col-sm-2">
                 <p1 class="num-tweet" class="header-text">Number of Tweets:</p1>
 
-                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     10
                     <i class="caret"></i>
                 </button>
@@ -103,13 +105,20 @@
 </div>
 
 <div id="graphs-id" class="container-fluid">
-
-<div><p1>Visualizing traffic related tweets in Edmonton</p1></div>
+    <div>
+        <p1>Visualizing traffic related tweets in Edmonton</p1>
+    </div>
 
     <div class="row">
         <div class="col-sm-8 graphs">
-            <div class="bar-graphs">
-                {% include 'graphs.html' %}
+            <div class="sentiment" id="sentiment">
+                {% include 'sentiment.html' %}
+            </div>
+            <div class="retweet" id="retweet">
+                {% include 'retweet.html' %}
+            </div>
+            <div class="favourite" id="favourite">
+                {% include 'favourite.html' %}
             </div>
             <div class="sent_line" id="sent_line">
                 {% include 'line_chart.html' %}
@@ -122,7 +131,6 @@
         </div>
     </div>
 </div>
-</body>
 
 {% csrf_token %}
 
