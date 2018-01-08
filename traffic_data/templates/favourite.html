@@ -5,9 +5,18 @@
         {% for item in favouriteCounts %}
         var userName = "{{ item.user_id.screen_name | safe }}";
         var favc = {{ item.fav_count | safe }};
+        var tid = "{{ item.tweet_url | safe }}";
+        tid_split = tid.split("/");
+        var id;
+        if (tid_split.length == 5) {
+            id = tid_split[4];
+        }
+        else {
+            id = tid_split[5];
+        }
         if (favc > 0) { 
             favouriteData.push(
-                { "User": userName, "Number of Favourites": favc }
+                { "User": userName, "Number of Favourites": favc, "ID": id }
             );
         }
         {% endfor %}
@@ -25,9 +34,10 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
+            var t_id  = "{{ tweet.tweet_id | safe }}";
             var favc = {{ tweet.fav_count | safe }};
             if (favc > 0) {
-                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
             }
         {% endfor %}
         return fav_block;

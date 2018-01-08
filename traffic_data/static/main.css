@@ -83,6 +83,10 @@ label {
     background-color: transparent;
 }
 
+.tweet-highlight {
+    background-color: #BADDEA;
+}
+
 #bind {
     padding-top: .7rem;
 }
