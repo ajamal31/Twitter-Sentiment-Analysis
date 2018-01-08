@@ -63,9 +63,7 @@
                 <p1 class="num-tweet" class="header-text">Number of Tweets:</p1>
 
                 <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    10
-                    <i class="caret"></i>
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10 <i class="caret"></i>
                 </button>
                 <ul id="num_tweets" class="dropdown-menu">
                     <li><a class="item">5</a></li>
@@ -107,7 +105,7 @@
 <div id="graphs-id" class="container-fluid">
     <div class="row">
         <div class="col-sm-8 graphs">
-            <div class="bar-graphs">
+            <div class="bar-graphs" id="bar_graphs"}>
                 {% include 'graphs.html' %}
             </div>
             <div class="sent_line" id="sent_line">

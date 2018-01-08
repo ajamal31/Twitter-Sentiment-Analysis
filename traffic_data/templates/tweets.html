@@ -17,6 +17,7 @@
     }
 
     var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
     var recent_tweets = get_recent_tweets();
     var recent_title = make_tweets_title('recent', max_tweets);
 
