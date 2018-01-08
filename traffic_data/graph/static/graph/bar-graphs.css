@@ -4,15 +4,12 @@
 
  /* For the div that contains all the graphs */
 .graphs {
-    margin: 5vh 0vh 0vh 0vh;
     overflow-y: scroll;
     overflow-x: hidden;
     position: fixed;
-    /*left: 0;*/
-    /*top: 0;*/
-    height: 95vh;
+    left: 0;
+    top: 10vh;
+    height: 87vh;
 }
 
-.bar-graphs {
-    /*background-color: red;*/
-}
+

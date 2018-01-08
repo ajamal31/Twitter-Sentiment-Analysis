@@ -35,6 +35,14 @@
     color: #1A232D;
 }
 
+#tweet_btn {
+    width: 7vh;
+}
+
+#hashtag-dropdown {
+    width: 12vh;
+}
+
 .header-text {
     color: white;
 }
@@ -81,5 +89,15 @@ label {
     text-decoration: none;
     color: #cecece;
     background-color: transparent;
+}
+
+#num_tweets {
+
+}
+
+#hashtag-list {
+    margin-top: -9%;
+    margin-left: 38%;
+    padding-right: 0px;
 }
 
