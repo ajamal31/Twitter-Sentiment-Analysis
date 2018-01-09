@@ -22,9 +22,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@rl3um0@bp$85_sb3wugxlk9q(5_8*%w8ipn4=l)*6sl+1fyv1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'http://localhost:8000/static/bootstrap/bootstrap.min.css',
+                 'http://localhost:8000/static/jquery/jquery-ui.css', 'http://localhost:8000/static/bootstrap/bootstrap-theme.min.css', '']
 
 # Application definition
 
