@@ -91,4 +91,6 @@ label {
     background-color: transparent;
 }
 
-
+.tweet-highlight {
+    background-color: #BADDEA;
+}
