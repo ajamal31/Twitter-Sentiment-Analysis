@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: row;
   white-space: nowrap;
+    background-color: #1A232D;
 }
 
 #date-slider {
@@ -17,23 +18,29 @@
     color: white;
 }
 
+#bind,
 .hashtag,
 .num-tweet {
     display: inline-block;
     color: white;
-    padding-top: 1.3rem;
-    padding-bottom: 1.0rem;
+    padding-top: 2vh;
+    padding-right: 0.4vh;
 }
 
 #tweet_btn,
 #hashtag-dropdown {
-    border-color: #eee #ddd #bbb;
-    border-radius: 5px;
-    border-style: solid;
-    border-width: 1px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-    color: inherit;
-    background: white;
+    border-radius: 3px;
+    padding: 0.3vh 0.7vh;
+    background-color: white;
+    color: #1A232D;
+}
+
+#tweet_btn {
+    width: 7vh;
+}
+
+#hashtag-dropdown {
+    width: 10vh;
 }
 
 .header-text {
@@ -62,8 +69,9 @@ label {
 
 .head-title {
     float:left;
+    font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
     height: 50px;
-    padding: 12px 15px;
+    padding-top: 3vh;
     line-height: 8px;
     color: #fff;
 }
@@ -92,6 +100,6 @@ label {
     background-image: none;
 }
 
-#bind {
-    padding-top: .7rem;
+.tweet-highlight {
+    background-color: #ebf5f9 !important;
 }

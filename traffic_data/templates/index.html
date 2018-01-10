@@ -5,18 +5,16 @@
 <title>Social Media Analytic and Visualization: Visualizing traffic related tweets in Edmonton</title>
 
 <head>
-
     {% load static %}
+    <link rel="icon" href="{% static 'favicon.ico' %}">
 
     <!-- D3 library files -->
     <script src="{% static 'graph/d3.v4.min.js' %}"></script>
     <script src="{% static 'graph/dimple.v2.3.0.min.js' %}"></script>
-    <script src="{% static 'graph/barGraph.js' %}"></script>
-    <script src="{% static 'graph/lineGraph.js' %}"></script>
-    <script src="{% static 'tweet_info.js' %}"></script>
 
     <!-- jQuery files link -->
     <script src="{% static '/jquery/jquery.min.js' %}"></script>
+
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static '/bootstrap/bootstrap.min.css' %}">
 
@@ -26,10 +24,12 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="{% static '/bootstrap/bootstrap.min.js' %}"></script>
 
-    <!-- jQuery's slider links -->
+     <!-- jQuery's slider links -->
     <script src="{% static '/jquery/jquery-1.12.4.js' %}"></script>
     <script src="{% static '/jquery/jquery-ui.js' %}"></script>
     <link rel="stylesheet" href="{% static '/jquery/jquery-ui.css' %}">
+    <link rel="stylesheet" href="{% static '/jquery/jquery-ui.structure.css' %}">
+    <link rel="stylesheet" href="{% static '/jquery/jquery-ui.theme.css' %}">
 
     <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
     <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
@@ -41,13 +41,14 @@
         var max_date = "{{ max_date }}".substring(0, 13);
     </script>
 
+    <script src="{% static 'graph/barGraph.js' %}"></script>
+    <script src="{% static 'graph/lineGraph.js' %}"></script>
+    <script src="{% static 'tweet_info.js' %}"></script>
     <script src="{% static 'listeners.js' %}"></script>
     <script src="{% static 'datepicker.js' %}"></script>
     <script src="{% static 'dialog.js' %}"></script>
     <script src="{% static 'twitter_widget.js' %}"></script>
     <script src="{% static 'reload_page.js' %}"></script>
-</head>
-
 </head>
 
 <body class="keen-dashboard" style="padding-top: 80px;">
@@ -56,16 +57,15 @@
         <div class="row" id="flex">
             <div class="col-sm-4">
                 <a class="head-title" href="./">
-                    <p>Social Media Analytic and Visualization:</p>
+                    <p>Social Media Analytic and Visualization</p>
                     <p1>Visualizing traffic related tweets in Edmonton</p1>
                 </a>
             </div>
             <div class="col-sm-2">
                 <p1 class="num-tweet" class="header-text">Number of Tweets:</p1>
-    
-                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    10
-                    <i class="caret"></i>
+
+                <button id="tweet_btn" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">10 <i class="caret"></i>
                 </button>
                 <ul id="num_tweets" class="dropdown-menu">
                     <li><a class="item">5</a></li>
@@ -79,7 +79,8 @@
             <div class="col-sm-2">
                 <p1 class="hashtag">Hashtag:</p1>
                 <button id="hashtag-dropdown" class="btn btn-secondary btn-sm dropdown-toggle" type="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All <i class="caret"></i>
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All <i id="dropdown_caret"
+                                                                                                 class="caret"></i>
                 </button>
                 <ul id="hashtag-list" class="dropdown-menu">
                     <li><a class="item">All</a></li>
@@ -96,16 +97,17 @@
                 <input type="text" id="to" name="to" placeholder="choose ending date">
             </div>
             <div class="col-sm-1" id="updated">
-                <a id="bind" class="header-text"><b>Update Tweets</b></a>
+                <a id="bind" class="header-text" href=""><b>Update Tweets</b></a>
             </div>
         </div>
     </div>
 </div>
+</body>
 
 <div id="graphs-id" class="container-fluid">
     <div class="row">
         <div class="col-sm-8 graphs">
-            <div class="bar-graphs">
+            <div class="bar-graphs" id="bar_graphs" }>
                 {% include 'graphs.html' %}
             </div>
             <div class="sent_line" id="sent_line">
@@ -119,8 +121,8 @@
         </div>
     </div>
 </div>
+
 <div class="dial"></div>
-</body>
 
 {% csrf_token %}
 
