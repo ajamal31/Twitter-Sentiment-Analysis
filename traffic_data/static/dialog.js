@@ -1,6 +1,5 @@
 $(document).ready(function () {
     $(document).on("click", ".get-url",function () {
-        console.log("clicked");
         var url = $(this).attr('id');
             url = url.replace(/\s/g,"");
         var text = '<a href=' + url +'></a>';
