@@ -1,7 +1,7 @@
 #flex {
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
     background-color: #1A232D;
 }
 
@@ -113,7 +113,7 @@ label {
 
 @keyframes spin {
   0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); 
+  100% { transform: rotate(360deg); }
 }
 
 .tweet-highlight {
