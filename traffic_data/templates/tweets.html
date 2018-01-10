@@ -1,4 +1,4 @@
-<script>
+<script async>
 
     function get_recent_tweets() {
         var block = [];
@@ -10,7 +10,7 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
-            var t_id = "{{tweet.tweet_id | safe }}";
+            var t_id = "{{ tweet.tweet_id | safe }}";
             block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
         {% endfor %}
 
@@ -18,6 +18,7 @@
     }
 
     var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
     var recent_tweets = get_recent_tweets();
     var recent_title = make_tweets_title('recent', max_tweets);
 

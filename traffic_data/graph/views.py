@@ -10,13 +10,18 @@ from django.http import HttpResponse
 import json
 from datetime import datetime, timedelta
 from django.template.loader import render_to_string
+from django.utils import timezone
+import pytz
+
+timezone.now()
+local_timezone = pytz.timezone('America/Edmonton')
 
 
 # Create your views here.
 class HomePageView(TemplateView):
     num_tweets = 30
-    default_min_date = datetime(2013, 9, 30, 7, 6, 5)
-    default_max_date = datetime(3030, 9, 30, 7, 6, 5)
+    default_min_date = datetime(2013, 9, 30, 7, 6, 5, 000000, tzinfo=local_timezone)
+    default_max_date = datetime(3030, 9, 30, 7, 6, 5, 000000, tzinfo=local_timezone)
     default_hashtag = 'All'
 
     def get(self, request, **kwargs):
@@ -27,12 +32,11 @@ class HomePageView(TemplateView):
     def post(self, request, **kwargs):
         min_date_str = request.POST.get('min_date')
         min_date_str = min_date_str[:24]
-
         max_date_str = request.POST.get('max_date')
-        max_date_str = max_date_str[:24]
+        max_date_str = max_date_str[:24].replace('00:00:00', '23:59:59')
 
-        min_date = datetime.strptime(min_date_str, "%a %b %d %Y %H:%M:%S")
-        max_date = datetime.strptime(max_date_str, "%a %b %d %Y %H:%M:%S")
+        min_date = datetime.strptime(min_date_str, "%a %b %d %Y %H:%M:%S").replace(tzinfo=local_timezone)
+        max_date = datetime.strptime(max_date_str, "%a %b %d %Y %H:%M:%S").replace(tzinfo=local_timezone)
 
         hashtag = request.POST.get('hashtag').replace('\n', '').replace(' ', '')
 
@@ -95,8 +99,8 @@ class HomePageView(TemplateView):
             needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
             tweets = Tweet.objects.filter(tweet_id__in=needed_tweets)
 
-        tweets = tweets.filter(creation_date__gt=min_date)
-        tweets = tweets.filter(creation_date__lt=max_date)
+        tweets = tweets.filter(creation_date__gte=min_date)
+        tweets = tweets.filter(creation_date__lte=max_date)
 
         data = [
             tweets.filter(sentiment_string="pos").count(),

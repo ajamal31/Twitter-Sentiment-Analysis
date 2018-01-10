@@ -1,5 +1,5 @@
 .keen-dashboard {
-    background: #f2f2f2;
+    background: white;
     font-family: 'Gotham Rounded SSm A', 'Gotham Rounded SSm B', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
@@ -75,8 +75,13 @@
 }
 
 .sentiment, .sent_line, .favourite, .reply, .retweet {
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15), 0 1px 5px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    border-color: #eee #ddd #bbb;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
     height: 400px;
-    width: 95%;
-    margin: 2%;
+    width: 121vh;
+    margin-bottom: 1.5%;
 }

@@ -1,17 +1,18 @@
-function process_tweet(body, date, screen_name, name, url, rating, tweet_id) {
+function process_tweet(body, date, screen_name, name, url, rating, t_id) {
 
     var output_rating = complete_rating(rating);
     var rating_text_id = rating_id(output_rating);
 
     var block = document.createElement("blockquote");
-    block.className = "twitter-tweet get-url";
-    block.id = "https://www.twitter.com/" + screen_name + "/status/" + tweet_id
+
+    block.className = "twitter-tweet get-url " + t_id;;
+    block.id = "https://www.twitter.com/" + screen_name + "/status/" + t_id
+
     block.innerHTML = '<data-lang=\"en\">' +
-        "<p lang='en'>" + body + "</p>" +
         "<p id=" + rating_text_id + " lang='en'>Tweet Rating: " + output_rating + "</p>" +
+        "<p lang='en'>" + body + "</p>" +
         "&mdash; " + name + " (@" + screen_name + ") " + '<a style="text-decoration:none">' +
         date + "</a>";
-
     return block;
 }
 
@@ -50,12 +51,12 @@ function update_tweets(type, data) {
 
 function make_tweets_title(type, count) {
     if (type === 'reply') {
-        return 'Most Replied Tweets: ' + count;
+        return 'Most Replied Tweets (' + count + ')';
     } else if (type === 'favourite') {
-        return ' Most Favourited Tweets: ' + count;
+        return 'Most Favourited Tweets (' + count + ')';
     } else if (type === 'retweet') {
-        return ' Most Retweeted Tweets: ' + count;
+        return 'Most Retweeted Tweets (' + count + ')';
     } else if (type === 'recent') {
-        return ' Most Recent Tweets: ' + count;
+        return 'Most Recent Tweets (' + count + ')';
     }
 }
