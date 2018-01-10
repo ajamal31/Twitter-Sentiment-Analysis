@@ -43,9 +43,8 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             d3.select(this).style("opacity", 0.8);
             dimple._showBarTooltip(e, this, chart, s);
             var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
-            if (yTitle != "Sentiment") {
-                $("." + tid.ID).addClass("tweet-highlight");
-            }
+            $("." + tid.ID).addClass("tweet-highlight");
+            
         });
 
         s.shapes.on("mouseleave", function (e) {
