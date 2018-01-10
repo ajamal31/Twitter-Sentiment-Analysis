@@ -17,6 +17,8 @@ function bind_tweets(graph_container, type, tweets, max_tweets) {
 }
 
 function make_ajax(start_date, end_date, hashtag) {
+    var loader = document.getElementById("loader");
+    loader.style.display = "block";
     $.ajax({
         url: "/",
         type: "POST",
@@ -35,6 +37,7 @@ function make_ajax(start_date, end_date, hashtag) {
             alert(errmsg)
         }
     });
+    loader.style.display = "none";
 }
 
 $(document).ready(function () {
