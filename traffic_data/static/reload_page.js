@@ -12,7 +12,7 @@ $(document).ready(function () {
             }
         }
     });
-    
+
     //update database and reloading view
     $(document).on('click',"#bind", function(){
         $("#updated").html("<br><p style='color: white;'>Updating...</p>");

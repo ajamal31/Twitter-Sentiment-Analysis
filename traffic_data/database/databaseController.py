@@ -17,7 +17,7 @@ token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 def store(tags):
     try:
         tso = TwitterSearchOrder()
-        tso.set_keywords(tags, or_operator = True)
+        tso.set_keywords(tags, or_operator=True)
 
         sid = SentimentIntensityAnalyzer()
 
@@ -28,10 +28,14 @@ def store(tags):
             access_token=token_key,
             access_token_secret=token_secret
         )
-        
-        tweet_id_array =[]#using array instead of calling twitter search again, to make it more time efficient 
-       
+
+        tweet_id_array = []  # using array instead of calling twitter search again, to make it more time efficient
+        count = 0
         for tweet in ts.search_tweets_iterable(tso):
+            print tweet['text']
+            print
+            count += 1
+
             if (tweet['user']['location'][0:8].lower() == 'edmonton'):
                 tweet_id_array.append(tweet['id'])
                 ss = sid.polarity_scores(tweet['text'])
@@ -82,17 +86,20 @@ def store(tags):
                         tweet['id'], hashtag['text'].lower()
                     )
 
-        #count and save the rep_count after all the tweet data is saved and updated in database
+        # count and save the rep_count after all the tweet data is saved and updated in database
         for tweetid in tweet_id_array:
             rp_count = Tweet.objects.filter(tid_parent=tweetid).count()
             mod.Tweet.insert_replycount(
                 tweetid,
                 rp_count
-            )       
+            )
+
+        print count
 
 
     except (TwitterSearchException, ConnectionError) as e:  # take care of all those ugly errors if there are some
-        print(e)
+        print'Exception:', e
+
 
 def get_sentiment_string(compound):
     if (compound >= 0.5):
@@ -114,7 +121,7 @@ def print_user(tweet):
 
 # These need to be in the controller not here but it's here for testing.
 def updateDatabase():
-    hashtags = ['yegtraffic','visionzero','ABRoads']
+    hashtags = ['#yegtraffic', '#abroads', '#visionzero', '#yegradar']
     print "Getting data and storing it..."
     store(hashtags)
     print("Data stored")
