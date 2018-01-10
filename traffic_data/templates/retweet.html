@@ -1,4 +1,4 @@
-<script>
+<script async>
 
     function get_rt_data() {
         retweetData = [];
@@ -6,9 +6,19 @@
         {% for item in retweetCounts %}
         var userName = "{{ item.user_id.screen_name | safe }}";
         var rtc = {{ item.rt_count | safe }};
+        var tid = "{{ item.tweet_url | safe }}";
+        tid_split = tid.split("/");
+        var id;
+        if (tid_split.length == 5) {
+            id = tid_split[4];
+        }
+        else {
+            id = tid_split[5];
+        }
+
         if (rtc > 0) {
             retweetData.push(
-                { "User": userName, "Number of Retweets": rtc}
+                { "User": userName, "Number of Retweets": rtc, "ID": id }
             );
         }
         {% endfor %}
@@ -25,9 +35,10 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
+            var t_id  = "{{ tweet.tweet_id | safe }}";
             var rtc = {{ tweet.rt_count | safe }};
             if (rtc > 0) {
-                rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+                rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
             }
         {% endfor %}
         return rt_block;
@@ -35,6 +46,7 @@
 
     var rt_data = get_rt_data();
     var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
     var rt_container = ".retweet";
     var rt_title = "Most Retweeted";
     var rt_x_title = "Number of Retweets";

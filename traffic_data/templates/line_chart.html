@@ -1,4 +1,4 @@
- <script>
+ <script async>
      var data = [];
 
     {% for tweet in tweets %}
@@ -13,7 +13,5 @@
     );
     {% endfor %}
 
-    $(document).ready(function() {
         makeLineGraph(data, ".sent_line", "Sentiment Over Time");
-    });
  </script>
