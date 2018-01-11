@@ -28,22 +28,50 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             .text(title);
 
         if (yTitle === "Sentiment") {
-            chart.axes[0].addOrderRule(["Negative", "Neutral","Positive"]);
+            chart.axes[0].addOrderRule(["Negative", "Neutral", "Positive"]);
         }
         else {
             chart.axes[0].addOrderRule(xTitle, false);
         }
-        
+
         chart.axes[1].fontSize = "12px";
         chart.draw(draw_time);
         chart.axes[0].titleShape.style("font-size", "12px");
-        
+
         s.shapes.on("mouseover", function (e) {
             d3.select(divName).selectAll("rect").style("opacity", .3);
             d3.select(this).style("opacity", 0.8);
             dimple._showBarTooltip(e, this, chart, s);
-            var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
-            $("." + tid.ID).addClass("tweet-highlight");
+
+            var max_tweets = $("#tweet_btn").text();
+            max_tweets = max_tweets.replace(/\s+/g, "");
+
+            if (title === 'Most Retweeted') {
+                var type = 'retweet';
+                var tweets = get_rt_tweets();
+            } else if (title === 'Most Favourited') {
+                var type = 'favourite';
+                var tweets = get_fav_tweets();
+            }
+
+            if (title !== 'Tweets by Sentiment') {
+                var tweets_title = make_tweets_title(type, max_tweets);
+                var tweets_container = $("#tweets");
+                tweets_container.html("<b>" + tweets_title + "</b>");
+                tweets_container.append(tweets.slice(0, max_tweets));
+                tweets_container.attr('tweets-type', type);
+
+                var tid = data.find(function (d) {
+                    return d[xTitle] == e.cx && d[yTitle] == e.cy
+                });
+                $("." + tid.ID).addClass("tweet-highlight");
+                var vert_position = $("." + tid.ID).offset().top + $('#tweets').scrollTop() - $('#flex').height() - $("." + tid.ID).height();
+                console.log('nav bar height:' + $('#header-bar').height());
+                console.log('scrollTop: ' + $('#tweets').scrollTop());
+                $('#tweets').animate({
+                    scrollTop: vert_position
+                }, 500);
+            }
         });
 
         s.shapes.on("mouseleave", function (e) {
@@ -58,7 +86,7 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             // when you know the data won't have changed.
             chart.draw(0, true);
         };
-    s.tooltipFontSize = "14px";
+        s.tooltipFontSize = "14px";
 
     }
     else {
@@ -66,20 +94,20 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
         rect = div.getBoundingClientRect();
 
         svg.append("text")
-        .attr("x", rect.width / 2)
-        .attr("y", rect.height / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .style("text-decoration", "underline")
-        .text("No data avaliable");
+            .attr("x", rect.width / 2)
+            .attr("y", rect.height / 2)
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
+            .text("No data avaliable");
     }
-    
+
 }
 
 function makeSocialGraph(data, divName, title, xTitle) {
     makeGraph(data, title, divName, xTitle, "User");
 }
-   
+
 function makeSentimentGraph(data, divName, title, xTitle) {
     makeGraph(data, title, divName, xTitle, "Sentiment");
 }

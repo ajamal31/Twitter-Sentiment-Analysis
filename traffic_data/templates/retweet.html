@@ -27,7 +27,7 @@
 
     function get_rt_tweets() {
         var rt_block = [];
-        {% for tweet in topRetweet %}
+        {% for tweet in retweetCounts %}
             var date = new Date("{{ tweet.creation_date | safe }}");
             var formattedDate = date.toDateString();
             var t_body = "{{ tweet.tweet_body | safe }}";
