@@ -64,17 +64,19 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
                 var tid = data.find(function (d) {
                     return d[xTitle] == e.cx && d[yTitle] == e.cy
                 });
-                $("." + tid.ID).addClass("tweet-highlight");
-                var vert_position = $("." + tid.ID).offset().top + $('#tweets').scrollTop() - $('#flex').height() - $("." + tid.ID).height();
-                console.log('nav bar height:' + $('#header-bar').height());
-                console.log('scrollTop: ' + $('#tweets').scrollTop());
-                $('#tweets').animate({
+
+                var tweet_box = $("." + tid.ID);
+                var vert_position = tweet_box.offset().top + tweets_container.scrollTop() - $('#flex').height() - tweet_box.height();
+
+                tweet_box.addClass("tweet-highlight");
+                tweets_container.animate({
                     scrollTop: vert_position
-                }, 500);
+                }, 200);
             }
         });
 
         s.shapes.on("mouseleave", function (e) {
+            $('#tweets').stop(true, true);
             d3.selectAll("rect").style("opacity", 0.8);
             dimple._removeTooltip(e, this, chart, s);
             $(".twitter-tweet").removeClass("tweet-highlight");

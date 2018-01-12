@@ -13,6 +13,7 @@ function bind_tweets(graph_container, type, tweets, max_tweets) {
         tweets_container.html("<b>" + tweets_title + "</b>");
         tweets_container.append(tweets);
         tweets_container.attr('tweets-type', type);
+        tweets_container.scrollTop(0);
     });
 }
 
