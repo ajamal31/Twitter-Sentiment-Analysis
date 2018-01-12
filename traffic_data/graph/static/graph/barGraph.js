@@ -53,6 +53,33 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
              $(".twitter-tweet").removeClass("tweet-highlight");
         });
 
+        s.shapes.on("click", function (e) {
+            var tid = data.find(function(d){ return d[xTitle] == e.cx && d[yTitle] == e.cy});
+
+            var url = "https://www.twitter.com/" + tid.User + "/status/" + tid.ID;
+                url = url.replace(/\s/g,"");
+            var text = '<a href=' + url +'></a>';
+            var feed = document.createElement("blockquote");
+                feed.className = "twitter-tweet";
+                feed.setAttribute("data-conversation", "none");
+                feed.innerHTML =  text;
+            if (yTitle != "Sentiment") {
+                $(".dial").html(feed);
+                $(".dial").dialog({
+                    title: "Tweet",
+                    draggable: false,
+                    position: {my: "center", at: "top"},
+                    modal: true,
+                    minHeight: 200,
+                    minWidth: 500,
+                    dialogClass: 'dial-head'
+                });
+                $.getScript("/static/twitter_widget.js");
+                $(".ui-widget-overlay").on("click", function(){
+                    $(".dial").dialog("close");
+                });
+            }
+        });
         window.onresize = function () {
             // As of 1.1.0 the second parameter here allows you to draw
             // without reprocessing data.  This saves a lot on performance
