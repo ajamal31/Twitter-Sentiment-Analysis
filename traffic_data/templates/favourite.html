@@ -44,6 +44,7 @@
     }
 
     var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
     var fav_data = get_fav_data();
     var fav_container = ".favourite";
     var fav_title = "Most Favourited";

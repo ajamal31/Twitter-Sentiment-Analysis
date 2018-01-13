@@ -27,9 +27,9 @@ function make_ajax(start_date, end_date, hashtag) {
         },
         success: function (data) {
             data = JSON.parse(data);
-            $('.bar-graphs').html(data.bar);
-            $('.sent_line').html(data.line);
-            $('.top_tweets').html(data.tweets);
+            $('#top_tweets').html(data.tweets);
+            $('#sent_line').html(data.line);
+            $('#bar_graphs').html(data.bar);
         },
         error: function (xhr, errmsg, err) {
             alert(errmsg)

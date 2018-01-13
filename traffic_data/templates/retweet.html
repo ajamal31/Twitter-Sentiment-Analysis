@@ -1,4 +1,4 @@
-<script>
+<script async>
 
     function get_rt_data() {
         retweetData = [];
@@ -46,6 +46,7 @@
 
     var rt_data = get_rt_data();
     var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
     var rt_container = ".retweet";
     var rt_title = "Most Retweeted";
     var rt_x_title = "Number of Retweets";
