@@ -2,7 +2,7 @@
 
 ### Installing textblob
 
-Run the following ommands:
+Run the following commands:
 * $ pip install -U textblob
 * $ pip install TwitterAPI
 * $ python -m textblob.download_corpora
