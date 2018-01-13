@@ -4,17 +4,17 @@ from database.models import Tweet
 
 # Create your views here.
 
-#
-# class HomePageView(TemplateView):
-#     def get(self, request, **kwargs):
-#         data = [
-#             Tweet.objects.filter(sentiment_string="pos").count(),
-#             Tweet.objects.filter(sentiment_string="neu").count(),
-#             Tweet.objects.filter(sentiment_string="neg").count()
-#         ]
-#         return render(request, 'index.html', {'dbdata': data})
-#
-# class dashboardview(TemplateView):
-#     def get(self, request, **kwargs):
-#         template = 'dash_temp.html'
-#         return render(request,template)
+
+class HomePageView(TemplateView):
+    def get(self, request, **kwargs):
+        data = [
+            Tweet.objects.filter(sentiment_string="pos").count(),
+            Tweet.objects.filter(sentiment_string="neu").count(),
+            Tweet.objects.filter(sentiment_string="neg").count()
+        ]
+        return render(request, 'index.html', {'dbdata': data})
+
+class dashboardview(TemplateView):
+    def get(self, request, **kwargs):
+        template = 'dash_temp.html'
+        return render(request,template)
