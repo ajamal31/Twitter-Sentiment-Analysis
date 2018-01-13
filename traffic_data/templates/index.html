@@ -5,7 +5,7 @@
 
 <head>
 
-    {% load static %}
+    {% load static from staticfiles %}
 
     <!-- D3 library files -->
     <script src="{% static 'graph/d3.v4.min.js' %}"></script>
@@ -15,26 +15,26 @@
     <script src="{% static 'tweet_info.js' %}"></script>
 
     <!-- jQuery files link -->
-    <script src="{% static '/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
 
     <!-- jQuery's slider links -->
-    <script src="{% static '/jquery/jquery-1.12.4.js' %}"></script>
-    <script src="{% static '/jquery/jquery-ui.js' %}"></script>
-    <link rel="stylesheet" href="{% static '/jquery/jquery-ui.css' %}">
+    <script src="{% static 'jquery/jquery-1.12.4.js' %}"></script>
+    <script src="{% static 'jquery/jquery-ui.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'jquery/jquery-ui.css' %}">
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="{% static '/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.min.css' %}">
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="{% static '/bootstrap/bootstrap-theme.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap-theme.min.css' %}">
 
     <!-- Latest compiled and minified JavaScript -->
-    <script src="{% static '/bootstrap/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap/bootstrap.min.js' %}"></script>
 
-    <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'graph/bar-graphs.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
+    <link rel="stylesheet" href="{%static 'traffic_data/keen-dashboards.css' %}">
+    <link rel="stylesheet" href="{%static 'tweets.css' %}">
+    <link rel="stylesheet" href="{%static 'graph/bar-graphs.css' %}">
+    <link rel="stylesheet" href="{%static 'main.css' %}">
 
     <script>
         var min_date = "{{ min_date }}".substring(0, 13);

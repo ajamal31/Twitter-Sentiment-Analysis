@@ -2,17 +2,17 @@
 
 ### Installing textblob
 
-Run the following two commands:
+Run the following ommands:
 * $ pip install -U textblob
 * $ pip install TwitterAPI
 * $ python -m textblob.download_corpora
 
 (see https://textblob.readthedocs.io/en/dev/install.html for more information or other installation methods.)
 
-
 # Instructions
-
 - Install django (https://www.djangoproject.com/download/)
+- Install white nose (handles what webservers handle like loading static files (css, js, imgs....etc)
+* $ pip install whitenoise
 - Download traffic_data
 - Move to the root of traffic_data (be in the same directory as manage.py)
 - Run these commands in this order:
