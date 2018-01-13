@@ -142,6 +142,8 @@ class HomePageView(TemplateView):
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
                       'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets,
                       'min_date': earliest, 'max_date': latest}
+
+        print "done fetch db stuff"
         return tweet_data
 
 
