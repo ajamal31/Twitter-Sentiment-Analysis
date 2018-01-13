@@ -11,8 +11,8 @@ Run the following ommands:
 
 # Instructions
 - Install django (https://www.djangoproject.com/download/)
-- Install white nose (handles what webservers handle like loading static files (css, js, imgs....etc)
-* $ pip install whitenoise
+- Install white nose (handles what webservers. 
+- - Run the following command: pip install whitenoise
 - Download traffic_data
 - Move to the root of traffic_data (be in the same directory as manage.py)
 - Run these commands in this order:
