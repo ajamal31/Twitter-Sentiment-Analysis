@@ -19,11 +19,10 @@ $(document).ready(function () {
     $(document).on('click', "#bind", function () {
         $("#updated").html("<br><p style='color: white;'>Updating...</p>");
         $.ajax({
-            url: "/database/",
-            dataType: 'text',
+            url: "database/",
             type: "GET",
             success: function (data) {
-                console.log(data);
+                console.log('success: ' + data);
                 location.reload(true);
             },
             error: function (xhr, errmsg, err) {

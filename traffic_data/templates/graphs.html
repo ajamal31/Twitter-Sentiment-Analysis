@@ -1,9 +1,195 @@
 <div class="sentiment" id="sentiment">
-    {% include 'sentiment.html' %}
+    <script async>
+    var pos = {{ sentimentCounts.0 | safe }};
+    var neu = {{ sentimentCounts.1 | safe }};
+    var neg = {{ sentimentCounts.2 | safe }};
+
+    if (pos > 0 || neg > 0 || neu > 0) {
+        sentimentData = [
+            { "Sentiment": "Positive", "Number of Tweets": pos},
+            { "Sentiment": "Neutral", "Number of Tweets": neu},
+            { "Sentiment": "Negative", "Number of Tweets": neg}
+        ];
+    }
+    else {
+        sentimentData = [];
+    }
+
+    makeSentimentGraph(sentimentData, ".sentiment", "Tweets by Sentiment", "Number of Tweets", "Sentiment");
+
+    function get_recent_tweets() {
+        var block = [];
+        {% for tweet in recentTweets %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating));
+        {% endfor %}
+
+        return block;
+    }
+
+    var max_tweets = $("#tweet_btn").text();
+    var recent_tweets = get_recent_tweets();
+    var recent_title = make_tweets_title('recent', max_tweets);
+
+    $("#tweets").html("<b>" + recent_title + "</b>");
+    $("#tweets").append(recent_tweets.slice(0, max_tweets));
+    bind_tweets('.sentiment','recent', recent_tweets.slice(0, max_tweets), max_tweets);
+
+    $(document).ready(function() {
+        $('#num_tweets a').click(function () {
+            var max_tweets = $(this).text();
+            update_tweets('recent', recent_tweets.slice(0, max_tweets));
+            bind_tweets('.sentiment','recent', recent_tweets.slice(0, max_tweets), max_tweets);
+        });
+    });
+</script>
+
 </div>
+
 <div class="retweet" id="retweet">
-    {% include 'retweet.html' %}
+   <script async>
+
+    function get_rt_data() {
+        retweetData = [];
+
+        {% for item in retweetCounts %}
+        var userName = "{{ item.user_id.screen_name | safe }}";
+        var rtc = {{ item.rt_count | safe }};
+        var tid = "{{ item.tweet_url | safe }}";
+        tid_split = tid.split("/");
+        var id;
+        if (tid_split.length == 5) {
+            id = tid_split[4];
+        }
+        else {
+            id = tid_split[5];
+        }
+
+        if (rtc > 0) {
+            retweetData.push(
+                { "User": userName, "Number of Retweets": rtc, "ID": id }
+            );
+        }
+        {% endfor %}
+        return retweetData;
+    }
+
+    function get_rt_tweets() {
+        var rt_block = [];
+        {% for tweet in topRetweet %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            var t_id  = "{{ tweet.tweet_id | safe }}";
+            var rtc = {{ tweet.rt_count | safe }};
+            if (rtc > 0) {
+                rt_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
+            }
+        {% endfor %}
+        return rt_block;
+    }
+
+    var rt_data = get_rt_data();
+    var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
+    var rt_container = ".retweet";
+    var rt_title = "Most Retweeted";
+    var rt_x_title = "Number of Retweets";
+    var rt_tweets = get_rt_tweets();
+
+    makeSocialGraph(rt_data.slice(0, max_tweets), rt_container, rt_title, rt_x_title);
+    bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
+
+    $(document).ready(function() {
+        $('#num_tweets a').click(function() {
+            var max_tweets = $(this).text();
+            var new_data = rt_data.slice(0, max_tweets);
+            redraw_socialgraph(new_data, rt_container, rt_title, rt_x_title);
+            update_tweets('retweet', rt_tweets.slice(0, max_tweets));
+            bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
+        });
+    });
+</script>
+
+
 </div>
 <div class="favourite" id="favourite">
-    {% include 'favourite.html' %}
+    <script>
+    function get_fav_data () {
+        favouriteData = [];
+
+        {% for item in favouriteCounts %}
+        var userName = "{{ item.user_id.screen_name | safe }}";
+        var favc = {{ item.fav_count | safe }};
+        var tid = "{{ item.tweet_url | safe }}";
+        tid_split = tid.split("/");
+        var id;
+        if (tid_split.length == 5) {
+            id = tid_split[4];
+        }
+        else {
+            id = tid_split[5];
+        }
+        if (favc > 0) {
+            favouriteData.push(
+                { "User": userName, "Number of Favourites": favc, "ID": id }
+            );
+        }
+        {% endfor %}
+
+        return favouriteData;
+    };
+
+    function get_fav_tweets() {
+        var fav_block = [];
+        {% for tweet in topFavorite %}
+            var date = new Date("{{ tweet.creation_date | safe }}");
+            var formattedDate = date.toDateString();
+            var t_body = "{{ tweet.tweet_body | safe }}";
+            var screen_name = "{{ tweet.user_id.screen_name | safe }}";
+            var name = "{{ tweet.user_id.name | safe }}";
+            var t_url = "{{ tweet.tweet_url }}";
+            var t_rating = "{{ tweet.sentiment_string | safe }}";
+            var t_id  = "{{ tweet.tweet_id | safe }}";
+            var favc = {{ tweet.fav_count | safe }};
+            if (favc > 0) {
+                fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
+            }
+        {% endfor %}
+        return fav_block;
+    }
+
+    var max_tweets = $("#tweet_btn").text();
+    max_tweets = max_tweets.replace(/\s+/g, "");
+    var fav_data = get_fav_data();
+    var fav_container = ".favourite";
+    var fav_title = "Most Favourited";
+    var fav_x_title = "Number of Favourites";
+    var fav_tweets = get_fav_tweets();
+
+    makeSocialGraph(fav_data.slice(0, max_tweets), fav_container, fav_title, fav_x_title);
+    bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
+
+    $(document).ready(function() {
+        $('#num_tweets a').click(function () {
+            var max_tweets = $(this).text();
+            var new_data = fav_data.slice(0, max_tweets);
+            redraw_socialgraph(new_data, fav_container, fav_title, fav_x_title);
+            update_tweets('favourite', fav_tweets.slice(0, max_tweets));
+            bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
+        });
+    });
+
+</script>
+
 </div>

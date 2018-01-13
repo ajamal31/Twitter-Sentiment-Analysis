@@ -12,6 +12,7 @@ from datetime import datetime, timedelta
 from django.template.loader import render_to_string
 from django.utils import timezone
 import pytz
+import time
 
 timezone.now()
 local_timezone = pytz.timezone('America/Edmonton')
@@ -25,9 +26,16 @@ class HomePageView(TemplateView):
     default_hashtag = 'All'
 
     def get(self, request, **kwargs):
-        return render(request, 'index.html',
-                      self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date,
-                                      self.default_hashtag))
+
+        start = time.time()
+
+        homepage = render(request, 'index.html',
+                          self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date,
+                                          self.default_hashtag))
+
+        end = time.time()
+        print('render time:', end - start)
+        return homepage
 
     def post(self, request, **kwargs):
         min_date_str = request.POST.get('min_date')
@@ -138,10 +146,18 @@ class HomePageView(TemplateView):
             latest = datetime.now()
             earliest = datetime.now()
 
+        start = time.time()
+        print 'start', start
+
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
                       'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets,
                       'min_date': earliest, 'max_date': latest}
+
+        end = time.time()
+        print 'end', end
+        print (end - start)
+
         return tweet_data
 
 
