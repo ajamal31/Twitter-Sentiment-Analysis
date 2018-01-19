@@ -18,6 +18,9 @@ function bind_tweets(graph_container, type, tweets, max_tweets) {
 }
 
 function make_ajax(start_date, end_date, hashtag) {
+    
+    var loader = document.getElementById("loader");
+    loader.style.display = "inline-block";
     $.ajax({
         url: "/",
         type: "POST",
@@ -31,6 +34,7 @@ function make_ajax(start_date, end_date, hashtag) {
             $('#top_tweets').html(data.tweets);
             $('#sent_line').html(data.line);
             $('#bar_graphs').html(data.bar);
+            loader.style.display = "none";
         },
         error: function (xhr, errmsg, err) {
             alert(errmsg)
@@ -48,6 +52,8 @@ $(document).ready(function () {
 
     $.ajaxSetup({
         beforeSend: function (xhr, settings) {
+            var loader = document.getElementById("loader");
+            loader.style.display = "block";
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
