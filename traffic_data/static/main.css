@@ -91,10 +91,6 @@ label {
     background-color: transparent;
 }
 
-#bind {
-    padding-top: .7rem;
-}
-
 #loader {
     position: relative;
     left: 5px;
