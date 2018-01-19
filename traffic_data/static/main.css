@@ -53,7 +53,7 @@
 
 label {
     display: inline-block;
-    color:white;
+    color: white;
     padding-top: 1.3rem;
     padding-bottom: 1.0rem;
 }
@@ -63,12 +63,12 @@ label {
 }
 
 #updated a {
-    margin:auto;
+    margin: auto;
     float: right;
 }
 
 .head-title {
-    float:left;
+    float: left;
     font-family: "Helvetica Neue", Roboto, "Segoe UI", Calibri, sans-serif;
     height: 50px;
     padding-top: 3vh;
@@ -76,11 +76,11 @@ label {
     color: #fff;
 }
 
-.head-title p{
+.head-title p {
     font-size: 18px;
 }
 
-.head-title p1{
+.head-title p1 {
     font-size: 12px;
 }
 
@@ -106,18 +106,28 @@ label {
 
 /* Safari */
 @-webkit-keyframes spin {
-  0% { -webkit-transform: rotate(0deg); }
-  100% { -webkit-transform: rotate(360deg); }
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .dial-head {
     z-index: 1060;
 }
 
-.dial-head .ui-dialog-titlebar{
+.dial-head .ui-dialog-titlebar {
     background-color: #eff4f7;
     background-image: none;
 }
