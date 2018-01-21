@@ -20,8 +20,6 @@ local_timezone = pytz.timezone('America/Edmonton')
 # Create your views here.
 class HomePageView(TemplateView):
     num_tweets = 30
-    default_min_date = datetime(2017, 12, 18, 7, 6, 5, 000000, tzinfo=local_timezone)
-    default_max_date = datetime(2017, 12, 25, 7, 6, 5, 000000, tzinfo=local_timezone)
     default_hashtag = 'All'
 
     def get(self, request, **kwargs):
