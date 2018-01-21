@@ -34,7 +34,7 @@
             var name = "{{ tweet.user_id.name | safe }}";
             var t_url = "{{ tweet.tweet_url }}";
             var t_rating = "{{ tweet.sentiment_string | safe }}";
-            var t_id  = "{{ tweet.tweet_id | safe }}";
+            var t_id = "{{ tweet.tweet_id | safe }}";
             var favc = {{ tweet.fav_count | safe }};
             if (favc > 0) {
                 fav_block.push(process_tweet(t_body, formattedDate, screen_name, name, t_url, t_rating, t_id));
