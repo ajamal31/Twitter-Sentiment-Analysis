@@ -16,9 +16,10 @@ access_token_secret = 'YoPJzhZvngJP6KVnW8XZmytU5AH1PZHEJILnb6yYJCLdm'
 # Stream all tweets relevant to the hashtags
 # hashtags: list containing strings that are the hashtags
 def stream(hashtags):
+    count = 0
     try:
         tso = TwitterSearchOrder()
-        tso.set_keywords(['yegtraffic'])
+        tso.set_keywords(['#yegtraffic', '#abroads', '#visionzero'], or_operator=True)
 
         # Provides the wrapper with the necessary data for making the calls and retrieving the data
         ts = TwitterSearch(
@@ -29,7 +30,6 @@ def stream(hashtags):
         )
 
         tweet_id_array = []  # using array instead of calling twitter search again, to make it more time efficient
-        count = 0
         for tweet in ts.search_tweets_iterable(tso):
             print tweet['text']
             print
@@ -39,6 +39,7 @@ def stream(hashtags):
     except (TwitterSearchException, ConnectionError) as e:  # take care of all those ugly errors if there are some
         print'Exception:', e
 
+    print count
     # api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
     #
     # # Loops used for continous stream

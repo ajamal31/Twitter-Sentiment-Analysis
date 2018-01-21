@@ -41,7 +41,7 @@ blockquote.twitter-tweet a:focus {
 
 /* The container that holds the tweets */
 #tweets {
-    margin: 5% 66%;
+    margin: 6% 66%;
     overflow-y: scroll;
     overflow-x: hidden;
     position: fixed;
