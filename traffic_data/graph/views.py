@@ -97,6 +97,9 @@ class HomePageView(TemplateView):
 
         tweets = Tweet.objects.all()
         date_picker_earliest = tweets.order_by('creation_date')[0].creation_date
+        last_upload_date = tweets.order_by('-upload_date')[0].upload_date
+
+        print last_upload_date
 
         if hashtag != 'All':
             needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
@@ -144,7 +147,8 @@ class HomePageView(TemplateView):
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
                       'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets,
-                      'min_date': earliest, 'max_date': latest, 'relative_earliest': min_date}
+                      'min_date': earliest, 'max_date': latest, 'relative_earliest': min_date,
+                      'last_upload_date': last_upload_date}
         return tweet_data
 
 

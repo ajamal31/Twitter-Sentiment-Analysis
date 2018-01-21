@@ -99,6 +99,8 @@ def store(tags):
     except (TwitterSearchException, ConnectionError) as e:  # take care of all those ugly errors if there are some
         print'Exception:', e
 
+    print count
+
 
 def get_sentiment_string(compound):
     if (compound >= 0.5):
@@ -120,7 +122,7 @@ def print_user(tweet):
 
 # These need to be in the controller not here but it's here for testing.
 def updateDatabase():
-    hashtags = ['#yegtraffic']
+    hashtags = ['#yegtraffic', '#abroads', '#visionzero']
     print "Getting data and storing it..."
     store(hashtags)
     print("Data stored")

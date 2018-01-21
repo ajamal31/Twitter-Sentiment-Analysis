@@ -56,7 +56,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div id="header-bar" class="container-fluid">
         <div class="row" id="flex">
-            <div class="col-sm-4">
+            <div class="col-sm-3">
                 <a class="head-title" href="./">
                     <p>Social Media Analytic and Visualization</p>
                     <p1>Visualizing traffic related tweets in Edmonton</p1>
@@ -92,14 +92,22 @@
                 <div id="loader" style="display:none"></div>
             </div>
             <!--Date picker text fields with calender-->
-            <div class="col-sm-5">
+            <div class="col-sm-1">
                 <label class="datepicker" for="from">From</label>
                 <input type="text" id="from" name="from" placeholder="choose starting date">
                 <label class="datepicker" for="to">to</label>
                 <input type="text" id="to" name="to" placeholder="choose ending date">
             </div>
-            <div class="col-sm-1" id="updated">
+            <div class="col-sm-4" id="updated">
                 <a id="bind" class="header-text" href=""><b>Update Tweets</b></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-9">
+
+            </div>
+            <div class="col-sm-3">
+                <p id="last_updated">Last updated: {{ last_upload_date }}</p>
             </div>
         </div>
     </div>

@@ -8,5 +8,4 @@ from django.http import HttpResponse
 def index(request):
     if request.method == 'GET':
         db.updateDatabase()
-        print 'Get request'
         return HttpResponse("database updated")

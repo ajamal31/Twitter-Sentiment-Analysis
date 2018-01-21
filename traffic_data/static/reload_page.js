@@ -16,8 +16,9 @@ $(document).ready(function () {
     });
 
     //update database and reloading view
-    $(document).on('click', "#bind", function () {
-        $("#updated").html("<br><p style='color: white;'>Updating...</p>");
+    $(document).on('click', "#bind", function (event) {
+        event.preventDefault();
+        $("#updated").html("<br><a style='color: white !important;'>Updating...</a>");
         $.ajax({
             url: "database",
             dataType: 'text',

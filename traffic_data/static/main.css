@@ -135,3 +135,9 @@ label {
 .tweet-highlight {
     background-color: #ebf5f9 !important;
 }
+
+#last_updated {
+    color: white;
+    float: right;
+    margin:auto;
+}
