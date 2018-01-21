@@ -6,14 +6,14 @@ $(function () {
     var dateFormat = "mm/dd/yy",
         from = $("#from")
             .datepicker({
-                defaultDate: new Date(min_date),
+                defaultDate: new Date(cur_earliest),
                 changeMonth: true,
                 changeYear: true,
                 numberOfMonths: 1,
                 minDate: new Date(min_date),
                 maxDate: new Date(max_date)
             })
-            .datepicker("setDate", new Date(min_date))
+            .datepicker("setDate", new Date(cur_earliest))
             .on("change", function () {
                 to.datepicker("option", "minDate", getDate(this));
             }),

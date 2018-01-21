@@ -20,13 +20,15 @@ local_timezone = pytz.timezone('America/Edmonton')
 # Create your views here.
 class HomePageView(TemplateView):
     num_tweets = 30
-    default_min_date = datetime(2013, 9, 30, 7, 6, 5, 000000, tzinfo=local_timezone)
-    default_max_date = datetime(3030, 9, 30, 7, 6, 5, 000000, tzinfo=local_timezone)
     default_hashtag = 'All'
 
     def get(self, request, **kwargs):
+
+        most_recent_date = Tweet.objects.all().order_by('-creation_date')[0].creation_date
+        week_before_date = most_recent_date - timedelta(days=7)
+
         return render(request, 'index.html',
-                      self.get_tweets(self.num_tweets, self.default_min_date, self.default_max_date,
+                      self.get_tweets(self.num_tweets, week_before_date, most_recent_date,
                                       self.default_hashtag))
 
     def post(self, request, **kwargs):
@@ -94,6 +96,7 @@ class HomePageView(TemplateView):
     def get_tweets(self, how_many, min_date, max_date, hashtag):
 
         tweets = Tweet.objects.all()
+        date_picker_earliest = tweets.order_by('creation_date')[0].creation_date
 
         if hashtag != 'All':
             needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
@@ -114,7 +117,7 @@ class HomePageView(TemplateView):
         rtSorted = rtSorted[:how_many]
         rtSorted = fixNames(rtSorted)
 
-        favSorted = list(tweets.order_by("-fav_count"))
+        favSorted = list(tweets.order_by("-fav_count").filter(is_rt=False))
         favSorted = favSorted[:how_many]
         favSorted = fixNames(favSorted)
 
@@ -133,7 +136,7 @@ class HomePageView(TemplateView):
 
         if (len(tweets) > 0):
             latest = tweets[0].creation_date
-            earliest = tweets[-1].creation_date
+            earliest = date_picker_earliest
         else:
             latest = datetime.now()
             earliest = datetime.now()
@@ -141,7 +144,7 @@ class HomePageView(TemplateView):
         tweet_data = {'sentimentCounts': data, 'retweetCounts': rtSorted, 'favouriteCounts': favSorted,
                       'replyCounts': repSorted, 'recentTweets': recent_tweets, 'topRetweet': topRtTweet,
                       'topFavorite': topFavTweet, 'topReply': topReplyTweet, 'tweets': tweets,
-                      'min_date': earliest, 'max_date': latest}
+                      'min_date': earliest, 'max_date': latest, 'relative_earliest': min_date}
         return tweet_data
 
 
