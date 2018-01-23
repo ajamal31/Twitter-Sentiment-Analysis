@@ -4,7 +4,7 @@
     white-space: nowrap;
     background-color: #191818;
     border-width: 100vh;
-    border-color: red;
+    box-shadow: 0px 0px 1px white;
 }
 
 #date-slider {
@@ -14,7 +14,7 @@
 
 #header-bar {
     margin: 0;
-    background-color: steelblue;
+    background-color: #191818;
 }
 
 #date-range {
@@ -141,7 +141,8 @@ label {
 
 .sub-header {
     color: white;
-    margin: auto;
+    margin-top: 0.3vh;
+    margin-bottom: 0.3vh;
 }
 
 #sub_header_left {
