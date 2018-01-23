@@ -32,8 +32,6 @@ def store(tags):
         tweet_id_array = []  # using array instead of calling twitter search again, to make it more time efficient
         count = 0
         for tweet in ts.search_tweets_iterable(tso):
-            print tweet['text']
-            print
             count += 1
 
             if (tweet['user']['location'][0:8].lower() == 'edmonton'):
@@ -94,12 +92,10 @@ def store(tags):
                 rp_count
             )
 
-        print count
-
     except (TwitterSearchException, ConnectionError) as e:  # take care of all those ugly errors if there are some
         print'Exception:', e
 
-    print count
+    print count, 'tweets received'
 
 
 def get_sentiment_string(compound):
