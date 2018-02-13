@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 import databaseController as db
 from django.http import HttpResponse
 
+
 # Create your views here.
 def index(request):
-    db.updateDatabase()
-    return HttpResponse("Database updated.")
-
+    if request.method == 'GET':
+        db.updateDatabase()
+        return HttpResponse("database updated")

@@ -21,6 +21,6 @@ from traffic_data import views
 
 urlpatterns = [
     url(r'^', include('graph.urls')),
-    url(r'^database/', include('database.urls')),
+    url(r'^database/', include('database.urls'), name='database'),
     url(r'^admin/', admin.site.urls),
 ]

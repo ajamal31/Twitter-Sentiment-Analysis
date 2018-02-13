@@ -2,7 +2,9 @@
     display: flex;
     flex-direction: row;
     white-space: nowrap;
-    background-color: #1A232D;
+    background-color: #191818;
+    border-width: 100vh;
+    box-shadow: 0px 0px 1px white;
 }
 
 #date-slider {
@@ -12,6 +14,7 @@
 
 #header-bar {
     margin: 0;
+    background-color: #191818;
 }
 
 #date-range {
@@ -30,7 +33,7 @@
 #tweet_btn,
 #hashtag-dropdown {
     border-radius: 3px;
-    padding: 0.3vh 0.7vh;
+    padding: 0.3vh 0.8vh;
     background-color: white;
     color: #1A232D;
 }
@@ -44,7 +47,7 @@
 }
 
 .header-text {
-    color: white;
+    color: inherit;
 }
 
 .date-picker {
@@ -73,7 +76,7 @@ label {
     height: 50px;
     padding-top: 3vh;
     line-height: 8px;
-    color: #fff;
+    color: white;
 }
 
 .head-title p {
@@ -134,4 +137,18 @@ label {
 
 .tweet-highlight {
     background-color: #ebf5f9 !important;
+}
+
+.sub-header {
+    color: white;
+    margin-top: 0.3vh;
+    margin-bottom: 0.3vh;
+}
+
+#sub_header_left {
+    float: left;
+}
+
+#sub_header_right {
+    float: right;
 }

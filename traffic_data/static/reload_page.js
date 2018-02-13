@@ -1,7 +1,9 @@
 $(document).ready(function () {
+
     var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
     function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
 
@@ -12,17 +14,20 @@ $(document).ready(function () {
             }
         }
     });
-    
+
     //update database and reloading view
-    $(document).on('click',"#bind", function(){
-        $("#updated").html("<br><p style='color: white;'>Updating...</p>");
-        $.ajax({url:'database/',
-            success: function(){
+    $(document).on('click', "#bind", function (event) {
+        event.preventDefault();
+        $("#updated").html("<br><a style='color: white !important;'>Updating...</a>");
+        $.ajax({
+            url: "database",
+            dataType: 'text',
+            type: "GET",
+            success: function (data) {
                 location.reload(true);
             },
-            error: function(){
-                $("#updated").html("<a id='bind'><b>Update Tweets</b></a>");
-                alert("Failed to update");
+            error: function (xhr, errmsg, err) {
+                alert(errmsg);
             }
         });
     });
