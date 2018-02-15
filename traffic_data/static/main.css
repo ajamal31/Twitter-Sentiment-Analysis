@@ -39,11 +39,11 @@
 }
 
 #tweet_btn {
-    width: 7vh;
+    width: 8vh;
 }
 
 #hashtag-dropdown {
-    width: 10vh;
+    width: 14.5vh;
 }
 
 .header-text {
@@ -151,4 +151,18 @@ label {
 
 #sub_header_right {
     float: right;
+}
+
+#num_tweets {
+    position: absolute;
+    left: 18.2vh;
+    min-width: 8.4vh;
+    top: 4.95vh;
+}
+
+#hashtag-list {
+    position: absolute;
+    left: 10.2vh;
+    min-width: 0px;
+    top: 4.95vh;
 }

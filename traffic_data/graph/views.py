@@ -99,8 +99,6 @@ class HomePageView(TemplateView):
         date_picker_earliest = tweets.order_by('creation_date')[0].creation_date
         last_upload_date = tweets.order_by('-upload_date')[0].upload_date
 
-        print last_upload_date
-
         if hashtag != 'All':
             needed_tweets = Hashtag.objects.filter(hashtag=hashtag).values('tweet_id')
             tweets = Tweet.objects.filter(tweet_id__in=needed_tweets)
