@@ -31,14 +31,14 @@
     <link rel="stylesheet" href="{% static '/jquery/jquery-ui.structure.css' %}">
     <link rel="stylesheet" href="{% static '/jquery/jquery-ui.theme.css' %}">
 
-    <link rel="stylesheet" type="text/css" href="{%static '/traffic_data/keen-dashboards.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'tweets.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'graph/bar-graphs.css' %}/">
-    <link rel="stylesheet" type="text/css" href="{%static 'main.css' %}/">
+    <link rel="stylesheet" type="text/css" href="{% static '/traffic_data/keen-dashboards.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tweets.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'graph/bar-graphs.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 
     <script>
         var min_date = "{{ min_date }}".substring(0, 13);
-        var cur_earliest = "{{ relative_earliest }}".substring(0,13);
+        var cur_earliest = "{{ relative_earliest }}".substring(0, 13);
         var max_date = "{{ max_date }}".substring(0, 13);
     </script>
 
@@ -59,7 +59,6 @@
             <div class="col-sm-3">
                 <a class="head-title" href="./">
                     <p>Social Media Analytic and Visualization</p>
-{#                    <p1>Visualizing traffic related tweets in Edmonton</p1>#}
                 </a>
             </div>
             <div class="col-sm-2">
