@@ -9,28 +9,35 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
         chart.addMeasureAxis("x", xTitle, "Full Tweet");
         var s = chart.addSeries(null, dimple.plot.bar);
 
-         if (yTitle === "Sentiment") {
+        if (yTitle === "Sentiment") {
             chart.setMargins("15%", "20%", "5%", "15%");
+            svg.append("text")
+                .attr("x", chart._xPixels() + chart._widthPixels() / 2 - 30)
+                .attr("y", chart._yPixels() - 40)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text(title);
         }
         else {
             chart.setMargins("38%", "20%", "5%", "15%");
+            svg.append("text")
+                .attr("x", chart._xPixels() + chart._widthPixels() / 2 - 150)
+                .attr("y", chart._yPixels() - 40)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text(title);
         }
 
-        s.tooltipFontSize = "16px";
+        s.tooltipFontSize = "14px";
 
         s.getTooltipText = function (e) {
             tooltip = [];
             tooltip.push(xTitle + ": " + e.cx);
             return tooltip;
-        }
+        };
 
-        svg.append("text")
-            .attr("x", chart._xPixels() + chart._widthPixels() / 2 - 150)
-            .attr("y", chart._yPixels() - 40)
-            .attr("text-anchor", "middle")
-            .style("font-size", "16px")
-            .style("text-decoration", "underline")
-            .text(title);
 
         if (yTitle === "Sentiment") {
             chart.axes[0].addOrderRule(["Negative", "Neutral", "Positive"]);
@@ -123,7 +130,6 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             // when you know the data won't have changed.
             chart.draw(0, true);
         };
-        s.tooltipFontSize = "14px";
 
     }
     else {

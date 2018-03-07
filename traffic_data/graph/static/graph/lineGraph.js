@@ -37,9 +37,9 @@ function makeLineGraph(data, divName, title) {
 
         myChart.axes[0].showGridlines = true;
         myChart.axes[1].showGridlines = false;
-        myChart.axes[1].fontSize = "12px";
+        myChart.axes[1].fontSize = "14px";
         myChart.draw(300);
-        myChart.axes[0].titleShape.style("font-size", "12px");
+        myChart.axes[0].titleShape.style("font-size", "14px");
 
         rotate_labels(myChart);
 
