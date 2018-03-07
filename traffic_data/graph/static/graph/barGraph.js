@@ -6,21 +6,26 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
     if (data.length > 0) {
         var chart = new dimple.chart(svg, data);
         chart.addCategoryAxis("y", yTitle);
-        chart.addMeasureAxis("x", xTitle);
+        chart.addMeasureAxis("x", xTitle, "Full Tweet");
         var s = chart.addSeries(null, dimple.plot.bar);
-        chart.setMargins("15%", "20%", "5%", "15%");
 
-        s.tooltipFontSize = "14px";
+         if (yTitle === "Sentiment") {
+            chart.setMargins("15%", "20%", "5%", "15%");
+        }
+        else {
+            chart.setMargins("38%", "20%", "5%", "15%");
+        }
+
+        s.tooltipFontSize = "16px";
 
         s.getTooltipText = function (e) {
             tooltip = [];
-            tooltip.push(yTitle + ": " + e.cy);
             tooltip.push(xTitle + ": " + e.cx);
             return tooltip;
         }
 
         svg.append("text")
-            .attr("x", chart._xPixels() + chart._widthPixels() / 2)
+            .attr("x", chart._xPixels() + chart._widthPixels() / 2 - 150)
             .attr("y", chart._yPixels() - 40)
             .attr("text-anchor", "middle")
             .style("font-size", "16px")
@@ -34,9 +39,9 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
             chart.axes[0].addOrderRule(xTitle, false);
         }
 
-        chart.axes[1].fontSize = "12px";
+        chart.axes[1].fontSize = "14px";
         chart.draw(draw_time);
-        chart.axes[0].titleShape.style("font-size", "12px");
+        chart.axes[0].titleShape.style("font-size", "14px");
 
         s.shapes.on("mouseover", function (e) {
             d3.select(divName).selectAll("rect").style("opacity", .3);
@@ -137,7 +142,7 @@ function makeGraph(data, title, divName, xTitle, yTitle) {
 }
 
 function makeSocialGraph(data, divName, title, xTitle) {
-    makeGraph(data, title, divName, xTitle, "User");
+    makeGraph(data, title, divName, xTitle, "Tweet");
 }
 
 function makeSentimentGraph(data, divName, title, xTitle) {

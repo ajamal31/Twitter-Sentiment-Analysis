@@ -4,23 +4,23 @@
         retweetData = [];
 
         {% for item in retweetCounts %}
-        var userName = "{{ item.user_id.screen_name | safe }}";
-        var rtc = {{ item.rt_count | safe }};
-        var tid = "{{ item.tweet_url | safe }}";
-        tid_split = tid.split("/");
-        var id;
-        if (tid_split.length == 5) {
-            id = tid_split[4];
-        }
-        else {
-            id = tid_split[5];
-        }
+            var tweet = "{{ item.tweet_body | safe }}";
+            var rtc = "{{ item.rt_count | safe }}";
+            var tid = "{{ item.tweet_url | safe }}";
+            tid_split = tid.split("/");
+            var id;
+            if (tid_split.length == 5) {
+                id = tid_split[4];
+            }
+            else {
+                id = tid_split[5];
+            }
 
-        if (rtc > 0) {
-            retweetData.push(
-                { "User": userName, "Number of Retweets": rtc, "ID": id }
-            );
-        }
+            if (rtc > 0) {
+                retweetData.push(
+                    {"Tweet": tweet.slice(0,60).concat(" ... "), "Number of Retweets": rtc, "ID": id}
+                );
+            }
         {% endfor %}
         return retweetData;
     }
@@ -53,15 +53,15 @@
     var rt_tweets = get_rt_tweets();
 
     makeSocialGraph(rt_data.slice(0, max_tweets), rt_container, rt_title, rt_x_title);
-    bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
+    bind_tweets(rt_container, 'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
 
-    $(document).ready(function() {
-        $('#num_tweets a').click(function() {
+    $(document).ready(function () {
+        $('#num_tweets a').click(function () {
             var max_tweets = $(this).text();
             var new_data = rt_data.slice(0, max_tweets);
             redraw_socialgraph(new_data, rt_container, rt_title, rt_x_title);
             update_tweets('retweet', rt_tweets.slice(0, max_tweets));
-            bind_tweets(rt_container,'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
+            bind_tweets(rt_container, 'retweet', rt_tweets.slice(0, max_tweets), max_tweets);
         });
     });
 </script>
