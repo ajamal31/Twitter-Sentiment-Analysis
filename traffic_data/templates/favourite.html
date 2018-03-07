@@ -1,24 +1,24 @@
 <script>
-    function get_fav_data () {
+    function get_fav_data() {
         favouriteData = [];
 
         {% for item in favouriteCounts %}
-        var userName = "{{ item.user_id.screen_name | safe }}";
-        var favc = {{ item.fav_count | safe }};
-        var tid = "{{ item.tweet_url | safe }}";
-        tid_split = tid.split("/");
-        var id;
-        if (tid_split.length == 5) {
-            id = tid_split[4];
-        }
-        else {
-            id = tid_split[5];
-        }
-        if (favc > 0) { 
-            favouriteData.push(
-                { "User": userName, "Number of Favourites": favc, "ID": id }
-            );
-        }
+            var tweet = "{{ item.tweet_body | safe }}";
+            var favc = "{{ item.fav_count | safe }}";
+            var tid = "{{ item.tweet_url | safe }}";
+            tid_split = tid.split("/");
+            var id;
+            if (tid_split.length == 5) {
+                id = tid_split[4];
+            }
+            else {
+                id = tid_split[5];
+            }
+            if (favc > 0) {
+                favouriteData.push(
+                    {"Tweet": tweet.slice(0, 60).concat(" ... "), "Number of Favourites": favc, "ID": id, "Full Tweet": tweet}
+                );
+            }
         {% endfor %}
 
         return favouriteData;
@@ -52,15 +52,15 @@
     var fav_tweets = get_fav_tweets();
 
     makeSocialGraph(fav_data.slice(0, max_tweets), fav_container, fav_title, fav_x_title);
-    bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
+    bind_tweets(fav_container, 'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#num_tweets a').click(function () {
             var max_tweets = $(this).text();
             var new_data = fav_data.slice(0, max_tweets);
             redraw_socialgraph(new_data, fav_container, fav_title, fav_x_title);
             update_tweets('favourite', fav_tweets.slice(0, max_tweets));
-            bind_tweets(fav_container,'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
+            bind_tweets(fav_container, 'favourite', fav_tweets.slice(0, max_tweets), max_tweets);
         });
     });
 
